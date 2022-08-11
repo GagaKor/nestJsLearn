@@ -9,8 +9,8 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Get()
-  getAll(): Movie[] {
-    return this.moviesService.getAll(); //"This will return all movies";
+  findAll(): Promise<Movie[]> {
+    return this.moviesService.findAll(); //"This will return all movies";
   }
 
   @Get("search")
@@ -19,8 +19,8 @@ export class MoviesController {
   }
 
   @Get(":id")
-  getOne(@Param("id") movieId: number): Movie {
-    return this.moviesService.getOne(movieId); //`This will return one movie with the id ${id}`;
+  findOne(@Param("id") movieId: number): Promise<Movie> {
+    return this.moviesService.findOne(movieId); //`This will return one movie with the id ${id}`;
   }
 
   @Post()
