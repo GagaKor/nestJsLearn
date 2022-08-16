@@ -6,6 +6,8 @@ import * as Joi from "joi";
 
 import { AppController } from "./app.controller";
 import { Movie } from "./movies/entities/Movie.entity";
+import { BoardsModule } from './boards/boards.module';
+import { Board } from "./boards/entiies/Board.entity";
 
 @Module({
   imports: [
@@ -28,11 +30,12 @@ import { Movie } from "./movies/entities/Movie.entity";
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Movie],
+      entities: [Movie, Board],
       synchronize: true,
       logging: true,
     }),
     MoviesModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [],
