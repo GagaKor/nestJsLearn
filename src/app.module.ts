@@ -11,7 +11,7 @@ import { Movie } from "./movies/entities/Movie.entity";
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ".dev.env",
+      envFilePath: `.${process.env.NODE_ENV}.env`,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string().valid("dev", "prod").required(),
         DB_HOST: Joi.string().required(),
