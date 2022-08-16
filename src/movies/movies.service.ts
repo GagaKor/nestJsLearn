@@ -24,7 +24,7 @@ export class MoviesService {
   }
 
   async deleteOne(id: number): Promise<void> {
-      await this.movieRepository.delete(id);
+    await this.movieRepository.delete(id);
   }
 
   async create(Movie: CreateMovieDto): Promise<void> {
