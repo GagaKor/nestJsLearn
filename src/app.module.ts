@@ -1,13 +1,14 @@
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MoviesModule } from "./movies/movies.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import * as Joi from "joi";
 
 import { AppController } from "./app.controller";
+import { BoardsModule } from "./boards/boards.module";
+import { DataSource } from "typeorm";
+import { Board } from "./boards/entities/Board.entity";
 import { Movie } from "./movies/entities/Movie.entity";
-import { BoardsModule } from './boards/boards.module';
-import { Board } from "./boards/entiies/Board.entity";
 
 @Module({
   imports: [
@@ -23,16 +24,19 @@ import { Board } from "./boards/entiies/Board.entity";
         DB_DATABASE: Joi.string().required(),
       }),
     }),
-    TypeOrmModule.forRoot({
-      type: "mysql",
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [Movie, Board],
-      synchronize: true,
-      logging: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: "mysql",
+        host: configService.get("DB_HOST"),
+        port: parseInt(configService.get("DB_PORT")),
+        username: configService.get("DB_USERNAME"),
+        password: configService.get("DB_PASSWORD"),
+        database: configService.get("DB_DATABASE"),
+        entities: [__dirname + "/**/entities/*.entity.{js,ts}"],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     MoviesModule,
     BoardsModule,
