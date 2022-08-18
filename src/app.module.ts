@@ -6,9 +6,8 @@ import * as Joi from "joi";
 
 import { AppController } from "./app.controller";
 import { BoardsModule } from "./boards/boards.module";
-import { DataSource } from "typeorm";
-import { Board } from "./boards/entities/Board.entity";
-import { Movie } from "./movies/entities/Movie.entity";
+
+import { UsersModule } from "./users/users.module";
 
 @Module({
   imports: [
@@ -40,6 +39,7 @@ import { Movie } from "./movies/entities/Movie.entity";
     }),
     MoviesModule,
     BoardsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [],
