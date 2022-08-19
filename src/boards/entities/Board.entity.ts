@@ -3,7 +3,7 @@ import { BoardStatus } from "../board-status-enum";
 
 @Entity()
 export class Board extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column()

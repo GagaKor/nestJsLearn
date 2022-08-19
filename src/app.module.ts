@@ -6,6 +6,7 @@ import * as Joi from "joi";
 
 import { AppController } from "./app.controller";
 import { BoardsModule } from "./boards/boards.module";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,13 +31,15 @@ import { BoardsModule } from "./boards/boards.module";
         username: configService.get("DB_USERNAME"),
         password: configService.get("DB_PASSWORD"),
         database: configService.get("DB_DATABASE"),
-        entities: [__dirname + "/**/entities/*.entity.{js,ts}"],
+        autoLoadEntities:true,
+        // entities: [__dirname + "/**/entities/*.entity.{js,ts}"],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     MoviesModule,
     BoardsModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [],

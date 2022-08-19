@@ -1,23 +1,17 @@
 import { Module } from "@nestjs/common";
-import { getDataSourceToken, getRepositoryToken, TypeOrmModule } from "@nestjs/typeorm";
-import { DataSource } from "typeorm";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { TypeOrmExModule } from "src/configs/typeorm-ex.module";
 import { BoardsController } from "./boards.controller";
+import { BoardsRepository } from "./boards.repository";
 import { BoardsService } from "./boards.service";
 import { Board } from "./entities/Board.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Board])],
-  exports: [TypeOrmModule],
+  imports: [
+    TypeOrmModule.forFeature([Board]),
+    TypeOrmExModule.forCustomRepository([BoardsRepository])],
+  exports: [BoardsService],
   controllers: [BoardsController],
-  providers: [
-    {
-      provide: getRepositoryToken(Board),
-      inject: [getDataSourceToken()],
-      useFactory(dataSource: DataSource) {
-        return dataSource.getRepository(Board);
-      },
-    },
-    BoardsService,
-  ],
+  providers: [BoardsService],
 })
 export class BoardsModule {}

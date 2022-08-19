@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
 import { BoardStatus } from "./board-status-enum";
 import { BoardsService } from "./boards.service";
@@ -15,7 +15,7 @@ export class BoardsController {
     return this.boardsService.findAll();
   }
   @Get(':id')
-  findById(@Param('id') id : number):Promise<Board>{
+  findById(@Param('id', ParseIntPipe) id : number):Promise<Board>{
     return this.boardsService.findById(id);
   }
 
@@ -34,7 +34,9 @@ export class BoardsController {
   }
 
   @Patch(":id")
-  update(@Param("id") id: number, @Body() updateBoardDto: UpdateBoardDto) :Promise<boolean> {
+  update(
+    @Param("id", ParseIntPipe) id :number, 
+    @Body() updateBoardDto: UpdateBoardDto) :Promise<boolean> {
     const checkStatus = updateBoardDto.status.toUpperCase();
     if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
       throw new BadRequestException("Invalid status value.");
@@ -42,12 +44,14 @@ export class BoardsController {
     return this.boardsService.update(id, updateBoardDto);
   }
   @Patch("status/:id")
-  updateStatus(@Param("id") id: number, @Body("status" , BoardStatusValidationPipe) status: BoardStatus):Promise<Board> {
+  updateStatus(
+    @Param("id", ParseIntPipe) id : number, 
+    @Body("status" , BoardStatusValidationPipe) status: BoardStatus):Promise<Board> {
     return this.boardsService.updateStatus(id, status);
   } 
 
   @Delete(":id")
-  delete(@Param('id')id : number) : Promise<DeleteResult>{
+  delete(@Param('id', ParseIntPipe) id : number) : Promise<DeleteResult>{
     return this.boardsService.delete(id);
   }
 }

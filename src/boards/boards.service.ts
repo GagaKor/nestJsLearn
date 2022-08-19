@@ -10,8 +10,7 @@ import { Board } from "./entities/Board.entity";
 @Injectable()
 export class BoardsService {
   constructor(
-    @InjectRepository(Board)
-    private boardRepository: BoardsRepository,
+    private readonly boardRepository: BoardsRepository,
   ) {}
 
   findAll(): Promise<Board[]> {
@@ -44,6 +43,10 @@ export class BoardsService {
     return result;
   }
   async delete(id:number): Promise<DeleteResult>{
-    return await this.boardRepository.delete(id);
+    const result = await this.boardRepository.delete(id);
+    
+    if(result.affected === 0) throw new NotFoundException(`Can't find ${id}`);
+
+    return result;
   }
 }
