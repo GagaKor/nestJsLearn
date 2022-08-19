@@ -14,6 +14,10 @@ export class BoardsController {
   findAll(): Promise<Board[]> {
     return this.boardsService.findAll();
   }
+  @Get(':id')
+  findById(@Param('id') id : number):Promise<Board>{
+    return this.boardsService.findById(id);
+  }
 
   @Get("search")
   findOneById(@Query("data") data: string): Promise<Board[]> {

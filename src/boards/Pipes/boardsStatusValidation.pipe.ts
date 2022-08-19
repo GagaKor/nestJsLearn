@@ -9,7 +9,7 @@ export class BoardStatusValidationPipe implements PipeTransform{
 
     transform(value : any){
         value = value.toUpperCase();
-        if(this.isStatus(value)) throw new BadRequestException(`${value} isn't in the status options`);
+        if(!this.isStatus(value)) throw new BadRequestException(`${value} isn't in the status options`);
 
         return value;
     }
