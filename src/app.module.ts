@@ -7,8 +7,6 @@ import * as Joi from "joi";
 import { AppController } from "./app.controller";
 import { BoardsModule } from "./boards/boards.module";
 
-import { UsersModule } from "./users/users.module";
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -39,7 +37,6 @@ import { UsersModule } from "./users/users.module";
     }),
     MoviesModule,
     BoardsModule,
-    UsersModule,
   ],
   controllers: [AppController],
   providers: [],

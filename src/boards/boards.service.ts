@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like } from "typeorm";
+import { DeleteResult, Like } from "typeorm";
 import { BoardStatus } from "./board-status-enum";
 import { BoardsRepository } from "./boards.repository";
 import { CreateBaordDto } from "./dto/create-Board.Dto";
@@ -37,10 +37,13 @@ export class BoardsService {
     const result = await this.boardRepository.update(id, updateBoardDto);
     return result.affected > 0;
   }
-  async updateStatus(id: number, status: BoardStatus) {
+  async updateStatus(id: number, status: BoardStatus):Promise<Board> {
     const board = await this.findById(id);
     board.status = status;
     const result = await this.boardRepository.save(board);
-    console.log(result);
+    return result;
+  }
+  async delete(id:number): Promise<DeleteResult>{
+    return await this.boardRepository.delete(id);
   }
 }
