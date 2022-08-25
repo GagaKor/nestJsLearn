@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
 import { BoardStatus } from "./board-status-enum";
 import { BoardsService } from "./boards.service";
@@ -11,6 +11,7 @@ import { GetUser } from "src/auth/get-user.decorator";
 import { User } from "src/auth/entities/User.entity";
 @Controller("boards")
 export class BoardsController {
+  private logger = new Logger('Boards');
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get()
@@ -21,6 +22,7 @@ export class BoardsController {
   @Get("myBoard")
   @UseGuards(AuthGuard())
   getAllUserBoard(@GetUser() user: User): Promise<Board[]>{
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardsService.getAllUserBoard(user);
   }
 
@@ -37,6 +39,8 @@ export class BoardsController {
   @Post()
   @UseGuards(AuthGuard())
   create(@Body() createBoardDto: CreateBaordDto, @GetUser() user: User): Promise<Board> {
+    this.logger.verbose(`User ${user.username} creating a new board. 
+    Payload : ${JSON.stringify(createBoardDto)}`)
     const checkStatus = createBoardDto.status.toUpperCase();
     if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
       throw new BadRequestException("Invalid status value.");
@@ -49,6 +53,8 @@ export class BoardsController {
   update(@Param("id", ParseIntPipe) id: number,
     @Body() updateBoardDto: UpdateBoardDto,
     @GetUser() user: User): Promise<boolean> {
+    this.logger.verbose(`User ${user.username} updating a id:${id} board. 
+    Payload : ${JSON.stringify(updateBoardDto)}`)
     const checkStatus = updateBoardDto.status.toUpperCase();
     if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
       throw new BadRequestException("Invalid status value.");
