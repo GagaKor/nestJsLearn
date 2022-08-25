@@ -25,13 +25,13 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<User> {
     const { username, password } = authCredentialsDto;
 
     const user = await this.findOne({ where: { username } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      return "login Success";
+      return user;
     } else {
       throw new UnauthorizedException("login Failed");
     }

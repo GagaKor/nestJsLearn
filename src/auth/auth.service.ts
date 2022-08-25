@@ -2,9 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { User } from "./entities/User.entity";
 import { UsersRepository } from "./users.repository";
+import { JwtService } from "@nestjs/jwt/dist";
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersReository: UsersRepository) {}
+  constructor(private readonly usersReository: UsersRepository, private jwtService: JwtService) {}
 
   async findAll() {
     return await this.usersReository.find();
@@ -18,13 +19,17 @@ export class AuthService {
     await this.usersReository.createUser(authCredentialsDto);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<string> {
-    return this.usersReository.signIn(authCredentialsDto);
+  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+    const user = await this.usersReository.signIn(authCredentialsDto);
+    const payload = { username: user.username };
+    const accessToken = await this.jwtService.sign(payload);
+
+    return { accessToken };
   }
 
   async deleteUser(username: string): Promise<void> {
     const user = await this.findByUsername(username);
-    console.log(user);
+
     await this.usersReository.delete(user.id);
   }
 }
