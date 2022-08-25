@@ -6,13 +6,14 @@ import { TypeOrmExModule } from "src/configs/typeorm-ex.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { User } from "./entities/User.entity";
+import { JwtStrategy } from "./jwt.strategy";
 import { UsersRepository } from "./users.repository";
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
     JwtModule.register({
-      secret: "Seret1234",
+      secret: "Secret1234",
       signOptions: {
         expiresIn: 60 * 60,
       },
@@ -20,8 +21,8 @@ import { UsersRepository } from "./users.repository";
     TypeOrmModule.forFeature([User]),
     TypeOrmExModule.forCustomRepository([UsersRepository]),
   ],
-  exports: [AuthService],
+  exports: [JwtStrategy, PassportModule],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
