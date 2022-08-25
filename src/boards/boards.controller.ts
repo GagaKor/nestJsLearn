@@ -10,7 +10,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { GetUser } from "src/auth/get-user.decorator";
 import { User } from "src/auth/entities/User.entity";
 @Controller("boards")
-@UseGuards(AuthGuard())
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
@@ -18,23 +17,25 @@ export class BoardsController {
   findAll(): Promise<Board[]> {
     return this.boardsService.findAll();
   }
+
+  @Get("myBoard")
+  @UseGuards(AuthGuard())
+  getAllUserBoard(@GetUser() user: User): Promise<Board[]>{
+    return this.boardsService.getAllUserBoard(user);
+  }
+
+  @Get("search")
+  findOneById(@Param("data") data: string): Promise<Board[]> {
+    return this.boardsService.findByTitleOrContent(data);
+  }
+  
   @Get(":id")
   findById(@Param("id", ParseIntPipe) id: number): Promise<Board> {
     return this.boardsService.findById(id);
   }
 
-  @Get("myBoard")
-  getAllUserBoard(@GetUser() user: User): Promise<Board[]> {
-    console.log(user);
-    return this.boardsService.getAllUserBoard(user);
-  }
-
-  @Get("search")
-  findOneById(@Query("data") data: string): Promise<Board[]> {
-    return this.boardsService.findByTitleOrContent(data);
-  }
-
   @Post()
+  @UseGuards(AuthGuard())
   create(@Body() createBoardDto: CreateBaordDto, @GetUser() user: User): Promise<Board> {
     const checkStatus = createBoardDto.status.toUpperCase();
     if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
@@ -44,20 +45,27 @@ export class BoardsController {
   }
 
   @Patch(":id")
-  update(@Param("id", ParseIntPipe) id: number, @Body() updateBoardDto: UpdateBoardDto): Promise<boolean> {
+  @UseGuards(AuthGuard())
+  update(@Param("id", ParseIntPipe) id: number,
+    @Body() updateBoardDto: UpdateBoardDto,
+    @GetUser() user: User): Promise<boolean> {
     const checkStatus = updateBoardDto.status.toUpperCase();
     if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
       throw new BadRequestException("Invalid status value.");
     }
-    return this.boardsService.update(id, updateBoardDto);
+    return this.boardsService.update(id, updateBoardDto, user);
   }
   @Patch("status/:id")
-  updateStatus(@Param("id", ParseIntPipe) id: number, @Body("status", BoardStatusValidationPipe) status: BoardStatus): Promise<Board> {
-    return this.boardsService.updateStatus(id, status);
+  @UseGuards(AuthGuard())
+  updateStatus(@Param("id", ParseIntPipe) id: number,
+    @Body("status", BoardStatusValidationPipe) status: BoardStatus,
+    @GetUser() user: User): Promise<Board> {
+    return this.boardsService.updateStatus(id, status, user);
   }
 
   @Delete(":id")
-  delete(@Param("id", ParseIntPipe) id: number): Promise<DeleteResult> {
-    return this.boardsService.delete(id);
+  @UseGuards(AuthGuard())
+  delete(@Param("id", ParseIntPipe) id: number, @GetUser() user: User): Promise<DeleteResult> {
+    return this.boardsService.delete(id, user);
   }
 }
