@@ -40,4 +40,4 @@ dist
 .dev.env
 .prod.env
 
-/config/*.ymal
+config/
