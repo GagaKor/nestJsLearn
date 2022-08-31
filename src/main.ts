@@ -1,13 +1,17 @@
-import { Logger, ValidationPipe } from "@nestjs/common";
+import { ValidationPipe, Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import * as config from "config";
+import { winstonLogger } from "./configs/logger.config";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
   const logger = new Logger();
+  const configService = config.get("server");
 
+  const app = await NestFactory.create(AppModule, {
+    logger: winstonLogger,
+  });
+  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -15,9 +19,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  const configService = config.get("server");
   const port = configService.port;
   await app.listen(port);
-  logger.log(`Application running on PORT ${port}`);
+  logger.log(`App Listening at localhost:${port}`);
 }
 bootstrap();

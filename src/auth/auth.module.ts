@@ -8,8 +8,7 @@ import { AuthService } from "./auth.service";
 import { User } from "./entities/User.entity";
 import { JwtStrategy } from "./jwt.strategy";
 import { UsersRepository } from "./users.repository";
-import * as config from 'config'
-
+import * as config from "config";
 const jwtConfig = config.get("jwt");
 
 @Module({
