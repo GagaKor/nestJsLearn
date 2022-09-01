@@ -1,11 +1,11 @@
 import { Logger, MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { MoviesModule } from "./movies/movies.module";
+import { MoviesModule } from "src/movies/movies.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppController } from "./app.controller";
-import { BoardsModule } from "./boards/boards.module";
-import { AuthModule } from "./auth/auth.module";
-import { typeORMConfig } from "./configs/typeorm.config";
-import { LoggerMiddleware } from "./middleware/logger-middleware";
+import { AppController } from "src/app.controller";
+import { BoardsModule } from "src/boards/boards.module";
+import { AuthModule } from "src/auth/auth.module";
+import { typeORMConfig } from "src/configs/typeorm.config";
+import { LoggerMiddleware } from "src/middleware/logger-middleware";
 
 @Module({
   imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule],
