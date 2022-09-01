@@ -24,7 +24,6 @@ const mockTypeOrmConfigServer = new MockTypeOrmConfigServer();
 describe("authController (e2e)", () => {
   let app: INestApplication;
   let usersRepository: UsersRepository;
-  let boardsRepository: BoardsRepository;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -37,7 +36,6 @@ describe("authController (e2e)", () => {
 
     app = moduleFixture.createNestApplication();
     usersRepository = moduleFixture.get<UsersRepository>(UsersRepository);
-    boardsRepository = moduleFixture.get<BoardsRepository>(BoardsRepository);
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -53,10 +51,10 @@ describe("authController (e2e)", () => {
     await usersRepository.createQueryBuilder("user").delete().where(id).execute();
   });
 
-  describe("POST /auth/signin", () => {
+  describe("POST /auth", () => {
     it("201(OK) 유저 생성", async () => {
-      const username = "test11";
-      const password = "test11";
+      const username = "test";
+      const password = "test";
       const res = await request(app.getHttpServer()).post("/auth/signup").send({
         username,
         password,
@@ -64,5 +62,17 @@ describe("authController (e2e)", () => {
 
       expect(res.status).toBe(201);
     });
+    it("201(OK) 로그인", async () => {
+      const username = "test";
+      const password = "test";
+      const res = await request(app.getHttpServer()).post("/auth/signin").send({
+        username,
+        password,
+      });
+      expect(res.status).toBe(201);
+    });
+    
+
   });
+ 
 });
