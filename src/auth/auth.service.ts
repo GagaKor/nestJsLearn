@@ -3,6 +3,9 @@ import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { User } from "./entities/User.entity";
 import { UsersRepository } from "./users.repository";
 import { JwtService } from "@nestjs/jwt/dist";
+import * as config from "config";
+import * as bcrypt from "bcryptjs";
+
 @Injectable()
 export class AuthService {
   constructor(private readonly usersReository: UsersRepository, private jwtService: JwtService) {}
@@ -19,12 +22,48 @@ export class AuthService {
     await this.usersReository.createUser(authCredentialsDto);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+  async signIn(authCredentialsDto: AuthCredentialsDto) {
     const user = await this.usersReository.signIn(authCredentialsDto);
-    const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload);
+    const { accessToken, accessOption } = await this.getJwtAcessToken(user);
+    const { refreshToken, refreshOption } = await this.getJwtRefreshToken(user.username);
 
-    return { accessToken };
+    await this.updateJwtRefershToken(refreshToken, authCredentialsDto.username);
+
+    return { username: user.username, accessToken, accessOption, refreshToken, refreshOption };
+  }
+  async getJwtRefreshToken(username: string) {
+    const payload = { username };
+    let refreshToken = await this.jwtService.sign(payload, { secret: config.get("jwt.refresh_secret"), expiresIn: "7d" });
+    return {
+      refreshToken,
+      refreshOption: {
+        domain: "localhost",
+        path: "/",
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      },
+    };
+  }
+
+  async getJwtAcessToken(user: User) {
+    const payload = { username: user.username };
+    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "5m" });
+    return {
+      accessToken,
+      accessOption: {
+        domain: "localhost",
+        path: "/",
+        httpOnly: true,
+        maxAge: 1000 * 60 * 5,
+      },
+    };
+  }
+
+  async updateJwtRefershToken(refreshToken: string, username: string) {
+    if (refreshToken) {
+      refreshToken = await bcrypt.hash(refreshToken, 10);
+    }
+    await this.usersReository.update({ username }, { refreshToken });
   }
 
   async deleteUser(username: string): Promise<void> {
