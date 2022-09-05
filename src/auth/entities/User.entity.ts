@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { Board } from "src/boards/entities/Board.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
@@ -12,6 +13,10 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @Column({ nullable: true })
+  @Exclude()
+  refreshToken: string;
 
   @OneToMany(() => Board, board => board.user, { cascade: true, eager: true })
   boards: Board[];
