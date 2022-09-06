@@ -34,6 +34,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "config": "^3.3.7",
+    "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",
     "joi": "^17.6.0",
     "mysql2": "^2.3.3",
@@ -50,6 +51,7 @@
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
+    "@types/cookie-parser": "^1.4.3",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.0.0",
@@ -79,7 +81,8 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "testMatch": [
-      "**/test/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"
+      "**/test/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)"
     ],
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { User } from "./entities/User.entity";
 import { UsersRepository } from "./users.repository";
@@ -47,7 +47,7 @@ export class AuthService {
 
   async getJwtAcessToken(user: User) {
     const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "5m" });
+    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "1m" });
     return {
       accessToken,
       accessOption: {
@@ -58,12 +58,47 @@ export class AuthService {
       },
     };
   }
+  async getUserRefreshTokenMatches(refreshToken: string, username: string) {
+    const user = await this.usersReository.findOneBy({ username });
+    if (!user) {
+      throw new UnauthorizedException("Can not find user");
+    }
+    const isRefreshTokenMatch = await bcrypt.compare(refreshToken, user.refreshToken);
+    if (isRefreshTokenMatch) {
+      return { result: true };
+    } else {
+      throw new UnauthorizedException();
+    }
+  }
 
   async updateJwtRefershToken(refreshToken: string, username: string) {
     if (refreshToken) {
       refreshToken = await bcrypt.hash(refreshToken, 10);
     }
     await this.usersReository.update({ username }, { refreshToken });
+  }
+
+  logOut() {
+    return {
+      accessOption: {
+        domain: "localhost",
+        path: "/",
+        httpOnly: true,
+        maxAge: 0,
+      },
+      refreshOption: {
+        domain: "localhost",
+        path: "/",
+        httpOnly: true,
+        maxAge: 0,
+      },
+    };
+  }
+
+  async removeRefreshToken(username: string) {
+    const user = await this.usersReository.findOneBy({ username });
+    user.refreshToken = null;
+    await this.usersReository.save(user);
   }
 
   async deleteUser(username: string): Promise<void> {
