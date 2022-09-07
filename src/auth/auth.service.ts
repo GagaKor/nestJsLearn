@@ -47,7 +47,7 @@ export class AuthService {
 
   async getJwtAcessToken(user: User) {
     const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "1m" });
+    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "10m" });
     return {
       accessToken,
       accessOption: {
@@ -101,9 +101,11 @@ export class AuthService {
     await this.usersReository.save(user);
   }
 
-  async deleteUser(username: string): Promise<void> {
-    const user = await this.findByUsername(username);
-
+  async deleteUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    const user = await this.findByUsername(authCredentialsDto.username);
+    if (!user) throw new UnauthorizedException("Can not find user");
+    const matchPassword = await bcrypt.compare(authCredentialsDto.password, user.password);
+    if (!matchPassword) throw new UnauthorizedException(`${user.username} Password Incorrect`);
     await this.usersReository.delete(user.id);
   }
 }

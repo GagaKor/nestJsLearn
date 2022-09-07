@@ -6,6 +6,7 @@ import { Response } from "express";
 import { Res } from "@nestjs/common/decorators";
 import { JwtRefreshGuard } from "./jwtRefreshToken.guard";
 import { GetUser } from "./get-user.decorator";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller("auth")
 export class AuthController {
@@ -16,7 +17,7 @@ export class AuthController {
   findAll(): Promise<User[]> {
     return this.authService.findAll();
   }
-  @Post("signin")
+  @Post("login")
   async signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto, @Res({ passthrough: true }) res: Response) {
     const { username, accessToken, accessOption, refreshToken, refreshOption } = await this.authService.signIn(authCredentialsDto);
     res.cookie("Authentication", accessToken, accessOption);
@@ -51,9 +52,10 @@ export class AuthController {
     res.cookie("Refresh", "", refreshOption);
   }
 
-  @Delete("/:username")
-  deleteUser(@Param("username") username: string): Promise<void> {
-    return this.authService.deleteUser(username);
+  @Delete()
+  @UseGuards(AuthGuard())
+  deleteUser(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
+    return this.authService.deleteUser(authCredentialsDto);
   }
 
   @Get("test")
