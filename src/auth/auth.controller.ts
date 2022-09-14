@@ -5,7 +5,7 @@ import { User } from "./entities/User.entity";
 import { Response } from "express";
 import { Res } from "@nestjs/common/decorators";
 import { JwtRefreshGuard } from "./jwtRefreshToken.guard";
-import { GetUser } from "./get-user.decorator";
+import { GetUser } from "../decorator/get-user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 
 @Controller("auth")
@@ -17,6 +17,7 @@ export class AuthController {
   findAll(): Promise<User[]> {
     return this.authService.findAll();
   }
+
   @Post("login")
   async signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto, @Res({ passthrough: true }) res: Response) {
     const { username, accessToken, accessOption, refreshToken, refreshOption } = await this.authService.signIn(authCredentialsDto);
