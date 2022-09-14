@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
 import { Board } from "src/boards/entities/Board.entity";
+import { Comment } from "src/comments/entities/Comment.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
@@ -20,4 +21,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Board, board => board.user, { cascade: true, eager: true })
   boards: Board[];
+
+  @OneToMany(() => Comment, comment => comment.user, { cascade: true, eager: true })
+  comment: Comment[];
 }

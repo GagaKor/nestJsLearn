@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
 import { BoardStatus } from "./board-status-enum";
 import { BoardsService } from "./boards.service";
@@ -6,9 +6,10 @@ import { CreateBaordDto } from "./dto/create-Board.Dto";
 import { UpdateBoardDto } from "./dto/update-Board.dto";
 import { Board } from "./entities/Board.entity";
 import { BoardStatusValidationPipe } from "./Pipes/boardsStatusValidation.pipe";
-import { AuthGuard } from "@nestjs/passport";
 import { GetUser } from "src/decorator/get-user.decorator";
 import { User } from "src/auth/entities/User.entity";
+import { Request } from "express";
+import { AuthGuard } from "./../auth/security/auth.guard";
 @Controller("boards")
 export class BoardsController {
   private logger = new Logger("Boards");
@@ -20,8 +21,8 @@ export class BoardsController {
   }
 
   @Get("myBoard")
-  @UseGuards(AuthGuard())
-  getAllUserBoard(@GetUser() user: User): Promise<Board[]> {
+  @UseGuards(AuthGuard)
+  getAllUserBoard(@GetUser() user: User, @Req() req: Request): Promise<Board[]> {
     this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardsService.getAllUserBoard(user);
   }
@@ -37,7 +38,7 @@ export class BoardsController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
   create(@Body() createBoardDto: CreateBaordDto, @GetUser() user: User): Promise<Board> {
     this.logger.verbose(`User ${user.username} creating a new board. 
     Payload : ${JSON.stringify(createBoardDto)}`);
@@ -49,7 +50,7 @@ export class BoardsController {
   }
 
   @Patch(":id")
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
   update(@Param("id", ParseIntPipe) id: number, @Body() updateBoardDto: UpdateBoardDto, @GetUser() user: User): Promise<boolean> {
     this.logger.verbose(`User ${user.username} updating a id:${id} board. 
     Payload : ${JSON.stringify(updateBoardDto)}`);
@@ -60,13 +61,13 @@ export class BoardsController {
     return this.boardsService.update(id, updateBoardDto, user);
   }
   @Patch("status/:id")
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
   updateStatus(@Param("id", ParseIntPipe) id: number, @Body("status", BoardStatusValidationPipe) status: BoardStatus, @GetUser() user: User): Promise<Board> {
     return this.boardsService.updateStatus(id, status, user);
   }
 
   @Delete(":id")
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
   delete(@Param("id", ParseIntPipe) id: number, @GetUser() user: User): Promise<DeleteResult> {
     return this.boardsService.delete(id, user);
   }

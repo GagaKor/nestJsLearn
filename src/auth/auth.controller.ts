@@ -4,7 +4,7 @@ import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { User } from "./entities/User.entity";
 import { Response } from "express";
 import { Res } from "@nestjs/common/decorators";
-import { JwtRefreshGuard } from "./jwtRefreshToken.guard";
+import { JwtRefreshGuard } from "./security/jwtRefreshToken.guard";
 import { GetUser } from "../decorator/get-user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 
