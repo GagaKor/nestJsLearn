@@ -28,7 +28,7 @@ export class BoardsController {
   }
 
   @Get("search")
-  findOneById(@Param("data") data: string): Promise<Board[]> {
+  findByTitleOrContent(@Param("data") data: string): Promise<Board[]> {
     return this.boardsService.findByTitleOrContent(data);
   }
 

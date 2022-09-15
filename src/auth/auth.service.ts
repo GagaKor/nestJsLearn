@@ -33,7 +33,8 @@ export class AuthService {
   }
   async getJwtRefreshToken(username: string) {
     const payload = { username };
-    let refreshToken = await this.jwtService.sign(payload, { secret: config.get("jwt.refresh_secret"), expiresIn: "7d" });
+
+    let refreshToken = await this.jwtService.sign(payload, { secret: config.get("jwt.refresh_secret"), expiresIn: config.get("jwt.refresh_expiresIn") });
     return {
       refreshToken,
       refreshOption: {
@@ -47,7 +48,7 @@ export class AuthService {
 
   async getJwtAcessToken(user: User) {
     const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: "10m" });
+    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: config.get("jwt.auth_expiresIn") });
     return {
       accessToken,
       accessOption: {
