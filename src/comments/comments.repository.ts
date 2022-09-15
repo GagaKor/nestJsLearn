@@ -1,7 +1,6 @@
 import { CustomRepository } from "src/configs/typeorm-ex.decorator";
 import { Comment } from "./entities/Comment.entity";
 import { Repository } from "typeorm";
-import { CreateCommnetDto } from "./dto/create-Comment.dto";
 import { User } from "./../auth/entities/User.entity";
 import { UnauthorizedException } from "@nestjs/common";
 import { Board } from "./../boards/entities/Board.entity";
@@ -16,6 +15,7 @@ export class CommentsRepository extends Repository<Comment> {
     const data = this.create({
       comment,
       board,
+      username: user.username,
       user,
     });
 

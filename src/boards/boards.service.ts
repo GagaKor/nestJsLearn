@@ -13,6 +13,7 @@ export class BoardsService {
 
   async findAll(): Promise<Board[]> {
     const status = BoardStatus.PUBLIC;
+
     return await this.boardRepository.find({ where: { status } });
   }
   async findById(id: number): Promise<Board> {

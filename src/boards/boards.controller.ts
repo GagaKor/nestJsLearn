@@ -16,8 +16,8 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get()
-  findAll(): Promise<Board[]> {
-    return this.boardsService.findAll();
+  async findAll(): Promise<Board[]> {
+    return await this.boardsService.findAll();
   }
 
   @Get("myBoard")
