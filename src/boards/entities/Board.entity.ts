@@ -1,5 +1,5 @@
 import { User } from "src/auth/entities/User.entity";
-import { BaseEntity, Column, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { BoardStatus } from "../board-status-enum";
 import { Comment } from "src/comments/entities/Comment.entity";
 
@@ -23,4 +23,14 @@ export class Board extends BaseEntity {
 
   @OneToMany(() => Comment, comment => comment.board, { cascade: true, eager: true })
   comment: Comment[];
+
+  @CreateDateColumn({
+    type: "timestamp",
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+  })
+  updatedAt: Date;
 }

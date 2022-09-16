@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/auth/entities/User.entity";
 import { Board } from "./../../boards/entities/Board.entity";
 
@@ -20,4 +20,14 @@ export class Comment extends BaseEntity {
   @ManyToOne(() => Board, board => board.comment, { onDelete: "CASCADE", eager: false })
   @JoinTable({ name: "commandId" })
   board: Board;
+
+  @CreateDateColumn({
+    type: "timestamp",
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: "timestamp",
+  })
+  updatedAt: Date;
 }

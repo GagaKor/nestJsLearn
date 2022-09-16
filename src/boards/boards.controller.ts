@@ -8,7 +8,6 @@ import { Board } from "./entities/Board.entity";
 import { BoardStatusValidationPipe } from "./Pipes/boardsStatusValidation.pipe";
 import { GetUser } from "src/decorator/get-user.decorator";
 import { User } from "src/auth/entities/User.entity";
-import { Request } from "express";
 import { AuthGuard } from "./../auth/security/auth.guard";
 @Controller("boards")
 export class BoardsController {
@@ -22,7 +21,7 @@ export class BoardsController {
 
   @Get("myBoard")
   @UseGuards(AuthGuard)
-  getAllUserBoard(@GetUser() user: User, @Req() req: Request): Promise<Board[]> {
+  getAllUserBoard(@GetUser() user: User): Promise<Board[]> {
     this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardsService.getAllUserBoard(user);
   }
