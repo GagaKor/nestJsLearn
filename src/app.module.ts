@@ -7,9 +7,10 @@ import { AuthModule } from "src/auth/auth.module";
 import { typeORMConfig } from "src/configs/typeorm.config";
 import { LoggerMiddleware } from "src/middleware/logger-middleware";
 import { CommentsModule } from './comments/comments.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule],
+  imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule],
   controllers: [AppController],
   providers: [Logger],
 })

@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { IsNumber, IsNotEmpty, IsString } from "class-validator";
 import { BoardStatus } from "../board-status-enum";
 
 export class CreateBaordDto {
@@ -14,4 +14,8 @@ export class CreateBaordDto {
   @IsNotEmpty()
   @Transform(param => param.value.toUpperCase())
   readonly status: BoardStatus;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly categoryId: number;
 }

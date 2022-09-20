@@ -6,10 +6,11 @@ import { BoardsRepository } from "./boards.repository";
 import { CreateBaordDto } from "./dto/create-Board.Dto";
 import { UpdateBoardDto } from "./dto/update-Board.dto";
 import { Board } from "./entities/Board.entity";
+import { CategoryService } from "src/category/category.service";
 
 @Injectable()
 export class BoardsService {
-  constructor(private readonly boardRepository: BoardsRepository) {}
+  constructor(private readonly boardRepository: BoardsRepository, private readonly categoryService: CategoryService) {}
 
   async findAll(): Promise<Board[]> {
     const status = BoardStatus.PUBLIC;
@@ -39,7 +40,9 @@ export class BoardsService {
     });
   }
   async create(createBaordDto: CreateBaordDto, user: User): Promise<Board> {
-    return await this.boardRepository.createBoard(createBaordDto, user);
+    const { categoryId } = createBaordDto;
+    const category = await this.categoryService.findById(categoryId);
+    return await this.boardRepository.createBoard(createBaordDto, user, category);
   }
   async update(id: number, updateBoardDto: UpdateBoardDto, user: User): Promise<boolean> {
     const result = await this.boardRepository.createQueryBuilder("board").update().set(updateBoardDto).where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
