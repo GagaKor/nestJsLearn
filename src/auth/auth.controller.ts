@@ -50,7 +50,7 @@ export class AuthController {
     await this.authService.removeRefreshToken(user.username);
     this.logger.verbose(`${user.username} log out`);
     res.cookie("Authentication", "", accessOption);
-    res.cookie("Refresh", "", refreshOption);
+    res.cookie("Refresh", refreshOption);
   }
 
   @Delete()

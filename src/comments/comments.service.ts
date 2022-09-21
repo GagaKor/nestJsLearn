@@ -11,4 +11,7 @@ export class CommentsService {
     const board = await this.boardsService.findById(createCommnetDto.boardId);
     await this.commentsRepository.createComment(createCommnetDto.comment, board, user);
   }
+  async updateComment(id: number, createCommentDto: CreateCommnetDto, user: User) {
+    await this.commentsRepository.updateComment(id, createCommentDto, user);
+  }
 }
