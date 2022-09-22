@@ -6,13 +6,21 @@ import { BoardsModule } from "src/boards/boards.module";
 import { AuthModule } from "src/auth/auth.module";
 import { typeORMConfig } from "src/configs/typeorm.config";
 import { LoggerMiddleware } from "src/middleware/logger-middleware";
-import { CommentsModule } from './comments/comments.module';
-import { CategoryModule } from './category/category.module';
+import { CommentsModule } from "./comments/comments.module";
+import { CategoryModule } from "./category/category.module";
+import { RolesGuard } from "./auth/security/roles.guard";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
   imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule],
   controllers: [AppController],
-  providers: [Logger],
+  providers: [
+    Logger,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

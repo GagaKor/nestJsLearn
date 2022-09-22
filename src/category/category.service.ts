@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { CategoryRepository } from "./category.repository";
 import { CreateCategoryDto } from "./dto/create-Category.dto";
+import { UpdateCategoryDto } from "./dto/update-Category.dto";
 
 @Injectable()
 export class CategoryService {
@@ -16,4 +17,6 @@ export class CategoryService {
   async findById(id: number) {
     return await this.categoryRepository.findOneBy({ id });
   }
+
+  async updateCategory(id: number, updatecategoryDto: UpdateCategoryDto) {}
 }

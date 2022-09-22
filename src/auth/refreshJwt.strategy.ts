@@ -29,7 +29,7 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, "jwt-refresh-
   async validate(req: Request, { username }) {
     const refreshToken = req.cookies?.Refresh;
     await this.authService.getUserRefreshTokenMatches(refreshToken, username);
-    const user: User = await this.usersRepository.findOneBy({ username });
+    const user: User = await this.usersRepository.findOne({ where: { username }, select: ["id", "username", "refreshToken", "role"] });
     if (!user) {
       throw new UnauthorizedException();
     }

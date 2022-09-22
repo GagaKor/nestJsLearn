@@ -27,7 +27,7 @@ export class BoardsController {
   }
 
   @Get("search")
-  findByTitleOrContent(@Param("data") data: string): Promise<Board[]> {
+  findByTitleOrContent(@Query("data") data: string): Promise<Board[]> {
     return this.boardsService.findByTitleOrContent(data);
   }
 

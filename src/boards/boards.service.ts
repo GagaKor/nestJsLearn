@@ -14,10 +14,18 @@ export class BoardsService {
 
   async findAll(): Promise<Board[]> {
     const status = BoardStatus.PUBLIC;
-    return await this.boardRepository.find({ where: { status }, relations: { user: true }, select: { user: { username: true } } });
+    return await this.boardRepository.find({
+      where: { status },
+      relations: { user: true, category: true },
+      select: { user: { username: true }, category: { categoryName: true } },
+    });
   }
   async findById(id: number): Promise<Board> {
-    const found = await this.boardRepository.findOne({ where: { id } });
+    const found = await this.boardRepository.findOne({
+      where: { id },
+      relations: { user: true, category: true },
+      select: { user: { username: true }, category: { categoryName: true } },
+    });
     if (!found) {
       throw new NotFoundException(`Can't find Board with id ${id}`);
     }
@@ -25,18 +33,19 @@ export class BoardsService {
   }
 
   async getAllUserBoard(user: User): Promise<Board[]> {
-    const query = this.boardRepository.createQueryBuilder("board");
-
-    query.where("board.userId = :userId", { userId: user.id });
-
-    const boards = await query.getMany();
-
+    const boards = await this.boardRepository.find({
+      where: { user: { username: user.username } },
+      relations: { user: true, category: true },
+      select: { user: { username: true }, category: { categoryName: true } },
+    });
     return boards;
   }
 
   async findByTitleOrContent(data: string): Promise<Board[]> {
     return await this.boardRepository.find({
       where: [{ title: Like(`%${data}%`) }, { content: Like(`%${data}%`) }],
+      relations: { user: true, category: true },
+      select: { user: { username: true }, category: { categoryName: true } },
     });
   }
   async create(createBaordDto: CreateBaordDto, user: User): Promise<Board> {

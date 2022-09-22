@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateCommnetDto {
   @IsNotEmpty()
@@ -6,5 +6,6 @@ export class CreateCommnetDto {
   readonly comment: string;
 
   @IsNotEmpty()
+  @IsNumber()
   readonly boardId: number;
 }
