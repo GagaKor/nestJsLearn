@@ -11,19 +11,21 @@ import { RolesGuard } from "./../auth/security/roles.guard";
 
 @Controller("category")
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
-  @UseGuards(AuthGuard)
+  constructor(private readonly categoryService: CategoryService) { }
+  
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   async create(@Body(ValidationPipe) createCategoryDto: CreateCategoryDto) {
     return await this.categoryService.create(createCategoryDto);
   }
-  @UseGuards(AuthGuard)
-  @Roles(Role.Admin)
+
   @Get()
   async getAll() {
     return await this.categoryService.getAll();
   }
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Patch(":id")
   async updateCategory(@Param("id") id: number, @Body() updateCategoryDto: UpdateCategoryDto, @GetUser() user: User) {
     console.log("@@", user);

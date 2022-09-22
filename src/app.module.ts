@@ -18,7 +18,7 @@ import { APP_GUARD } from "@nestjs/core";
     Logger,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: RolesGuard
     },
   ],
 })

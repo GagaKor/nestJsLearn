@@ -4,6 +4,7 @@ import { Repository } from "typeorm";
 import { AuthCredentialsDto } from "./dto/auth-credential.dto";
 import { User } from "./entities/User.entity";
 import * as bcrypt from "bcryptjs";
+import { AuthLoginDto } from "./dto/auth-login.dto";
 
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
@@ -25,8 +26,8 @@ export class UsersRepository extends Repository<User> {
     }
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<User> {
-    const { username, password } = authCredentialsDto;
+  async signIn(authLoginDto: AuthLoginDto): Promise<User> {
+    const { username, password } = authLoginDto;
 
     const user = await this.findOne({ where: { username } });
 

@@ -7,6 +7,7 @@ import { Res } from "@nestjs/common/decorators";
 import { JwtRefreshGuard } from "./security/jwtRefreshToken.guard";
 import { GetUser } from "../decorator/get-user.decorator";
 import { AuthGuard } from "@nestjs/passport";
+import { AuthLoginDto } from "./dto/auth-login.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -19,8 +20,8 @@ export class AuthController {
   }
 
   @Post("login")
-  async signIn(@Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto, @Res({ passthrough: true }) res: Response) {
-    const { username, accessToken, accessOption, refreshToken, refreshOption } = await this.authService.signIn(authCredentialsDto);
+  async signIn(@Body(ValidationPipe) authLoginDto: AuthLoginDto, @Res({ passthrough: true }) res: Response) {
+    const { username, accessToken, accessOption, refreshToken, refreshOption } = await this.authService.signIn(authLoginDto);
     res.cookie("Authentication", accessToken, accessOption);
     res.cookie("Refresh", refreshToken, refreshOption);
     this.logger.verbose(`${username} is login`);

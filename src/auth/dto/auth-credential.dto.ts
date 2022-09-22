@@ -1,4 +1,5 @@
-import { IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { Transform } from "class-transformer";
+import { IsNotEmpty, IsString, Matches, MaxLength, MinLength } from "class-validator";
 import { Role } from "src/auth/role.enum";
 
 export class AuthCredentialsDto {
@@ -16,5 +17,7 @@ export class AuthCredentialsDto {
   })
   password: string;
 
+  @IsNotEmpty()
+  @Transform(param => param.value.toLowerCase())
   role: Role;
 }

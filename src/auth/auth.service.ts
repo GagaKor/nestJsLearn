@@ -5,6 +5,7 @@ import { UsersRepository } from "./users.repository";
 import { JwtService } from "@nestjs/jwt/dist";
 import * as config from "config";
 import * as bcrypt from "bcryptjs";
+import { AuthLoginDto } from "./dto/auth-login.dto";
 
 @Injectable()
 export class AuthService {
@@ -22,12 +23,12 @@ export class AuthService {
     await this.usersReository.createUser(authCredentialsDto);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto) {
-    const user = await this.usersReository.signIn(authCredentialsDto);
+  async signIn(authLoginDto: AuthLoginDto) {
+    const user = await this.usersReository.signIn(authLoginDto);
     const { accessToken, accessOption } = await this.getJwtAcessToken(user);
     const { refreshToken, refreshOption } = await this.getJwtRefreshToken(user.username);
 
-    await this.updateJwtRefershToken(refreshToken, authCredentialsDto.username);
+    await this.updateJwtRefershToken(refreshToken, authLoginDto.username);
 
     return { username: user.username, accessToken, accessOption, refreshToken, refreshOption };
   }
@@ -55,7 +56,7 @@ export class AuthService {
         domain: "localhost",
         path: "/",
         httpOnly: true,
-        maxAge: 1000 * 60 * 5,
+        maxAge: 1000 * 60 * 60 * 24,
       },
     };
   }
