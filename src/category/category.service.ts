@@ -18,5 +18,10 @@ export class CategoryService {
     return await this.categoryRepository.findOneBy({ id });
   }
 
-  async updateCategory(id: number, updatecategoryDto: UpdateCategoryDto) {}
+  async updateCategory(id: number, updatecategoryDto: UpdateCategoryDto) {
+    return await this.categoryRepository.updateCategory(id, updatecategoryDto);
+  }
+  async deleteCategory(id: number) {
+    return await this.categoryRepository.delete(id);
+  }
 }

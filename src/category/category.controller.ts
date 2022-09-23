@@ -11,8 +11,8 @@ import { RolesGuard } from "./../auth/security/roles.guard";
 
 @Controller("category")
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) { }
-  
+  constructor(private readonly categoryService: CategoryService) {}
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Post()
@@ -27,8 +27,14 @@ export class CategoryController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Patch(":id")
-  async updateCategory(@Param("id") id: number, @Body() updateCategoryDto: UpdateCategoryDto, @GetUser() user: User) {
-    console.log("@@", user);
-    // return await this.categoryService.updateCategory(id, updateCategoryDto);
+  async updateCategory(@Param("id") id: number, @Body() updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoryService.updateCategory(id, updateCategoryDto);
+  }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Delete(":id")
+  async deleteCategory(@Param("id") id: number) {
+    return await this.categoryService.deleteCategory(id);
   }
 }
