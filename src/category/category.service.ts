@@ -14,6 +14,15 @@ export class CategoryService {
   async getAll() {
     return await this.categoryRepository.find({ select: ["id", "categoryName"] });
   }
+
+  async getOneCategory(id: number) {
+    return await this.categoryRepository.find({
+      select: { id: true, categoryName: true, board: { id: true, title: true, status: true, comment: false, createdAt: true } },
+      relations: { board: true },
+      where: { id },
+    });
+  }
+
   async findById(id: number) {
     return await this.categoryRepository.findOneBy({ id });
   }

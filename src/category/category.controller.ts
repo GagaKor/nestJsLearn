@@ -24,6 +24,12 @@ export class CategoryController {
   async getAll() {
     return await this.categoryService.getAll();
   }
+
+  @Get(':id')
+  async getOneCategory(@Param('id') id:number){
+    return await this.categoryService.getOneCategory(id);
+  }
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Patch(":id")

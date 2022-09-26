@@ -25,7 +25,7 @@ export class Board extends BaseEntity {
   @JoinTable({ name: "boardId" })
   user: User;
 
-  @OneToMany(() => Comment, comment => comment.board, { cascade: true, eager: true })
+  @OneToMany(() => Comment, comment => comment.board, { cascade: true, eager: false })
   comment: Comment[];
 
   @CreateDateColumn({

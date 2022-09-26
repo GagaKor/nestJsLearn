@@ -23,7 +23,7 @@ export class BoardsService {
   async findById(id: number): Promise<Board> {
     const found = await this.boardRepository.findOne({
       where: { id },
-      relations: { user: true, category: true },
+      relations: { user: true, category: true, comment: true },
       select: { user: { username: true }, category: { categoryName: true } },
     });
     if (!found) {
