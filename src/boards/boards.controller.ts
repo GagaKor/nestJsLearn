@@ -27,8 +27,8 @@ export class BoardsController {
   }
 
   @Get("search")
-  findByTitleOrContent(@Query("data") data: string): Promise<Board[]> {
-    return this.boardsService.findByTitleOrContent(data);
+  findByTitleOrContent(@Query("data") data: string, @Query("categoryId") categoryId: number): Promise<Board[]> {
+    return this.boardsService.findByTitleOrContent(data, categoryId);
   }
 
   @Get(":id")

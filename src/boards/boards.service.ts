@@ -41,12 +41,25 @@ export class BoardsService {
     return boards;
   }
 
-  async findByTitleOrContent(data: string): Promise<Board[]> {
-    return await this.boardRepository.find({
-      where: [{ title: Like(`%${data}%`) }, { content: Like(`%${data}%`) }],
-      relations: { user: true, category: true },
-      select: { user: { username: true }, category: { categoryName: true } },
-    });
+  async findByTitleOrContent(data: string, categoryId: number): Promise<Board[]> {
+    let result: Board[];
+    if (categoryId) {
+      result = await this.boardRepository.find({
+        where: [
+          { title: Like(`%${data}%`), category: { id: categoryId } },
+          { content: Like(`%${data}%`), category: { id: categoryId } },
+        ],
+        relations: { user: true, category: true },
+        select: { user: { username: true }, category: { categoryName: true } },
+      });
+    } else {
+      result = await this.boardRepository.find({
+        where: [{ title: Like(`%${data}%`) }, { content: Like(`%${data}%`) }],
+        relations: { user: true, category: true },
+        select: { user: { username: true }, category: { categoryName: true } },
+      });
+    }
+    return result;
   }
   async create(createBaordDto: CreateBaordDto, user: User): Promise<Board> {
     const { categoryId } = createBaordDto;
