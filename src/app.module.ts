@@ -6,11 +6,11 @@ import { BoardsModule } from "src/boards/boards.module";
 import { AuthModule } from "src/auth/auth.module";
 import { typeORMConfig } from "src/configs/typeorm.config";
 import { LoggerMiddleware } from "src/middleware/logger-middleware";
-import { CommentsModule } from "./comments/comments.module";
-import { CategoryModule } from "./category/category.module";
-import { RolesGuard } from "./auth/security/roles.guard";
+import { CommentsModule } from "src/comments/comments.module";
+import { CategoryModule } from "src/category/category.module";
+import { RolesGuard } from "src/auth/security/roles.guard";
 import { APP_GUARD } from "@nestjs/core";
-import { LottoModule } from './lotto/lotto.module';
+import { LottoModule } from "src/lotto/lotto.module";
 
 @Module({
   imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule, LottoModule],
@@ -19,7 +19,7 @@ import { LottoModule } from './lotto/lotto.module';
     Logger,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
+      useClass: RolesGuard,
     },
   ],
 })

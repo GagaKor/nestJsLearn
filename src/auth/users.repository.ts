@@ -21,7 +21,7 @@ export class UsersRepository extends Repository<User> {
       if (err.code === "ER_DUP_ENTRY") {
         throw new ConflictException("Existing username");
       } else {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException(err);
       }
     }
   }

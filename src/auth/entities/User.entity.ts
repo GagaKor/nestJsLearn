@@ -3,7 +3,7 @@ import { Board } from "src/boards/entities/Board.entity";
 import { Comment } from "src/comments/entities/Comment.entity";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { Role } from "src/auth/role.enum";
-import { Lotto } from "./../../lotto/entities/Lotto.entity";
+import { Lotto } from "src/lotto/entities/Lotto.entity";
 
 @Entity()
 @Unique(["username"])
