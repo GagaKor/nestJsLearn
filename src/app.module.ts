@@ -10,9 +10,10 @@ import { CommentsModule } from "./comments/comments.module";
 import { CategoryModule } from "./category/category.module";
 import { RolesGuard } from "./auth/security/roles.guard";
 import { APP_GUARD } from "@nestjs/core";
+import { LottoModule } from './lotto/lotto.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule],
+  imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule, LottoModule],
   controllers: [AppController],
   providers: [
     Logger,

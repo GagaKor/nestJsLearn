@@ -3,6 +3,7 @@ import { Board } from "src/boards/entities/Board.entity";
 import { Comment } from "src/comments/entities/Comment.entity";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { Role } from "src/auth/role.enum";
+import { Lotto } from "./../../lotto/entities/Lotto.entity";
 
 @Entity()
 @Unique(["username"])
@@ -28,6 +29,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Comment, comment => comment.user, { cascade: true, eager: false })
   comment: Comment[];
+
+  @OneToMany(() => Lotto, lotto => lotto.user, { cascade: true, eager: false })
+  lottos: Lotto[];
 
   @CreateDateColumn({
     type: "timestamp",
