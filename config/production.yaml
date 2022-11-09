@@ -1,6 +1,0 @@
-db:
-  synchronnize: false
-
-jwt:
-  secret: "Secret1234
-"

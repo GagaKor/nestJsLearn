@@ -1,11 +1,11 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/auth/entities/User.entity";
-import { Board } from "./../../boards/entities/Board.entity";
+import { Board } from "src/boards/entities/Board.entity";
 
 @Entity()
-export class Comment extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Comment {
+  @PrimaryColumn({ type: "uuid" })
+  id: string;
 
   @Column()
   comment: string;
@@ -14,11 +14,9 @@ export class Comment extends BaseEntity {
   username: string;
 
   @ManyToOne(() => User, user => user.comment, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "commandId" })
   user: User;
 
   @ManyToOne(() => Board, board => board.comment, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "commandId" })
   board: Board;
 
   @CreateDateColumn({

@@ -7,5 +7,5 @@ export class CreateCommnetDto {
 
   @IsNotEmpty()
   @IsNumber()
-  readonly boardId: number;
+  readonly boardId: string;
 }
