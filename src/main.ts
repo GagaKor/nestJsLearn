@@ -1,7 +1,7 @@
 import { ValidationPipe, Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { winstonLogger } from "./configs/logger.config";
+import { AppModule } from "src/app.module";
+import { winstonLogger } from "src/configs/logger.config";
 import * as cookieParser from "cookie-parser";
 async function bootstrap() {
   const logger = new Logger();

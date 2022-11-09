@@ -1,6 +1,6 @@
 import { Transform } from "class-transformer";
 import { IsNumber, IsNotEmpty, IsString } from "class-validator";
-import { BoardStatus } from "../board-status-enum";
+import { BoardStatus } from "src/boards/board-status-enum";
 
 export class CreateBaordDto {
   @IsNotEmpty()

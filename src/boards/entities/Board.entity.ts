@@ -1,6 +1,6 @@
 import { User } from "src/auth/entities/User.entity";
 import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { BoardStatus } from "../board-status-enum";
+import { BoardStatus } from "src/boards/board-status-enum";
 import { Comment } from "src/comments/entities/Comment.entity";
 import { Category } from "src/category/entities/Category.entity";
 

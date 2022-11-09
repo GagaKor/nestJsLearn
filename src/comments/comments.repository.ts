@@ -1,11 +1,11 @@
-import { CustomRepository } from "src/configs/typeorm-ex.decorator";
-import { Comment } from "./entities/Comment.entity";
+import { CustomRepository } from "src/database/typeorm-ex.decorator";
+import { Comment } from "src/comments/entities/Comment.entity";
 import { Repository } from "typeorm";
-import { User } from "./../auth/entities/User.entity";
+import { User } from "src/auth/entities/User.entity";
 import { UnauthorizedException } from "@nestjs/common";
-import { Board } from "./../boards/entities/Board.entity";
+import { Board } from "src/boards/entities/Board.entity";
 import { NotFoundException } from "@nestjs/common";
-import { UpdateCommnetDto } from "./dto/update-Comment.dto";
+import { UpdateCommnetDto } from "src/comments/dto/update-Comment.dto";
 
 @CustomRepository(Comment)
 export class CommentsRepository extends Repository<Comment> {

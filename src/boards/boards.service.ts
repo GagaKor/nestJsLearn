@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "src/auth/entities/User.entity";
 import { DeleteResult, Like } from "typeorm";
-import { BoardStatus } from "./board-status-enum";
-import { BoardsRepository } from "./boards.repository";
-import { CreateBaordDto } from "./dto/create-Board.Dto";
-import { UpdateBoardDto } from "./dto/update-Board.dto";
-import { Board } from "./entities/Board.entity";
+import { BoardStatus } from "src/boards/board-status-enum";
+import { BoardsRepository } from "src/boards/boards.repository";
+import { CreateBaordDto } from "src/boards/dto/create-Board.Dto";
+import { UpdateBoardDto } from "src/boards/dto/update-Board.dto";
+import { Board } from "src/boards/entities/Board.entity";
 import { CategoryService } from "src/category/category.service";
 
 @Injectable()

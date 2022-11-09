@@ -1,9 +1,0 @@
-db:
-  host: "localhost"
-  username: "root"
-  password: "1234"
-  synchronnize: false
-
-jwt:
-  secret: "Secret1234"
-  refresh_secret: "Refresh1234"

@@ -1,8 +1,8 @@
-import { CustomRepository } from "src/configs/typeorm-ex.decorator";
+import { CustomRepository } from "src/database/typeorm-ex.decorator";
 import { Category } from "src/category/entities/Category.entity";
 import { Repository } from "typeorm";
-import { CreateCategoryDto } from "./dto/create-Category.dto";
-import { UpdateCategoryDto } from "./dto/update-Category.dto";
+import { CreateCategoryDto } from "src/category/dto/create-Category.dto";
+import { UpdateCategoryDto } from "src/category/dto/update-Category.dto";
 
 @CustomRepository(Category)
 export class CategoryRepository extends Repository<Category> {

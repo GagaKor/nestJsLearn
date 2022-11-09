@@ -1,10 +1,10 @@
 import { Body, Delete, Controller, Post, UseGuards, Get, Param, Patch } from "@nestjs/common";
-import { CreateCommnetDto } from "./dto/create-Comment.dto";
-import { AuthGuard } from "./../auth/security/auth.guard";
+import { CreateCommnetDto } from "src/comments/dto/create-Comment.dto";
+import { AuthGuard } from "src/auth/security/auth.guard";
 import { GetUser } from "src/decorator/get-user.decorator";
-import { User } from "./../auth/entities/User.entity";
-import { CommentsService } from "./comments.service";
-import { UpdateCommnetDto } from "./dto/update-Comment.dto";
+import { User } from "src/auth/entities/User.entity";
+import { CommentsService } from "src/comments/comments.service";
+import { UpdateCommnetDto } from "src/comments/dto/update-Comment.dto";
 
 @Controller("comments")
 export class CommentsController {

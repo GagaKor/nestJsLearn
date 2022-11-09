@@ -1,9 +1,4 @@
 import { TypeOrmModuleAsyncOptions } from "@nestjs/typeorm";
-import { User } from "src/auth/entities/User.entity";
-import { Board } from "src/boards/entities/Board.entity";
-import { Category } from "src/category/entities/Category.entity";
-import { Comment } from "src/comments/entities/Comment.entity";
-import { Lotto } from "src/lotto/entities/Lotto.entity";
 
 export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   imports: [],
@@ -16,14 +11,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      // entities: [__dirname + "/../**/*.entity.{js,ts}"],
-      entities: [
-        User,
-        Board,
-        Category,
-        Comment,
-        Lotto
-      ],
+      entities: [__dirname + "/../**/*.entity.{js,ts}"],
       synchronize: process.env.DB_SYNCHRONIZE === "true" ,
       migrations: ["dist/migrations/*{.ts,.js}"],
       cli: {

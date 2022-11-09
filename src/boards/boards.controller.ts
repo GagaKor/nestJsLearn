@@ -1,14 +1,14 @@
 import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
-import { BoardStatus } from "./board-status-enum";
-import { BoardsService } from "./boards.service";
-import { CreateBaordDto } from "./dto/create-Board.Dto";
-import { UpdateBoardDto } from "./dto/update-Board.dto";
-import { Board } from "./entities/Board.entity";
-import { BoardStatusValidationPipe } from "./Pipes/boardsStatusValidation.pipe";
+import { BoardStatus } from "src/boards/board-status-enum";
+import { BoardsService } from "src/boards/boards.service";
+import { CreateBaordDto } from "src/boards/dto/create-Board.Dto";
+import { UpdateBoardDto } from "src/boards/dto/update-Board.dto";
+import { Board } from "src/boards/entities/Board.entity";
+import { BoardStatusValidationPipe } from "src/boards/Pipes/boardsStatusValidation.pipe";
 import { GetUser } from "src/decorator/get-user.decorator";
 import { User } from "src/auth/entities/User.entity";
-import { AuthGuard } from "./../auth/security/auth.guard";
+import { AuthGuard } from "src/auth/security/auth.guard";
 @Controller("boards")
 export class BoardsController {
   private logger = new Logger("Boards");

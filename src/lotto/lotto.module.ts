@@ -4,7 +4,7 @@ import { Module } from "@nestjs/common";
 import { AuthModule } from "./../auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Lotto } from "./entities/Lotto.entity";
-import { TypeOrmExModule } from "./../configs/typeorm-ex.module";
+import { TypeOrmExModule } from "./../database/typeorm-ex.module";
 // import { LottoRepository } from "./lotto.repository";
 
 @Module({
