@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Req, UseGuards, ValidationPipe } from "@nestjs/common";
-import { AuthService } from "./auth.service";
-import { AuthCredentialsDto } from "./dto/auth-credential.dto";
-import { User } from "./entities/User.entity";
+import { AuthService } from "src/auth/auth.service";
+import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
+import { User } from "src/auth/entities/User.entity";
 import { Response } from "express";
 import { Res } from "@nestjs/common/decorators";
-import { JwtRefreshGuard } from "./security/jwtRefreshToken.guard";
-import { GetUser } from "../decorator/get-user.decorator";
+import { JwtRefreshGuard } from "src/auth/security/jwtRefreshToken.guard";
+import { GetUser } from "src/decorator/get-user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { AuthLoginDto } from "./dto/auth-login.dto";
+import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
 
 @Controller("auth")
 export class AuthController {

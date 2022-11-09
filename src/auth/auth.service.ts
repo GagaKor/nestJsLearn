@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { AuthCredentialsDto } from "./dto/auth-credential.dto";
-import { User } from "./entities/User.entity";
-import { UsersRepository } from "./users.repository";
+import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
+import { User } from "src/auth/entities/User.entity";
+import { UsersRepository } from "src/auth/users.repository";
 import { JwtService } from "@nestjs/jwt/dist";
-import * as config from "config";
+
 import * as bcrypt from "bcryptjs";
-import { AuthLoginDto } from "./dto/auth-login.dto";
+import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
 
 @Injectable()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
   async getJwtRefreshToken(username: string) {
     const payload = { username };
 
-    let refreshToken = await this.jwtService.sign(payload, { secret: config.get("jwt.refresh_secret"), expiresIn: config.get("jwt.refresh_expiresIn") });
+    let refreshToken = await this.jwtService.sign(payload, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: process.env.REFRESH_EXPPIRESIN });
     return {
       refreshToken,
       refreshOption: {
@@ -49,7 +49,7 @@ export class AuthService {
 
   async getJwtAcessToken(user: User) {
     const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: config.get("jwt.auth_expiresIn") });
+    const accessToken = await this.jwtService.sign(payload, { secret: process.env.JWT_SECRET, expiresIn: process.env.AUTH_EXPPIRESIN });
     return {
       accessToken,
       accessOption: {

@@ -1,10 +1,10 @@
 import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { CustomRepository } from "src/configs/typeorm-ex.decorator";
 import { Repository } from "typeorm";
-import { AuthCredentialsDto } from "./dto/auth-credential.dto";
-import { User } from "./entities/User.entity";
+import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
+import { User } from "src/auth/entities/User.entity";
 import * as bcrypt from "bcryptjs";
-import { AuthLoginDto } from "./dto/auth-login.dto";
+import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
 
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
