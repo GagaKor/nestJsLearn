@@ -1,8 +1,8 @@
 import { User } from "src/auth/entities/User.entity";
-import { CustomRepository } from "src/database/typeorm-ex.decorator";
+import { CustomRepository } from "src/configs/typeorm-ex.decorator";
 import { Repository } from "typeorm";
-import { CreateBaordDto } from "src/boards/dto/create-Board.Dto";
-import { Board } from "src/boards/entities/Board.entity";
+import { CreateBaordDto } from "./dto/create-Board.Dto";
+import { Board } from "./entities/Board.entity";
 import { Category } from "src/category/entities/Category.entity";
 
 @CustomRepository(Board)

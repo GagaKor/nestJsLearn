@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { CommentsRepository } from "src/comments/comments.repository";
-import { CreateCommnetDto } from "src/comments/dto/create-Comment.dto";
-import { User } from "src/auth/entities/User.entity";
-import { BoardsService } from "src/boards/boards.service";
-import { UpdateCommnetDto } from "src/comments/dto/update-Comment.dto";
+import { CommentsRepository } from "./comments.repository";
+import { CreateCommnetDto } from "./dto/create-Comment.dto";
+import { User } from "./../auth/entities/User.entity";
+import { BoardsService } from "./../boards/boards.service";
+import { UpdateCommnetDto } from "./dto/update-Comment.dto";
 
 @Injectable()
 export class CommentsService {
@@ -12,10 +12,10 @@ export class CommentsService {
     const board = await this.boardsService.findById(createCommnetDto.boardId);
     await this.commentsRepository.createComment(createCommnetDto.comment, board, user);
   }
-  async updateComment(id: string, updateCommnetDto: UpdateCommnetDto, user: User) {
+  async updateComment(id: number, updateCommnetDto: UpdateCommnetDto, user: User) {
     await this.commentsRepository.updateComment(id, updateCommnetDto, user);
   }
-  async deleteComment(id: string, user: User) {
+  async deleteComment(id: number, user: User) {
     await this.commentsRepository.deleteComment(id, user);
   }
 }

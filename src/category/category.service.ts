@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { CategoryRepository } from "src/category/category.repository";
-import { CreateCategoryDto } from "src/category/dto/create-Category.dto";
-import { UpdateCategoryDto } from "src/category/dto/update-Category.dto";
+import { CategoryRepository } from "./category.repository";
+import { CreateCategoryDto } from "./dto/create-Category.dto";
+import { UpdateCategoryDto } from "./dto/update-Category.dto";
 
 @Injectable()
 export class CategoryService {
@@ -15,7 +15,7 @@ export class CategoryService {
     return await this.categoryRepository.find({ select: ["id", "categoryName"] });
   }
 
-  async getOneCategory(id: string) {
+  async getOneCategory(id: number) {
     return await this.categoryRepository.find({
       select: { id: true, categoryName: true, board: { id: true, title: true, status: true, comment: false, createdAt: true } },
       relations: { board: true },
@@ -23,14 +23,14 @@ export class CategoryService {
     });
   }
 
-  async findById(id: string) {
+  async findById(id: number) {
     return await this.categoryRepository.findOneBy({ id });
   }
 
-  async updateCategory(id: string, updatecategoryDto: UpdateCategoryDto) {
+  async updateCategory(id: number, updatecategoryDto: UpdateCategoryDto) {
     return await this.categoryRepository.updateCategory(id, updatecategoryDto);
   }
-  async deleteCategory(id: string) {
+  async deleteCategory(id: number) {
     return await this.categoryRepository.delete(id);
   }
 }

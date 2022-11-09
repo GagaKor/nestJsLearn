@@ -5,6 +5,8 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { UsersRepository } from "src/auth/users.repository";
 import { typeORMConfig } from "src/configs/typeorm.config";
 import * as request from "supertest";
+import { BoardsRepository } from "./../src/boards/boards.repository";
+
 class MockTypeOrmConfigServer implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
@@ -69,5 +71,8 @@ describe("authController (e2e)", () => {
       });
       expect(res.status).toBe(201);
     });
+    
+
   });
+ 
 });

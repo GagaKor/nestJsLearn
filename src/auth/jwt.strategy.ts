@@ -17,17 +17,20 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
       /** secreateOrkey : secreat key 입력
        * jwtFromRequest : jwt 받아오는 경로? 설정 Request의 cookies 에서 받아 옴
        */
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: process.env.JWT_SECRET || config.get("jwt.secret"),
       // jwtFromRequest: ExtractJwt.fromExtractors([
       //   (request: Request) => {
       //     return request?.cookies?.Authentication;
       //   },
       // ]),
-      jwtFromRequest: ExtractJwt.fromExtractors([JwtStrategy.extractJWT, ExtractJwt.fromAuthHeaderAsBearerToken()]),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        JwtStrategy.extractJWT,
+        ExtractJwt.fromAuthHeaderAsBearerToken()
+      ]),
       passReqToCallback: true,
     });
   }
-  private static extractJWT(req: Request) {
+  private static extractJWT(req: Request) { 
     return req?.cookies?.Authentication;
   }
 

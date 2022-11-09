@@ -1,30 +1,19 @@
 import { Logger, MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MoviesModule } from "src/movies/movies.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "src/app.controller";
 import { BoardsModule } from "src/boards/boards.module";
 import { AuthModule } from "src/auth/auth.module";
-import { typeOrmAsyncConfig } from "src/database/typeorm.config";
+import { typeORMConfig } from "src/configs/typeorm.config";
 import { LoggerMiddleware } from "src/middleware/logger-middleware";
 import { CommentsModule } from "src/comments/comments.module";
 import { CategoryModule } from "src/category/category.module";
 import { RolesGuard } from "src/auth/security/roles.guard";
 import { APP_GUARD } from "@nestjs/core";
-// import { LottoModule } from "src/lotto/lotto.module";
-import { ConfigModule } from "@nestjs/config";
+import { LottoModule } from "src/lotto/lotto.module";
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV !== "prod" ? `.env.${process.env.NODE_ENV}` : ".env",
-      isGlobal: true,
-    }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
-    BoardsModule,
-    AuthModule,
-    CommentsModule,
-    CategoryModule,
-    // LottoModule,
-  ],
+  imports: [TypeOrmModule.forRoot(typeORMConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule, LottoModule],
   controllers: [AppController],
   providers: [
     Logger,

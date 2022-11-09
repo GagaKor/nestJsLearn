@@ -35,7 +35,7 @@ export class AuthService {
   async getJwtRefreshToken(username: string) {
     const payload = { username };
 
-    let refreshToken = await this.jwtService.sign(payload, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: process.env.REFRESH_EXPPIRESIN });
+    let refreshToken = await this.jwtService.sign(payload, { secret: config.get("jwt.refresh_secret"), expiresIn: config.get("jwt.refresh_expiresIn") });
     return {
       refreshToken,
       refreshOption: {
@@ -49,7 +49,7 @@ export class AuthService {
 
   async getJwtAcessToken(user: User) {
     const payload = { username: user.username };
-    const accessToken = await this.jwtService.sign(payload, { secret: process.env.JWT_SECRET, expiresIn: process.env.AUTH_EXPPIRESIN });
+    const accessToken = await this.jwtService.sign(payload, { secret: config.get("jwt.secret"), expiresIn: config.get("jwt.auth_expiresIn") });
     return {
       accessToken,
       accessOption: {

@@ -1,11 +1,13 @@
 import { Body, Patch, Delete, Param, Get, Controller, Post, UseGuards, ValidationPipe } from "@nestjs/common";
 import { AuthGuard } from "src/auth/security/auth.guard";
-import { CategoryService } from "src/category/category.service";
-import { CreateCategoryDto } from "src/category/dto/create-Category.dto";
-import { UpdateCategoryDto } from "src/category/dto/update-Category.dto";
+import { GetUser } from "src/decorator/get-user.decorator";
+import { CategoryService } from "./category.service";
+import { CreateCategoryDto } from "./dto/create-Category.dto";
+import { UpdateCategoryDto } from "./dto/update-Category.dto";
+import { User } from "./../auth/entities/User.entity";
 import { Roles } from "src/decorator/roles.decorator";
 import { Role } from "src/auth/role.enum";
-import { RolesGuard } from "src/auth/security/roles.guard";
+import { RolesGuard } from "./../auth/security/roles.guard";
 
 @Controller("category")
 export class CategoryController {
@@ -23,22 +25,22 @@ export class CategoryController {
     return await this.categoryService.getAll();
   }
 
-  @Get(":id")
-  async getOneCategory(@Param("id") id: string) {
+  @Get(':id')
+  async getOneCategory(@Param('id') id:number){
     return await this.categoryService.getOneCategory(id);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Patch(":id")
-  async updateCategory(@Param("id") id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+  async updateCategory(@Param("id") id: number, @Body() updateCategoryDto: UpdateCategoryDto) {
     return await this.categoryService.updateCategory(id, updateCategoryDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Delete(":id")
-  async deleteCategory(@Param("id") id: string) {
+  async deleteCategory(@Param("id") id: number) {
     return await this.categoryService.deleteCategory(id);
   }
 }
