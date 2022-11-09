@@ -1,3 +1,3 @@
-import { typeOrmAsyncConfig } from "./typeorm.config";
+import { typeOrmConfig } from "./typeorm.config";
 
-export = typeOrmAsyncConfig;
+export = typeOrmConfig;
