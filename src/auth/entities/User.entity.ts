@@ -1,15 +1,15 @@
 import { Exclude } from "class-transformer";
 import { Board } from "src/boards/entities/Board.entity";
 import { Comment } from "src/comments/entities/Comment.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, Unique, UpdateDateColumn } from "typeorm";
 import { Role } from "src/auth/role.enum";
 import { Lotto } from "src/lotto/entities/Lotto.entity";
 
 @Entity()
 @Unique(["username"])
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn({type:"uuid"})
+  id: string;
 
   @Column({ unique: true })
   username: string;

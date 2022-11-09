@@ -1,9 +1,9 @@
-import { BaseEntity, Column, CreateDateColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, JoinTable, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/auth/entities/User.entity";
 
 export class Lotto extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn({type:"uuid"})
+  id: string;
 
   @Column()
   myLotto: number[];

@@ -1,13 +1,13 @@
 import { User } from "src/auth/entities/User.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { BoardStatus } from "src/boards/board-status-enum";
 import { Comment } from "src/comments/entities/Comment.entity";
 import { Category } from "src/category/entities/Category.entity";
 
 @Entity()
 export class Board extends BaseEntity {
-  @PrimaryGeneratedColumn("increment")
-  id: number;
+ @PrimaryColumn({type:"uuid"})
+  id: string;
 
   @Column()
   title: string;

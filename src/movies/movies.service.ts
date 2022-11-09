@@ -17,13 +17,13 @@ export class MoviesService {
     return this.movieRepository.find();
   }
 
-  findOne(id: number): Promise<Movie> {
+  findOne(id: string): Promise<Movie> {
     return this.movieRepository.findOne({
       where : {id}
     });
   }
 
-  async deleteOne(id: number): Promise<void> {
+  async deleteOne(id: string): Promise<void> {
     await this.movieRepository.delete(id);
   }
 
@@ -31,7 +31,7 @@ export class MoviesService {
     await this.movieRepository.save(Movie);
   }
 
-  async update(id: number, updateData: UpdateMovieDto):Promise<void> {
+  async update(id: string, updateData: UpdateMovieDto):Promise<void> {
     await this.movieRepository.update(id, updateData);
   }
 }

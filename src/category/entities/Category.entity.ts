@@ -1,10 +1,10 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Board } from "src/boards/entities/Board.entity";
 
 @Entity()
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn({type:"uuid"})
+  id: string;
 
   @Column({ unique: true })
   categoryName: string;

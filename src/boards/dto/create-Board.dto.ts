@@ -17,5 +17,5 @@ export class CreateBaordDto {
 
   @IsNotEmpty()
   @IsNumber()
-  readonly categoryId: number;
+  readonly categoryId: string;
 }

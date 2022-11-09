@@ -17,12 +17,12 @@ export class CommentsController {
   }
   @Patch("/:id")
   @UseGuards(AuthGuard)
-  updateComment(@Param("id") id: number, @Body() updateCommnetDto: UpdateCommnetDto, @GetUser() user: User) {
+  updateComment(@Param("id") id: string, @Body() updateCommnetDto: UpdateCommnetDto, @GetUser() user: User) {
     return this.commentsService.updateComment(id, updateCommnetDto, user);
   }
   @Delete("/:id")
   @UseGuards(AuthGuard)
-  deleteComment(@Param("id") id: number, @GetUser() user: User) {
+  deleteComment(@Param("id") id: string, @GetUser() user: User) {
     return this.commentsService.deleteComment(id, user);
   }
 }

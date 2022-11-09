@@ -24,21 +24,21 @@ export class CategoryController {
   }
 
   @Get(':id')
-  async getOneCategory(@Param('id') id:number){
+  async getOneCategory(@Param('id') id:string){
     return await this.categoryService.getOneCategory(id);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Patch(":id")
-  async updateCategory(@Param("id") id: number, @Body() updateCategoryDto: UpdateCategoryDto) {
+  async updateCategory(@Param("id") id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
     return await this.categoryService.updateCategory(id, updateCategoryDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Delete(":id")
-  async deleteCategory(@Param("id") id: number) {
+  async deleteCategory(@Param("id") id: string) {
     return await this.categoryService.deleteCategory(id);
   }
 }

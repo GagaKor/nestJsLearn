@@ -27,12 +27,12 @@ export class BoardsController {
   }
 
   @Get("search")
-  findByTitleOrContent(@Query("data") data: string, @Query("categoryId") categoryId: number): Promise<Board[]> {
+  findByTitleOrContent(@Query("data") data: string, @Query("categoryId") categoryId: string): Promise<Board[]> {
     return this.boardsService.findByTitleOrContent(data, categoryId);
   }
 
   @Get(":id")
-  findById(@Param("id", ParseIntPipe) id: number): Promise<Board> {
+  findById(@Param("id", ParseIntPipe) id: string): Promise<Board> {
     return this.boardsService.findById(id);
   }
 
@@ -50,7 +50,7 @@ export class BoardsController {
 
   @Patch(":id")
   @UseGuards(AuthGuard)
-  update(@Param("id", ParseIntPipe) id: number, @Body() updateBoardDto: UpdateBoardDto, @GetUser() user: User): Promise<boolean> {
+  update(@Param("id", ParseIntPipe) id: string, @Body() updateBoardDto: UpdateBoardDto, @GetUser() user: User): Promise<boolean> {
     this.logger.verbose(`User ${user.username} updating a id:${id} board. 
     Payload : ${JSON.stringify(updateBoardDto)}`);
     const checkStatus = updateBoardDto.status.toUpperCase();
@@ -61,13 +61,13 @@ export class BoardsController {
   }
   @Patch("status/:id")
   @UseGuards(AuthGuard)
-  updateStatus(@Param("id", ParseIntPipe) id: number, @Body("status", BoardStatusValidationPipe) status: BoardStatus, @GetUser() user: User): Promise<Board> {
+  updateStatus(@Param("id", ParseIntPipe) id: string, @Body("status", BoardStatusValidationPipe) status: BoardStatus, @GetUser() user: User): Promise<Board> {
     return this.boardsService.updateStatus(id, status, user);
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
-  delete(@Param("id", ParseIntPipe) id: number, @GetUser() user: User): Promise<DeleteResult> {
+  delete(@Param("id", ParseIntPipe) id: string, @GetUser() user: User): Promise<DeleteResult> {
     return this.boardsService.delete(id, user);
   }
 }

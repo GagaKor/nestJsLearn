@@ -20,7 +20,7 @@ export class BoardsService {
       select: { user: { username: true }, category: { categoryName: true } },
     });
   }
-  async findById(id: number): Promise<Board> {
+  async findById(id: string): Promise<Board> {
     const found = await this.boardRepository.findOne({
       where: { id },
       relations: { user: true, category: true, comment: true },
@@ -41,7 +41,7 @@ export class BoardsService {
     return boards;
   }
 
-  async findByTitleOrContent(data: string, categoryId: number): Promise<Board[]> {
+  async findByTitleOrContent(data: string, categoryId: string): Promise<Board[]> {
     let result: Board[];
     if (categoryId) {
       result = await this.boardRepository.find({
@@ -66,17 +66,17 @@ export class BoardsService {
     const category = await this.categoryService.findById(categoryId);
     return await this.boardRepository.createBoard(createBaordDto, user, category);
   }
-  async update(id: number, updateBoardDto: UpdateBoardDto, user: User): Promise<boolean> {
+  async update(id: string, updateBoardDto: UpdateBoardDto, user: User): Promise<boolean> {
     const result = await this.boardRepository.createQueryBuilder("board").update().set(updateBoardDto).where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
     return result.affected > 0;
   }
-  async updateStatus(id: number, status: BoardStatus, user: User): Promise<Board> {
+  async updateStatus(id: string, status: BoardStatus, user: User): Promise<Board> {
     const board = await this.boardRepository.createQueryBuilder("board").where("id = :id AND userId = :userId", { id, userId: user.id }).getOne();
     board.status = status;
     const result = await this.boardRepository.save(board);
     return result;
   }
-  async delete(id: number, user: User): Promise<DeleteResult> {
+  async delete(id: string, user: User): Promise<DeleteResult> {
     const result = await this.boardRepository.createQueryBuilder("board").delete().where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
 
     if (result.affected === 0) throw new NotFoundException(`Can't find ${id}`);

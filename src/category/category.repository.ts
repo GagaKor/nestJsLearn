@@ -14,7 +14,7 @@ export class CategoryRepository extends Repository<Category> {
     const result = await this.save(category);
     return result;
   }
-  async updateCategory(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
     const { categoryName } = updateCategoryDto;
     await this.update(id, { categoryName });
   }

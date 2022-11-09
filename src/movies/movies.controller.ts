@@ -14,12 +14,12 @@ export class MoviesController {
   }
 
   @Get("search")
-  search(@Query("year") searchingYear: number) {
+  search(@Query("year") searchingYear: string) {
     return `영화 검색 년도 : ${searchingYear}`;
   }
 
   @Get(":id")
-  findOne(@Param("id", ParseIntPipe) movieId: number): Promise<Movie> {
+  findOne(@Param("id", ParseIntPipe) movieId: string): Promise<Movie> {
     return this.moviesService.findOne(movieId); //`This will return one movie with the id ${id}`;
   }
 
@@ -29,13 +29,13 @@ export class MoviesController {
   }
 
   @Delete(":id")
-  remove(@Param("id", ParseIntPipe) movieId: number) {
+  remove(@Param("id", ParseIntPipe) movieId: string) {
     // return `This will delete a movie with the id ${movieId}`
     return this.moviesService.deleteOne(movieId);
   }
 
   @Patch(":id")
-  path(@Param("id", ParseIntPipe) movieId: number, @Body() updateDate: UpdateMovieDto) {
+  path(@Param("id", ParseIntPipe) movieId: string, @Body() updateDate: UpdateMovieDto) {
     return this.moviesService.update(movieId, updateDate);
   }
 }

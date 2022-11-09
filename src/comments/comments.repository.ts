@@ -24,7 +24,7 @@ export class CommentsRepository extends Repository<Comment> {
     await this.save(data);
   }
 
-  async updateComment(id: number, updateCommnetDto: UpdateCommnetDto, user: User) {
+  async updateComment(id: string, updateCommnetDto: UpdateCommnetDto, user: User) {
     const beforeComment = await this.findOneBy({ id });
     if (!beforeComment) throw new NotFoundException("Can not found comment");
     if (beforeComment.username !== user.username) throw new UnauthorizedException();
@@ -32,7 +32,7 @@ export class CommentsRepository extends Repository<Comment> {
     await this.update(id, { comment });
   }
 
-  async deleteComment(id: number, user: User) {
+  async deleteComment(id: string, user: User) {
     const { username } = await this.findOne({ select: ["username"], where: { id } });
     if (username !== user.username) throw new UnauthorizedException();
     const comment = "작성자에 의해 삭제된 댓글입니다.";
