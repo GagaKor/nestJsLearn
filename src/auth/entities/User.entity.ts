@@ -30,8 +30,8 @@ export class User extends BaseEntity {
   @OneToMany(() => Comment, comment => comment.user, { cascade: true, eager: false })
   comment: Comment[];
 
-  @OneToMany(() => Lotto, lotto => lotto.user, { cascade: true, eager: false })
-  lottos: Lotto[];
+  // @OneToMany(() => Lotto, lotto => lotto.user, { cascade: true, eager: false })
+  // lottos: Lotto[];
 
   @CreateDateColumn({
     type: "timestamp",

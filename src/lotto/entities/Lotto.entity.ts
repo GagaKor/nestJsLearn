@@ -1,17 +1,15 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "src/auth/entities/User.entity";
 
-@Entity()
 export class Lotto extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column("simple-array")
+  @Column()
   myLotto: number[];
 
-  @ManyToOne(() => User, user => user.lottos, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "lottoId" })
-  user: User;
+  // @ManyToOne(() => User, user => user.lottos, { onDelete: "CASCADE", eager: false })
+  // user: User;
 
   @CreateDateColumn({
     type: "timestamp",

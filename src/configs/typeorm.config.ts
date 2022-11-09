@@ -1,5 +1,7 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import * as config from "config";
+import { Board } from "./../boards/entities/Board.entity";
+import { User } from "src/auth/entities/User.entity";
 
 const dbConfig = config.get("db");
 
@@ -11,7 +13,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   password: process.env.RDS_PASSWORD || dbConfig.password,
   database: process.env.RDS_DB_NAME || dbConfig.database,
   entities: [__dirname + "/../**/*.entity.{js,ts}"],
-  // synchronize: dbConfig.synchronnize,
-  synchronize: true,
-  migrationsRun: false,
+  synchronize: dbConfig.synchronnize,
 };
