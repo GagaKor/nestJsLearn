@@ -4,14 +4,13 @@ import { Repository } from "typeorm";
 import { CreateMovieDto } from "src/movies/dto/create-movie.dto";
 import { UpdateMovieDto } from "src/movies/dto/update-movie.dto";
 import { Movie } from "src/movies/entities/Movie.entity";
-
+import { v4 as uuid } from "uuid";
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(Movie)
-    private movieRepository: Repository<Movie>
-  ){};
-
+    private movieRepository: Repository<Movie>,
+  ) {}
 
   findAll(): Promise<Movie[]> {
     return this.movieRepository.find();
@@ -19,7 +18,7 @@ export class MoviesService {
 
   findOne(id: string): Promise<Movie> {
     return this.movieRepository.findOne({
-      where : {id}
+      where: { id },
     });
   }
 
@@ -28,10 +27,16 @@ export class MoviesService {
   }
 
   async create(Movie: CreateMovieDto): Promise<void> {
-    await this.movieRepository.save(Movie);
+    const data = this.movieRepository.create({
+      id: uuid(),
+      genres: Movie.genres,
+      title: Movie.title,
+      year: Movie.year,
+    });
+    await this.movieRepository.save(data);
   }
 
-  async update(id: string, updateData: UpdateMovieDto):Promise<void> {
+  async update(id: string, updateData: UpdateMovieDto): Promise<void> {
     await this.movieRepository.update(id, updateData);
   }
 }

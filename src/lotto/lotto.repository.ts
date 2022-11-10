@@ -1,17 +1,20 @@
 import { CustomRepository } from "src/database/typeorm-ex.decorator";
 import { Lotto } from "src/lotto/entities/Lotto.entity";
 import { Repository } from "typeorm";
-import { SaveMyLottoDto } from "src/lotto/dto/Save-MyLottoDto";
-import { User } from "src/auth/entities/User.entity";
+import { Lottos } from "src/lotto/dto/lottos.dto";
+import { v4 as uuid } from "uuid";
 
 @CustomRepository(Lotto)
 export class LottoRepository extends Repository<Lotto> {
-  async saveMyLotto(saveMyLottoDto: SaveMyLottoDto, user: User) {
+  async saveLotto(lottoDto: Lottos) {
     const lotto = this.create({
-      myLotto: JSON.stringify(saveMyLottoDto.myLotto),
-      user,
+      id: uuid(),
+      round: lottoDto.round,
+      lotto_number: JSON.stringify(lottoDto.lotto),
     });
+
     await this.save(lotto);
+
     return lotto;
   }
 }

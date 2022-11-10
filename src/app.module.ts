@@ -10,22 +10,36 @@ import { CommentsModule } from "src/comments/comments.module";
 import { CategoryModule } from "src/category/category.module";
 import { RolesGuard } from "src/auth/security/roles.guard";
 import { APP_GUARD } from "@nestjs/core";
-import { LottoModule } from 'src/lotto/lotto.module';
+import { LottoModule } from "src/lotto/lotto.module";
 import { ConfigModule } from "@nestjs/config";
+import { BatchModuleModule } from "src/batch-module/batch-module.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV !== 'production' ? `.env.${process.env.NODE_ENV}` : '.env',
-      isGlobal : true
+      envFilePath: process.env.NODE_ENV !== "production" ? `.env.${process.env.NODE_ENV}` : ".env",
+      isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync(typeOrmAsyncConfig), MoviesModule, BoardsModule, AuthModule, CommentsModule, CategoryModule, LottoModule],
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "static"),
+    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    MoviesModule,
+    BoardsModule,
+    AuthModule,
+    CommentsModule,
+    CategoryModule,
+    LottoModule,
+    BatchModuleModule,
+  ],
   controllers: [AppController],
   providers: [
     Logger,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
+      useClass: RolesGuard,
     },
   ],
 })

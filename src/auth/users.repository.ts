@@ -5,7 +5,7 @@ import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
 import { User } from "src/auth/entities/User.entity";
 import * as bcrypt from "bcryptjs";
 import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
-
+import { v4 as uuid } from "uuid";
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -14,7 +14,7 @@ export class UsersRepository extends Repository<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = this.create({ username, password: hashedPassword, role });
+    const user = this.create({ id: uuid(), username, password: hashedPassword, role });
     try {
       await this.save(user);
     } catch (err) {

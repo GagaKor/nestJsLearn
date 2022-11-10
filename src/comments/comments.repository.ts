@@ -6,7 +6,7 @@ import { UnauthorizedException } from "@nestjs/common";
 import { Board } from "src/boards/entities/Board.entity";
 import { NotFoundException } from "@nestjs/common";
 import { UpdateCommnetDto } from "src/comments/dto/update-Comment.dto";
-
+import { v4 as uuid } from "uuid";
 @CustomRepository(Comment)
 export class CommentsRepository extends Repository<Comment> {
   async createComment(comment: string, board: Board, user: User) {
@@ -15,6 +15,7 @@ export class CommentsRepository extends Repository<Comment> {
     }
 
     const data = this.create({
+      id: uuid(),
       comment,
       board,
       username: user.username,
