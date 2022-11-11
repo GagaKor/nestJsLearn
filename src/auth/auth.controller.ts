@@ -11,7 +11,7 @@ import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
 
 @Controller("auth")
 export class AuthController {
-  private logger = new Logger("Boards");
+  private logger = new Logger("Auth");
   constructor(private readonly authService: AuthService) {}
 
   @Get()

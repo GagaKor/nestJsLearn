@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { LottoService } from "src/lotto/lotto.service";
 import { CreateLottoDto } from "src/lotto/dto/create-lotto.dto";
-import { Lottos } from "src/lotto/dto/lottos.dto";
 import { AuthGuard } from "src/auth/security/auth.guard";
 import { SaveMyLottoDto } from "src/lotto/dto/save-MyLottodto";
 import { GetUser } from "src/decorator/get-user.decorator";
@@ -17,7 +16,7 @@ export class LottoController {
   }
 
   @Post()
-  createLotto(@Body() createLottoDto: CreateLottoDto): number[] {
+  createLotto(@Body() createLottoDto: CreateLottoDto): Promise<number[][]> {
     return this.lottoService.createLotto(createLottoDto);
   }
   @Post("save")

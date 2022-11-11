@@ -9,4 +9,7 @@ export class CreateLottoDto {
 
   @IsArray()
   exclude?: number[];
+
+  @IsNumber()
+  deviation: number;
 }

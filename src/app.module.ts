@@ -19,7 +19,7 @@ import { join } from "path";
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV !== "production" ? `.env.${process.env.NODE_ENV}` : ".env",
+      envFilePath: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env",
       isGlobal: true,
     }),
     ServeStaticModule.forRoot({

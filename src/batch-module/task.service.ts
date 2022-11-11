@@ -9,19 +9,27 @@ export class TaskService {
   private readonly logger = new Logger(TaskService.name);
   constructor(private readonly lottoService: LottoService) {}
 
-  @Cron("*/40 * * * * *", { name: "Excel Download" })
+  @Cron("0 30 9 * * SAT", { name: "Excel Download" })
   async handleCron() {
     this.logger.log("TASK CALLED");
     const result = await downloadExcel();
     if (result) {
-      const lastRound = await this.lottoService.getLastRound();
-      const games = await getThisWeekLotto(lastRound);
-      const saveLotto = this.lottoService.saveLotto(games);
+      const lastLotto = await this.lottoService.getLastLotto();
+      let round = 0;
+      if (lastLotto.length > 0) {
+        round = lastLotto[0].round + 2;
+      }
+      const games = await getThisWeekLotto(round);
+      let saveLotto: boolean;
+      if (games) {
+        saveLotto = await this.lottoService.saveLotto(games);
+      }
       if (saveLotto) {
         setTimeout(() => {
           remove();
         }, 1000 * 3);
       }
     }
+    this.logger.log("Finish Cron Job");
   }
 }

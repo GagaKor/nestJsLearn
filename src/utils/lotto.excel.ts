@@ -19,9 +19,9 @@ export const downloadExcel = async () => {
     });
 
     const optionSelect = "#drwNoStart";
-    await page.click(optionSelect, { delay: 10 });
-    await page.keyboard.press("End");
-    await page.keyboard.press("Enter");
+    await page.click(optionSelect, { delay: 500 });
+    await page.keyboard.press("End", { delay: 500 });
+    await page.keyboard.press("Enter", { delay: 500 });
     const client = await page.target().createCDPSession();
     await client.send("Page.setDownloadBehavior", {
       behavior: "allow",
@@ -31,9 +31,8 @@ export const downloadExcel = async () => {
     //   behavior: "allow",
     //   downloadPath: path.resolve("/", "lotto"),
     // });
-    console.log(join(__dirname, "..", "..", "static"));
     const downBtn = "#exelBtn";
-    await page.click(downBtn, { delay: 10 });
+    await page.click(downBtn, { delay: 500 });
 
     let timeout = 1000;
     try {

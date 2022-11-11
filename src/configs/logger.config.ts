@@ -19,16 +19,22 @@ winston.addColors(colors);
 export const winstonLogger = WinstonModule.createLogger({
   transports: [
     new winston.transports.Console({
-      level: env === "production" ? "http" : "silly",
+      level: env ? "silly" : "http",
       // production 환경이라면 http, 개발환경이라면 모든 단계를 로그
       format:
         env === "production"
           ? // production 환경은 자원을 아끼기 위해 simple 포맷 사용
-            winston.format.simple()
+            winston.format.combine(
+              winston.format.colorize({ all: false }),
+              winston.format.timestamp(),
+              utilities.format.nestLike("Prod", {
+                prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
+              }),
+            )
           : winston.format.combine(
               winston.format.colorize({ all: true }),
               winston.format.timestamp(),
-              utilities.format.nestLike("MyApp", {
+              utilities.format.nestLike("Dev", {
                 prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
               }),
             ),
