@@ -15,6 +15,11 @@ export class LottoController {
     return this.lottoService.lottoFindByUser(user);
   }
 
+  @Get('thisweek')
+  getThisWeekLotto() { 
+    return this.lottoService.getLastLotto();
+  }
+    
   @Post()
   createLotto(@Body() createLottoDto: CreateLottoDto): Promise<number[][]> {
     return this.lottoService.createLotto(createLottoDto);

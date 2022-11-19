@@ -9,7 +9,7 @@ export class TaskService {
   private readonly logger = new Logger(TaskService.name);
   constructor(private readonly lottoService: LottoService) {}
 
-  @Cron("0 30 9 * * SAT", { name: "Excel Download" })
+  @Cron("15 21 * * 6", { name: "Excel Download" })
   async handleCron() {
     this.logger.log("TASK CALLED");
     const result = await downloadExcel();
