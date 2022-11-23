@@ -7,11 +7,16 @@ export const downloadExcel = async () => {
     // if (!fs.existsSync("C://lotto")) {
     //   fs.mkdirSync("C://lotto");
     // }
-    const browser = await puppeteer.launch({
+    const config = process.env.NODE_ENV === 'prod'?{
+      ignoreDefaultArgs: ["--enable-automation"],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+     } : {
       headless: true,
       ignoreDefaultArgs: ["--enable-automation"],
       executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    });
+     }
+    const browser = await puppeteer.launch(config);
+    
     const page = await browser.newPage();
 
     await page.goto("https://dhlottery.co.kr/gameResult.do?method=byWin", {
