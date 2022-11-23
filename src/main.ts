@@ -17,8 +17,11 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  if (process.env.NODE_ENV === 'prod') {
+    app.setGlobalPrefix('/api');
+   }
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  logger.log(`------------App Listening at localhost:${port}------------`);
+  logger.log(`------------${process.env.NODE_ENV} App Listening at localhost:${port}------------`);
 }
 bootstrap();
