@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { LottoUserRepository } from "src/lotto/lottoUser.repository";
 import { CreateLottoDto } from "src/lotto/dto/create-lotto.dto";
-import { SaveMyLottoDto } from "src/lotto/dto/save-MyLottodto";
+import { SaveMyLottoDto } from "src/lotto/dto/save-myLotto.dto";
 import { Lottos } from "src/lotto/dto/lottos.dto";
 import { User } from "src/auth/entities/User.entity";
 import { LottoRepository } from "src/lotto/lotto.repository";

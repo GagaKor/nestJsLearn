@@ -1,7 +1,7 @@
 import { User } from "src/auth/entities/User.entity";
 import { CustomRepository } from "src/database/typeorm-ex.decorator";
 import { Repository } from "typeorm";
-import { CreateBaordDto } from "src/boards/dto/create-Board.Dto";
+import { CreateBaordDto } from "src/boards/dto/create-board.dto";
 import { Board } from "src/boards/entities/Board.entity";
 import { Category } from "src/category/entities/Category.entity";
 import { v4 as uuid } from "uuid";

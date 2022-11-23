@@ -1,7 +1,7 @@
 import { CustomRepository } from "src/database/typeorm-ex.decorator";
 import { LottoUser } from "src/lotto/entities/LottoUser.entity";
 import { Repository } from "typeorm";
-import { SaveMyLottoDto } from "src/lotto/dto/save-MyLottodto";
+import { SaveMyLottoDto } from "src/lotto/dto/save-myLotto.dto";
 import { User } from "src/auth/entities/User.entity";
 
 @CustomRepository(LottoUser)

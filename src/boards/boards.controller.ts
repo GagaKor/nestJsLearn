@@ -2,8 +2,8 @@ import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Pars
 import { DeleteResult } from "typeorm";
 import { BoardStatus } from "src/boards/board-status-enum";
 import { BoardsService } from "src/boards/boards.service";
-import { CreateBaordDto } from "src/boards/dto/create-Board.Dto";
-import { UpdateBoardDto } from "src/boards/dto/update-Board.dto";
+import { CreateBaordDto } from "src/boards/dto/create-board.dto";
+import { UpdateBoardDto } from "src/boards/dto/update-board.dto";
 import { Board } from "src/boards/entities/Board.entity";
 import { BoardStatusValidationPipe } from "src/boards/Pipes/boardsStatusValidation.pipe";
 import { GetUser } from "src/decorator/get-user.decorator";
