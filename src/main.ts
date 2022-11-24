@@ -5,11 +5,8 @@ import { winstonLogger } from "src/configs/logger.config";
 import * as cookieParser from "cookie-parser";
 async function bootstrap() {
   const logger = new Logger();
-  const app = await NestFactory.create(AppModule, {
-    logger: winstonLogger,
-  });
+  const app = await NestFactory.create(AppModule, { cors: true, logger: winstonLogger });
   app.use(cookieParser());
-  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -17,7 +14,6 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.enableCors();
   const port = process.env.PORT || 3000;
   await app.listen(port);
   logger.log(`------------${process.env.NODE_ENV} App Listening at localhost:${port}------------`);
