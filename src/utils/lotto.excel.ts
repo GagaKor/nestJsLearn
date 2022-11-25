@@ -6,7 +6,7 @@ const downloadRoot =
   process.env.NODE_ENV === 'prod'
     ? path.join(__dirname, '..', 'static')
     : path.join(__dirname, '..', '..', 'static');
-console.log(downloadRoot);
+
 export const downloadExcel = async () => {
   const config =
     process.env.NODE_ENV === 'prod'
@@ -22,13 +22,7 @@ export const downloadExcel = async () => {
           executablePath:
             'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         };
-  const browser = await puppeteer.launch({
-    headless: false,
-    ignoreDefaultArgs: ['--enable-automation'],
-    args: ['--no-sandbox'],
-    executablePath:
-      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-  });
+  const browser = await puppeteer.launch(config);
 
   const page = await browser.newPage();
 
@@ -47,26 +41,18 @@ export const downloadExcel = async () => {
 
   const downBtn = '#exelBtn';
   await page.click(downBtn, { delay: 1000 });
-
-  await fileCheck(false).then(async (res) => {
-    await browser.close();
-  });
-};
-
-export const fileCheck = async (reuslt: boolean) => {
-  if (!reuslt) {
-    fs.readdir(path.join(downloadRoot), (err, files) => {
-      console.log(files);
-      if (files && files.includes('excel.xls')) {
-        reuslt = true;
-        fileCheck(reuslt);
-      } else {
-        fileCheck(reuslt);
+  if (process.env.NODE_ENV === 'dev') {
+    const checker = setInterval(async () => {
+      if (fileCheck()) {
+        await browser.close();
+        clearInterval(checker);
       }
-    });
-  } else {
-    return reuslt;
+    }, 500);
   }
+};
+export const fileCheck = () => {
+  const files = fs.readdirSync(path.join(downloadRoot));
+  return files.includes('excel.xls');
 };
 
 export const remove = () => {

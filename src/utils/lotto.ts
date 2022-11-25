@@ -4,7 +4,6 @@ import { join } from 'path';
 import { Lottos } from 'src/lotto/dto/lottos.dto';
 import { Logger } from '@nestjs/common';
 import * as path from 'path';
-import { downloadExcel, fileCheck } from './lotto.excel';
 
 const downloadRoot =
   process.env.NODE_ENV === 'prod'
@@ -13,8 +12,6 @@ const downloadRoot =
 
 const logger = new Logger();
 export const getThisWeekLotto = async (last: number) => {
-  await downloadExcel();
-
   const data = fs.readFileSync(join(downloadRoot, 'excel.xls'));
   const workbook = XLSX.read(data);
   const sheet = workbook.SheetNames;
@@ -27,6 +24,7 @@ export const getThisWeekLotto = async (last: number) => {
   } else {
     lastgame -= last;
   }
+
   for (let i = lastgame; i > 2; i--) {
     const numArr: number[] = [
       list[`N${i}`].v,
@@ -42,7 +40,6 @@ export const getThisWeekLotto = async (last: number) => {
       lotto: numArr,
     };
     result.push(data);
-
-    return result;
   }
+  return result;
 };
