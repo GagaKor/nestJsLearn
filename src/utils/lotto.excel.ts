@@ -41,14 +41,13 @@ export const downloadExcel = async () => {
 
   const downBtn = '#exelBtn';
   await page.click(downBtn, { delay: 1000 });
-  if (process.env.NODE_ENV === 'dev') {
-    const checker = setInterval(async () => {
-      if (fileCheck()) {
-        await browser.close();
-        clearInterval(checker);
-      }
-    }, 500);
-  }
+
+  const checker = setInterval(async () => {
+    if (fileCheck()) {
+      clearInterval(checker);
+      await page.close();
+    }
+  }, 1000);
 };
 export const fileCheck = () => {
   const files = fs.readdirSync(path.join(downloadRoot));

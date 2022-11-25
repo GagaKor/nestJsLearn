@@ -10,27 +10,36 @@ export class TaskService {
   private readonly logger = new Logger(TaskService.name);
   constructor(private readonly lottoService: LottoService) {}
 
-  @Cron('10 * * * * *', { name: 'Excel Download' })
-  async handleCron() {
-    this.logger.log('TASK CALLED');
+  @Cron('0 15 * * * *', { name: 'Excel Download' })
+  async downloadCron() {
+    this.logger.log('TASK CALLED DownloadCron');
+
     await downloadExcel();
-    const checker = setInterval(async () => {
-      if (fileCheck()) {
-        clearInterval(checker);
-        const lastLotto = await this.lottoService.getLastLotto();
-        let round = 0;
-        if (lastLotto.length > 0) {
-          round = lastLotto[0].round + 2;
-        }
-        const games = await getThisWeekLotto(round);
+    this.logger.log('Success Download File');
 
-        if (games) {
-          await this.lottoService.saveLotto(games);
-        }
+    this.logger.log('Finish Cron Job');
+  }
 
-        remove();
-        this.logger.log('Finish Cron Job');
+  @Cron('0 20 * * * *', { name: 'Save Lotto' })
+  async saveLottoCron() {
+    this.logger.log('TASK CALLED SaveLottoCron');
+
+    if (fileCheck()) {
+      this.logger.log('FILE CHECKED');
+      const lastLotto = await this.lottoService.getLastLotto();
+      let round = 0;
+      if (lastLotto.length > 0) {
+        round = lastLotto[0].round + 2;
       }
-    }, 1000);
+      const games = await getThisWeekLotto(round);
+
+      if (games) {
+        await this.lottoService.saveLotto(games);
+      }
+
+      remove();
+      this.logger.log('Saved Lotto');
+    }
+    this.logger.log('Finish Cron Job');
   }
 }

@@ -1,16 +1,19 @@
-import { Injectable } from "@nestjs/common";
-import { LottoUserRepository } from "src/lotto/lottoUser.repository";
-import { CreateLottoDto } from "src/lotto/dto/create-lotto.dto";
-import { SaveMyLottoDto } from "src/lotto/dto/save-myLotto.dto";
-import { Lottos } from "src/lotto/dto/lottos.dto";
-import { User } from "src/auth/entities/User.entity";
-import { LottoRepository } from "src/lotto/lotto.repository";
-import { LottoUser } from "src/lotto/entities/LottoUser.entity";
-import { Logger } from "@nestjs/common/services";
+import { Injectable } from '@nestjs/common';
+import { LottoUserRepository } from 'src/lotto/lottoUser.repository';
+import { CreateLottoDto } from 'src/lotto/dto/create-lotto.dto';
+import { SaveMyLottoDto } from 'src/lotto/dto/save-myLotto.dto';
+import { Lottos } from 'src/lotto/dto/lottos.dto';
+import { User } from 'src/auth/entities/User.entity';
+import { LottoRepository } from 'src/lotto/lotto.repository';
+import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
+import { Logger } from '@nestjs/common/services';
 @Injectable()
 export class LottoService {
-  private readonly logger = new Logger("Lotto Service");
-  constructor(private readonly lottoUserRepository: LottoUserRepository, private readonly lottoRepository: LottoRepository) {}
+  private readonly logger = new Logger('Lotto Service');
+  constructor(
+    private readonly lottoUserRepository: LottoUserRepository,
+    private readonly lottoRepository: LottoRepository,
+  ) {}
 
   async lottoFindByUser(user: User) {
     const lotto = this.lottoUserRepository.find({
@@ -24,7 +27,7 @@ export class LottoService {
   async createLotto(createLottoDto: CreateLottoDto): Promise<number[][]> {
     const { playGame, include, exclude, deviation } = createLottoDto;
 
-    if (include && include.length > 6) throw new Error("Over 6 number");
+    if (include && include.length > 6) throw new Error('Over 6 number');
 
     let data = await this.getLastLotto();
     const lastLotto = JSON.parse(data[0].lotto_number).map((str: string) => {
@@ -66,7 +69,11 @@ export class LottoService {
       //random 번호
       while (game.length < 6) {
         const num = Math.floor(Math.random() * 44) + 1;
-        if (!game.includes(num) && (!exclude || !exclude.includes(num)) && !lastLotto.includes(num)) {
+        if (
+          !game.includes(num) &&
+          (!exclude || !exclude.includes(num)) &&
+          !lastLotto.includes(num)
+        ) {
           game.push(num);
         }
       }
@@ -103,14 +110,11 @@ export class LottoService {
   }
 
   async saveLotto(lottoDtos: Lottos[]) {
-    try {
-      for (let lottoDto of lottoDtos) {
-        await this.lottoRepository.saveLotto(lottoDto);
-      }
-    } catch (e) {
-      console.log(e);
+    for (const lottoDto of lottoDtos) {
+      await this.lottoRepository.saveLotto(lottoDto);
     }
-    this.logger.log("Success Enter Lotto Data");
+
+    this.logger.log('Success Enter Lotto Data');
     return true;
   }
 
@@ -123,7 +127,7 @@ export class LottoService {
   async getLastLotto() {
     const lotto = await this.lottoRepository.find({
       select: { lotto_number: true, round: true },
-      order: { round: "DESC" },
+      order: { round: 'DESC' },
       take: 1,
     });
 
