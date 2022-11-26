@@ -49,13 +49,13 @@ let TaskService = TaskService_1 = class TaskService {
     }
 };
 __decorate([
-    (0, schedule_1.Cron)('15 21 * * 6', { name: 'Excel Download' }),
+    (0, schedule_1.Cron)('10 0 * * 7', { name: 'Excel Download' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TaskService.prototype, "downloadCron", null);
 __decorate([
-    (0, schedule_1.Cron)('20 21 * * 6', { name: 'Save Lotto' }),
+    (0, schedule_1.Cron)('13 0 * * 7', { name: 'Save Lotto' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
