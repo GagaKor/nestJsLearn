@@ -36,9 +36,9 @@ let LottoService = class LottoService {
         const lastLotto = JSON.parse(data[0].lotto_number).map((str) => {
             return Number(str);
         });
-        let beforeLottos = [];
+        const beforeLottos = [];
         data = await this.getLottos();
-        for (let d of data) {
+        for (const d of data) {
             const parseIntArr = JSON.parse(d.lotto_number).map((str) => {
                 return Number(str);
             });
@@ -82,7 +82,7 @@ let LottoService = class LottoService {
             for (let i = 0; i < game.length - 1; i++) {
                 min += game[i] - game[i + 1];
             }
-            for (let g of game) {
+            for (const g of game) {
                 max += g;
             }
             if (max < 106 || max > 170 || min <= deviation) {
@@ -90,7 +90,7 @@ let LottoService = class LottoService {
                 continue;
             }
             game.sort((a, b) => a - b);
-            for (let b of beforeLottos) {
+            for (const b of beforeLottos) {
                 if (b.toString() === game.toString()) {
                     flag = false;
                     break;
