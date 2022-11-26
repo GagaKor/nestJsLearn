@@ -5,7 +5,6 @@ import { SaveMyLottoDto } from 'src/lotto/dto/save-myLotto.dto';
 import { Lottos } from 'src/lotto/dto/lottos.dto';
 import { User } from 'src/auth/entities/User.entity';
 import { LottoRepository } from 'src/lotto/lotto.repository';
-import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
 import { Logger } from '@nestjs/common/services';
 @Injectable()
 export class LottoService {
@@ -33,9 +32,9 @@ export class LottoService {
     const lastLotto = JSON.parse(data[0].lotto_number).map((str: string) => {
       return Number(str);
     });
-    let beforeLottos: number[][] = [];
+    const beforeLottos: number[][] = [];
     data = await this.getLottos();
-    for (let d of data) {
+    for (const d of data) {
       const parseIntArr = JSON.parse(d.lotto_number).map((str: string) => {
         return Number(str);
       });
@@ -84,7 +83,7 @@ export class LottoService {
       for (let i = 0; i < game.length - 1; i++) {
         min += game[i] - game[i + 1];
       }
-      for (let g of game) {
+      for (const g of game) {
         max += g;
       }
       //범위 조정
@@ -93,7 +92,7 @@ export class LottoService {
         continue;
       }
       game.sort((a, b) => a - b);
-      for (let b of beforeLottos) {
+      for (const b of beforeLottos) {
         if (b.toString() === game.toString()) {
           flag = false;
           break;
