@@ -14,7 +14,7 @@ const typeorm_1 = require("typeorm");
 let Lotto = class Lotto extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], Lotto.prototype, "id", void 0);
 __decorate([
@@ -25,6 +25,18 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Lotto.prototype, "lotto_number", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)({
+        type: 'timestamp',
+    }),
+    __metadata("design:type", Date)
+], Lotto.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)({
+        type: 'timestamp',
+    }),
+    __metadata("design:type", Date)
+], Lotto.prototype, "updatedAt", void 0);
 Lotto = __decorate([
     (0, typeorm_1.Entity)()
 ], Lotto);

@@ -1,8 +1,15 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Lotto extends BaseEntity {
-  @PrimaryColumn({ type: "uuid" })
+  @PrimaryColumn({ type: 'uuid' })
   id: string;
 
   @Column()
@@ -10,4 +17,14 @@ export class Lotto extends BaseEntity {
 
   @Column()
   lotto_number: string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+  })
+  updatedAt: Date;
 }
