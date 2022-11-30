@@ -19,7 +19,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
 const users_repository_1 = require("./users.repository");
 const auth_service_1 = require("./auth.service");
-let RefreshJwtStrategy = class RefreshJwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, "jwt-refresh-token") {
+let RefreshJwtStrategy = class RefreshJwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh-token') {
     constructor(usersRepository, authService) {
         super({
             secretOrKey: process.env.JWT_REFRESH_SECRET,
@@ -38,7 +38,10 @@ let RefreshJwtStrategy = class RefreshJwtStrategy extends (0, passport_1.Passpor
         var _a;
         const refreshToken = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.Refresh;
         await this.authService.getUserRefreshTokenMatches(refreshToken, username);
-        const user = await this.usersRepository.findOne({ where: { username }, select: ["id", "username", "refreshToken", "role"] });
+        const user = await this.usersRepository.findOne({
+            where: { username },
+            select: ['id', 'username', 'refreshToken', 'role'],
+        });
         if (!user) {
             throw new common_1.UnauthorizedException();
         }

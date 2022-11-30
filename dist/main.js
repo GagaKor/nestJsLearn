@@ -7,7 +7,10 @@ const logger_config_1 = require("./configs/logger.config");
 const cookieParser = require("cookie-parser");
 async function bootstrap() {
     const logger = new common_1.Logger();
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: true, logger: logger_config_1.winstonLogger });
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, {
+        cors: true,
+        logger: logger_config_1.winstonLogger,
+    });
     app.use(cookieParser());
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

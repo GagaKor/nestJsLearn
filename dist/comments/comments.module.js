@@ -20,7 +20,12 @@ let CommentsModule = class CommentsModule {
 };
 CommentsModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, boards_module_1.BoardsModule, typeorm_1.TypeOrmModule.forFeature([Comment_entity_1.Comment]), typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([comments_repository_1.CommentsRepository])],
+        imports: [
+            auth_module_1.AuthModule,
+            boards_module_1.BoardsModule,
+            typeorm_1.TypeOrmModule.forFeature([Comment_entity_1.Comment]),
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([comments_repository_1.CommentsRepository]),
+        ],
         exports: [comments_service_1.CommentsService],
         controllers: [comments_controller_1.CommentsController],
         providers: [comments_service_1.CommentsService],

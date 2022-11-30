@@ -33,16 +33,25 @@ let AuthService = class AuthService {
         const { accessToken, accessOption } = await this.getJwtAcessToken(user);
         const { refreshToken, refreshOption } = await this.getJwtRefreshToken(user.username);
         await this.updateJwtRefershToken(refreshToken, authLoginDto.username);
-        return { username: user.username, accessToken, accessOption, refreshToken, refreshOption };
+        return {
+            username: user.username,
+            accessToken,
+            accessOption,
+            refreshToken,
+            refreshOption,
+        };
     }
     async getJwtRefreshToken(username) {
         const payload = { username };
-        let refreshToken = await this.jwtService.sign(payload, { secret: process.env.JWT_REFRESH_SECRET, expiresIn: process.env.REFRESH_EXPPIRESIN });
+        const refreshToken = await this.jwtService.sign(payload, {
+            secret: process.env.JWT_REFRESH_SECRET,
+            expiresIn: process.env.REFRESH_EXPPIRESIN,
+        });
         return {
             refreshToken,
             refreshOption: {
-                domain: "localhost",
-                path: "/",
+                domain: 'localhost',
+                path: '/',
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60 * 24 * 7,
             },
@@ -50,12 +59,15 @@ let AuthService = class AuthService {
     }
     async getJwtAcessToken(user) {
         const payload = { username: user.username };
-        const accessToken = await this.jwtService.sign(payload, { secret: process.env.JWT_SECRET, expiresIn: process.env.AUTH_EXPPIRESIN });
+        const accessToken = await this.jwtService.sign(payload, {
+            secret: process.env.JWT_SECRET,
+            expiresIn: process.env.AUTH_EXPPIRESIN,
+        });
         return {
             accessToken,
             accessOption: {
-                domain: "localhost",
-                path: "/",
+                domain: 'localhost',
+                path: '/',
                 httpOnly: true,
                 maxAge: 1000 * 60 * 60 * 24,
             },
@@ -64,7 +76,7 @@ let AuthService = class AuthService {
     async getUserRefreshTokenMatches(refreshToken, username) {
         const user = await this.usersReository.findOneBy({ username });
         if (!user) {
-            throw new common_1.UnauthorizedException("Can not find user");
+            throw new common_1.UnauthorizedException('Can not find user');
         }
         const isRefreshTokenMatch = await bcrypt.compare(refreshToken, user.refreshToken);
         if (isRefreshTokenMatch) {
@@ -83,14 +95,14 @@ let AuthService = class AuthService {
     logOut() {
         return {
             accessOption: {
-                domain: "localhost",
-                path: "/",
+                domain: 'localhost',
+                path: '/',
                 httpOnly: true,
                 maxAge: 0,
             },
             refreshOption: {
-                domain: "localhost",
-                path: "/",
+                domain: 'localhost',
+                path: '/',
                 httpOnly: true,
                 maxAge: 0,
             },
@@ -104,7 +116,7 @@ let AuthService = class AuthService {
     async deleteUser(authCredentialsDto) {
         const user = await this.findByUsername(authCredentialsDto.username);
         if (!user)
-            throw new common_1.UnauthorizedException("Can not find user");
+            throw new common_1.UnauthorizedException('Can not find user');
         const matchPassword = await bcrypt.compare(authCredentialsDto.password, user.password);
         if (!matchPassword)
             throw new common_1.UnauthorizedException(`${user.username} Password Incorrect`);
@@ -113,7 +125,8 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository, dist_1.JwtService])
+    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+        dist_1.JwtService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

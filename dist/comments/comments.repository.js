@@ -30,17 +30,20 @@ let CommentsRepository = class CommentsRepository extends typeorm_1.Repository {
     async updateComment(id, updateCommnetDto, user) {
         const beforeComment = await this.findOneBy({ id });
         if (!beforeComment)
-            throw new common_2.NotFoundException("Can not found comment");
+            throw new common_2.NotFoundException('Can not found comment');
         if (beforeComment.username !== user.username)
             throw new common_1.UnauthorizedException();
         const { comment } = updateCommnetDto;
         await this.update(id, { comment });
     }
     async deleteComment(id, user) {
-        const { username } = await this.findOne({ select: ["username"], where: { id } });
+        const { username } = await this.findOne({
+            select: ['username'],
+            where: { id },
+        });
         if (username !== user.username)
             throw new common_1.UnauthorizedException();
-        const comment = "작성자에 의해 삭제된 댓글입니다.";
+        const comment = '작성자에 의해 삭제된 댓글입니다.';
         await this.update(id, { comment });
     }
 };

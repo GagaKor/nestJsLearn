@@ -14,7 +14,7 @@ const typeorm_1 = require("typeorm");
 let Movie = class Movie {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], Movie.prototype, "id", void 0);
 __decorate([

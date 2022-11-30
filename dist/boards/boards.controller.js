@@ -25,7 +25,7 @@ const auth_guard_1 = require("../auth/security/auth.guard");
 let BoardsController = class BoardsController {
     constructor(boardsService) {
         this.boardsService = boardsService;
-        this.logger = new common_1.Logger("Boards");
+        this.logger = new common_1.Logger('Boards');
     }
     async findAll() {
         return await this.boardsService.findAll();
@@ -44,8 +44,8 @@ let BoardsController = class BoardsController {
         this.logger.verbose(`User ${user.username} creating a new board. 
     Payload : ${JSON.stringify(createBoardDto)}`);
         const checkStatus = createBoardDto.status.toUpperCase();
-        if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
-            throw new common_1.BadRequestException("Invalid status value.");
+        if (checkStatus !== 'PUBLIC' && checkStatus !== 'PRIVATE') {
+            throw new common_1.BadRequestException('Invalid status value.');
         }
         return this.boardsService.create(createBoardDto, user);
     }
@@ -53,8 +53,8 @@ let BoardsController = class BoardsController {
         this.logger.verbose(`User ${user.username} updating a id:${id} board. 
     Payload : ${JSON.stringify(updateBoardDto)}`);
         const checkStatus = updateBoardDto.status.toUpperCase();
-        if (checkStatus !== "PUBLIC" && checkStatus !== "PRIVATE") {
-            throw new common_1.BadRequestException("Invalid status value.");
+        if (checkStatus !== 'PUBLIC' && checkStatus !== 'PRIVATE') {
+            throw new common_1.BadRequestException('Invalid status value.');
         }
         return this.boardsService.update(id, updateBoardDto, user);
     }
@@ -72,7 +72,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)("myBoard"),
+    (0, common_1.Get)('myBoard'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
@@ -80,16 +80,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "getAllUserBoard", null);
 __decorate([
-    (0, common_1.Get)("search"),
-    __param(0, (0, common_1.Query)("data")),
-    __param(1, (0, common_1.Query)("categoryId")),
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)('data')),
+    __param(1, (0, common_1.Query)('categoryId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "findByTitleOrContent", null);
 __decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
@@ -100,40 +100,42 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_board_dto_1.CreateBaordDto, User_entity_1.User]),
+    __metadata("design:paramtypes", [create_board_dto_1.CreateBaordDto,
+        User_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Patch)(":id"),
+    (0, common_1.Patch)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_board_dto_1.UpdateBoardDto, User_entity_1.User]),
+    __metadata("design:paramtypes", [String, update_board_dto_1.UpdateBoardDto,
+        User_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "update", null);
 __decorate([
-    (0, common_1.Patch)("status/:id"),
+    (0, common_1.Patch)('status/:id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
-    __param(1, (0, common_1.Body)("status", boardsStatusValidation_pipe_1.BoardStatusValidationPipe)),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Body)('status', boardsStatusValidation_pipe_1.BoardStatusValidationPipe)),
     __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, User_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "updateStatus", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
+    (0, common_1.Delete)(':id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, User_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "delete", null);
 BoardsController = __decorate([
-    (0, common_1.Controller)("boards"),
+    (0, common_1.Controller)('boards'),
     __metadata("design:paramtypes", [boards_service_1.BoardsService])
 ], BoardsController);
 exports.BoardsController = BoardsController;

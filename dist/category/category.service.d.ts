@@ -1,6 +1,6 @@
-import { CategoryRepository } from "src/category/category.repository";
-import { CreateCategoryDto } from "src/category/dto/create-Category.dto";
-import { UpdateCategoryDto } from "src/category/dto/update-Category.dto";
+import { CategoryRepository } from 'src/category/category.repository';
+import { CreateCategoryDto } from 'src/category/dto/create-Category.dto';
+import { UpdateCategoryDto } from 'src/category/dto/update-Category.dto';
 export declare class CategoryService {
     private readonly categoryRepository;
     constructor(categoryRepository: CategoryRepository);

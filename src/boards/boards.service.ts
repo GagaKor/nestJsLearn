@@ -1,16 +1,19 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { User } from "src/auth/entities/User.entity";
-import { DeleteResult, Like } from "typeorm";
-import { BoardStatus } from "src/boards/board-status-enum";
-import { BoardsRepository } from "src/boards/boards.repository";
-import { CreateBaordDto } from "src/boards/dto/create-board.dto";
-import { UpdateBoardDto } from "src/boards/dto/update-board.dto";
-import { Board } from "src/boards/entities/Board.entity";
-import { CategoryService } from "src/category/category.service";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from 'src/auth/entities/User.entity';
+import { DeleteResult, Like } from 'typeorm';
+import { BoardStatus } from 'src/boards/board-status-enum';
+import { BoardsRepository } from 'src/boards/boards.repository';
+import { CreateBaordDto } from 'src/boards/dto/create-board.dto';
+import { UpdateBoardDto } from 'src/boards/dto/update-board.dto';
+import { Board } from 'src/boards/entities/Board.entity';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class BoardsService {
-  constructor(private readonly boardRepository: BoardsRepository, private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly boardRepository: BoardsRepository,
+    private readonly categoryService: CategoryService,
+  ) {}
 
   async findAll(): Promise<Board[]> {
     const status = BoardStatus.PUBLIC;
@@ -41,7 +44,10 @@ export class BoardsService {
     return boards;
   }
 
-  async findByTitleOrContent(data: string, categoryId: string): Promise<Board[]> {
+  async findByTitleOrContent(
+    data: string,
+    categoryId: string,
+  ): Promise<Board[]> {
     let result: Board[];
     if (categoryId) {
       result = await this.boardRepository.find({
@@ -64,20 +70,44 @@ export class BoardsService {
   async create(createBaordDto: CreateBaordDto, user: User): Promise<Board> {
     const { categoryId } = createBaordDto;
     const category = await this.categoryService.findById(categoryId);
-    return await this.boardRepository.createBoard(createBaordDto, user, category);
+    return await this.boardRepository.createBoard(
+      createBaordDto,
+      user,
+      category,
+    );
   }
-  async update(id: string, updateBoardDto: UpdateBoardDto, user: User): Promise<boolean> {
-    const result = await this.boardRepository.createQueryBuilder("board").update().set(updateBoardDto).where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
+  async update(
+    id: string,
+    updateBoardDto: UpdateBoardDto,
+    user: User,
+  ): Promise<boolean> {
+    const result = await this.boardRepository
+      .createQueryBuilder('board')
+      .update()
+      .set(updateBoardDto)
+      .where('id=:id AND userId = :userId', { id, userId: user.id })
+      .execute();
     return result.affected > 0;
   }
-  async updateStatus(id: string, status: BoardStatus, user: User): Promise<Board> {
-    const board = await this.boardRepository.createQueryBuilder("board").where("id = :id AND userId = :userId", { id, userId: user.id }).getOne();
+  async updateStatus(
+    id: string,
+    status: BoardStatus,
+    user: User,
+  ): Promise<Board> {
+    const board = await this.boardRepository
+      .createQueryBuilder('board')
+      .where('id = :id AND userId = :userId', { id, userId: user.id })
+      .getOne();
     board.status = status;
     const result = await this.boardRepository.save(board);
     return result;
   }
   async delete(id: string, user: User): Promise<DeleteResult> {
-    const result = await this.boardRepository.createQueryBuilder("board").delete().where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
+    const result = await this.boardRepository
+      .createQueryBuilder('board')
+      .delete()
+      .where('id=:id AND userId = :userId', { id, userId: user.id })
+      .execute();
 
     if (result.affected === 0) throw new NotFoundException(`Can't find ${id}`);
 

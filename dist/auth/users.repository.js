@@ -18,13 +18,18 @@ let UsersRepository = class UsersRepository extends typeorm_1.Repository {
         const { username, password, role } = authCredentialsDto;
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
-        const user = this.create({ id: (0, uuid_1.v4)(), username, password: hashedPassword, role });
+        const user = this.create({
+            id: (0, uuid_1.v4)(),
+            username,
+            password: hashedPassword,
+            role,
+        });
         try {
             await this.save(user);
         }
         catch (err) {
-            if (err.code === "ER_DUP_ENTRY") {
-                throw new common_1.ConflictException("Existing username");
+            if (err.code === 'ER_DUP_ENTRY') {
+                throw new common_1.ConflictException('Existing username');
             }
             else {
                 throw new common_1.InternalServerErrorException();
@@ -38,7 +43,7 @@ let UsersRepository = class UsersRepository extends typeorm_1.Repository {
             return user;
         }
         else {
-            throw new common_1.UnauthorizedException("login Failed");
+            throw new common_1.UnauthorizedException('login Failed');
         }
     }
 };

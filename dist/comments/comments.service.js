@@ -31,7 +31,8 @@ let CommentsService = class CommentsService {
 };
 CommentsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [comments_repository_1.CommentsRepository, boards_service_1.BoardsService])
+    __metadata("design:paramtypes", [comments_repository_1.CommentsRepository,
+        boards_service_1.BoardsService])
 ], CommentsService);
 exports.CommentsService = CommentsService;
 //# sourceMappingURL=comments.service.js.map

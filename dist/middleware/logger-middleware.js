@@ -20,9 +20,9 @@ let LoggerMiddleware = class LoggerMiddleware {
     }
     use(req, res, next) {
         const { ip, method, originalUrl } = req;
-        const userAgent = req.get("user-agent");
+        const userAgent = req.get('user-agent');
         const body = JSON.stringify(req.body);
-        res.on("finish", () => {
+        res.on('finish', () => {
             const { statusCode } = res;
             this.logger.log(`URL : ${method} ${originalUrl} | REQUEST : ${body} | STATUS : ${statusCode}`);
         });

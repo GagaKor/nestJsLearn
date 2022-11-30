@@ -20,11 +20,23 @@ let CategoryService = class CategoryService {
         return await this.categoryRepository.createCategory(createCategoryDto);
     }
     async getAll() {
-        return await this.categoryRepository.find({ select: ["id", "categoryName"] });
+        return await this.categoryRepository.find({
+            select: ['id', 'categoryName'],
+        });
     }
     async getOneCategory(id) {
         return await this.categoryRepository.find({
-            select: { id: true, categoryName: true, board: { id: true, title: true, status: true, comment: false, createdAt: true } },
+            select: {
+                id: true,
+                categoryName: true,
+                board: {
+                    id: true,
+                    title: true,
+                    status: true,
+                    comment: false,
+                    createdAt: true,
+                },
+            },
             relations: { board: true },
             where: { id },
         });

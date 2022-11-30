@@ -1,13 +1,13 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { InjectRepository } from "@nestjs/typeorm";
-import { ExtractJwt, Strategy } from "passport-jwt";
-import { User } from "src/auth/entities/User.entity";
-import { UsersRepository } from "src/auth/users.repository";
-import { Request } from "express";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { User } from 'src/auth/entities/User.entity';
+import { UsersRepository } from 'src/auth/users.repository';
+import { Request } from 'express';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @InjectRepository(UsersRepository)
     private usersRepository: UsersRepository,
@@ -24,17 +24,20 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
       // ]),
       jwtFromRequest: ExtractJwt.fromExtractors([
         JwtStrategy.extractJWT,
-        ExtractJwt.fromAuthHeaderAsBearerToken()
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       passReqToCallback: true,
     });
   }
-  private static extractJWT(req: Request) { 
+  private static extractJWT(req: Request) {
     return req?.cookies?.Authentication;
   }
 
   async validate(req: Request, { username }) {
-    const user: User = await this.usersRepository.findOne({ where: { username }, select: ["id", "username", "refreshToken", "role"] });
+    const user: User = await this.usersRepository.findOne({
+      where: { username },
+      select: ['id', 'username', 'refreshToken', 'role'],
+    });
     if (!user) {
       throw new UnauthorizedException();
     }

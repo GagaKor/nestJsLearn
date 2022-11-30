@@ -49,7 +49,12 @@ let LottoService = class LottoService {
             result.push(include);
             return result;
         }
+        let countLoad = 0;
         for (let i = 0; i < playGame; i++) {
+            countLoad++;
+            if (countLoad > 5000000) {
+                throw new common_1.RequestTimeoutException(`Can not resolve your order`);
+            }
             let flag = true;
             let game = [];
             let anyNum = Math.floor(Math.random() * 6);

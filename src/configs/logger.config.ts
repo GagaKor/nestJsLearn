@@ -1,15 +1,15 @@
-import { utilities, WinstonModule } from "nest-winston";
-import * as winston from "winston";
+import { utilities, WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 const env = process.env.NODE_ENV;
-const logDir = __dirname + "/../../logs"; // log 파일을 관리할 폴더
+const logDir = __dirname + '/../../logs'; // log 파일을 관리할 폴더
 
 const colors = {
-  error: "red",
-  warn: "yellow",
-  info: "green",
-  http: "magenta",
-  debug: "blue",
+  error: 'red',
+  warn: 'yellow',
+  info: 'green',
+  http: 'magenta',
+  debug: 'blue',
 };
 
 winston.addColors(colors);
@@ -19,22 +19,22 @@ winston.addColors(colors);
 export const winstonLogger = WinstonModule.createLogger({
   transports: [
     new winston.transports.Console({
-      level: env ? "silly" : "http",
+      level: env ? 'silly' : 'http',
       // production 환경이라면 http, 개발환경이라면 모든 단계를 로그
       format:
-        env === "production"
+        env === 'production'
           ? // production 환경은 자원을 아끼기 위해 simple 포맷 사용
             winston.format.combine(
               winston.format.colorize({ all: false }),
               winston.format.timestamp(),
-              utilities.format.nestLike("Prod", {
+              utilities.format.nestLike('Prod', {
                 prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
               }),
             )
           : winston.format.combine(
               winston.format.colorize({ all: true }),
               winston.format.timestamp(),
-              utilities.format.nestLike("Dev", {
+              utilities.format.nestLike('Dev', {
                 prettyPrint: true, // nest에서 제공하는 옵션. 로그 가독성을 높여줌
               }),
             ),

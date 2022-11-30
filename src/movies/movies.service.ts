@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { CreateMovieDto } from "src/movies/dto/create-movie.dto";
-import { UpdateMovieDto } from "src/movies/dto/update-movie.dto";
-import { Movie } from "src/movies/entities/Movie.entity";
-import { v4 as uuid } from "uuid";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateMovieDto } from 'src/movies/dto/create-movie.dto';
+import { UpdateMovieDto } from 'src/movies/dto/update-movie.dto';
+import { Movie } from 'src/movies/entities/Movie.entity';
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class MoviesService {
   constructor(

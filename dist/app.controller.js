@@ -31,7 +31,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "home", null);
 AppController = __decorate([
-    (0, common_1.Controller)(""),
+    (0, common_1.Controller)(''),
     __param(0, (0, decorators_1.Inject)(common_1.Logger)),
     __metadata("design:paramtypes", [Object])
 ], AppController);

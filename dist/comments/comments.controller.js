@@ -40,30 +40,32 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_Comment_dto_1.CreateCommnetDto, User_entity_1.User]),
+    __metadata("design:paramtypes", [create_Comment_dto_1.CreateCommnetDto,
+        User_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], CommentsController.prototype, "createComment", null);
 __decorate([
-    (0, common_1.Patch)("/:id"),
+    (0, common_1.Patch)('/:id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_Comment_dto_1.UpdateCommnetDto, User_entity_1.User]),
+    __metadata("design:paramtypes", [String, update_Comment_dto_1.UpdateCommnetDto,
+        User_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], CommentsController.prototype, "updateComment", null);
 __decorate([
-    (0, common_1.Delete)("/:id"),
+    (0, common_1.Delete)('/:id'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, User_entity_1.User]),
     __metadata("design:returntype", void 0)
 ], CommentsController.prototype, "deleteComment", null);
 CommentsController = __decorate([
-    (0, common_1.Controller)("comments"),
+    (0, common_1.Controller)('comments'),
     __metadata("design:paramtypes", [comments_service_1.CommentsService])
 ], CommentsController);
 exports.CommentsController = CommentsController;

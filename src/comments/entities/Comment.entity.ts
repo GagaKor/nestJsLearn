@@ -1,10 +1,20 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { User } from "src/auth/entities/User.entity";
-import { Board } from "src/boards/entities/Board.entity";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from 'src/auth/entities/User.entity';
+import { Board } from 'src/boards/entities/Board.entity';
 
 @Entity()
 export class Comment extends BaseEntity {
-  @PrimaryColumn({type:"uuid"})
+  @PrimaryColumn({ type: 'uuid' })
   id: string;
 
   @Column()
@@ -13,21 +23,27 @@ export class Comment extends BaseEntity {
   @Column()
   username: string;
 
-  @ManyToOne(() => User, user => user.comment, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "commandId" })
+  @ManyToOne(() => User, (user) => user.comment, {
+    onDelete: 'CASCADE',
+    eager: false,
+  })
+  @JoinTable({ name: 'commandId' })
   user: User;
 
-  @ManyToOne(() => Board, board => board.comment, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "commandId" })
+  @ManyToOne(() => Board, (board) => board.comment, {
+    onDelete: 'CASCADE',
+    eager: false,
+  })
+  @JoinTable({ name: 'commandId' })
   board: Board;
 
   @CreateDateColumn({
-    type: "timestamp",
+    type: 'timestamp',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    type: "timestamp",
+    type: 'timestamp',
   })
   updatedAt: Date;
 }

@@ -25,15 +25,15 @@ const auth_login_dto_1 = require("./dto/auth-login.dto");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
-        this.logger = new common_1.Logger("Auth");
+        this.logger = new common_1.Logger('Auth');
     }
     findAll() {
         return this.authService.findAll();
     }
     async signIn(authLoginDto, res) {
         const { username, accessToken, accessOption, refreshToken, refreshOption } = await this.authService.signIn(authLoginDto);
-        res.cookie("Authentication", accessToken, accessOption);
-        res.cookie("Refresh", refreshToken, refreshOption);
+        res.cookie('Authentication', accessToken, accessOption);
+        res.cookie('Refresh', refreshToken, refreshOption);
         this.logger.verbose(`${username} is login`);
         return { username };
     }
@@ -44,7 +44,7 @@ let AuthController = class AuthController {
         if (user) {
             this.logger.verbose(`${user.username} refresh Token`);
             const { accessToken, accessOption } = await this.authService.getJwtAcessToken(user);
-            res.cookie("Authentication", accessToken, accessOption);
+            res.cookie('Authentication', accessToken, accessOption);
             return user;
         }
     }
@@ -52,8 +52,8 @@ let AuthController = class AuthController {
         const { accessOption, refreshOption } = this.authService.logOut();
         await this.authService.removeRefreshToken(user.username);
         this.logger.verbose(`${user.username} log out`);
-        res.cookie("Authentication", "", accessOption);
-        res.cookie("Refresh", refreshOption);
+        res.cookie('Authentication', '', accessOption);
+        res.cookie('Refresh', refreshOption);
     }
     deleteUser(authCredentialsDto) {
         return this.authService.deleteUser(authCredentialsDto);
@@ -69,7 +69,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Post)("login"),
+    (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __param(1, (0, decorators_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -77,14 +77,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signIn", null);
 __decorate([
-    (0, common_1.Post)("signup"),
+    (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)(common_1.ValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [auth_credential_dto_1.AuthCredentialsDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signUp", null);
 __decorate([
-    (0, common_1.Post)("refresh"),
+    (0, common_1.Post)('refresh'),
     (0, common_1.UseGuards)(jwtRefreshToken_guard_1.JwtRefreshGuard),
     __param(0, (0, decorators_1.Res)({ passthrough: true })),
     __param(1, (0, get_user_decorator_1.GetUser)()),
@@ -93,7 +93,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
-    (0, common_1.Get)("logout"),
+    (0, common_1.Get)('logout'),
     (0, common_1.UseGuards)(jwtRefreshToken_guard_1.JwtRefreshGuard),
     __param(0, (0, decorators_1.Res)({ passthrough: true })),
     __param(1, (0, get_user_decorator_1.GetUser)()),
@@ -110,14 +110,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "deleteUser", null);
 __decorate([
-    (0, common_1.Get)("test"),
-    __param(0, (0, common_1.Param)("username")),
+    (0, common_1.Get)('test'),
+    __param(0, (0, common_1.Param)('username')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getTest", null);
 AuthController = __decorate([
-    (0, common_1.Controller)("auth"),
+    (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;

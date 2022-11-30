@@ -5,10 +5,7 @@ const common_1 = require("@nestjs/common");
 const role_enum_1 = require("../role.enum");
 class RoleValidationPipe {
     constructor() {
-        this.StatusOptions = [
-            role_enum_1.Role.Admin,
-            role_enum_1.Role.User
-        ];
+        this.StatusOptions = [role_enum_1.Role.Admin, role_enum_1.Role.User];
     }
     transform(value) {
         value = value.toLowerCase();

@@ -1,8 +1,8 @@
-import { AuthService } from "src/auth/auth.service";
-import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
-import { User } from "src/auth/entities/User.entity";
-import { Response } from "express";
-import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
+import { AuthService } from 'src/auth/auth.service';
+import { AuthCredentialsDto } from 'src/auth/dto/auth-credential.dto';
+import { User } from 'src/auth/entities/User.entity';
+import { Response } from 'express';
+import { AuthLoginDto } from 'src/auth/dto/auth-login.dto';
 export declare class AuthController {
     private readonly authService;
     private logger;

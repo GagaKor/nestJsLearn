@@ -19,7 +19,7 @@ const LottoUser_entity_1 = require("../../lotto/entities/LottoUser.entity");
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
@@ -40,26 +40,35 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "refreshToken", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Board_entity_1.Board, board => board.user, { cascade: true, eager: false }),
+    (0, typeorm_1.OneToMany)(() => Board_entity_1.Board, (board) => board.user, {
+        cascade: true,
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "boards", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Comment_entity_1.Comment, comment => comment.user, { cascade: true, eager: false }),
+    (0, typeorm_1.OneToMany)(() => Comment_entity_1.Comment, (comment) => comment.user, {
+        cascade: true,
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "comment", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => LottoUser_entity_1.LottoUser, lottoUser => lottoUser.user, { cascade: true, eager: false }),
+    (0, typeorm_1.OneToMany)(() => LottoUser_entity_1.LottoUser, (lottoUser) => lottoUser.user, {
+        cascade: true,
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "lottos", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);

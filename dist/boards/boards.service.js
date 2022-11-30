@@ -74,17 +74,29 @@ let BoardsService = class BoardsService {
         return await this.boardRepository.createBoard(createBaordDto, user, category);
     }
     async update(id, updateBoardDto, user) {
-        const result = await this.boardRepository.createQueryBuilder("board").update().set(updateBoardDto).where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
+        const result = await this.boardRepository
+            .createQueryBuilder('board')
+            .update()
+            .set(updateBoardDto)
+            .where('id=:id AND userId = :userId', { id, userId: user.id })
+            .execute();
         return result.affected > 0;
     }
     async updateStatus(id, status, user) {
-        const board = await this.boardRepository.createQueryBuilder("board").where("id = :id AND userId = :userId", { id, userId: user.id }).getOne();
+        const board = await this.boardRepository
+            .createQueryBuilder('board')
+            .where('id = :id AND userId = :userId', { id, userId: user.id })
+            .getOne();
         board.status = status;
         const result = await this.boardRepository.save(board);
         return result;
     }
     async delete(id, user) {
-        const result = await this.boardRepository.createQueryBuilder("board").delete().where("id=:id AND userId = :userId", { id, userId: user.id }).execute();
+        const result = await this.boardRepository
+            .createQueryBuilder('board')
+            .delete()
+            .where('id=:id AND userId = :userId', { id, userId: user.id })
+            .execute();
         if (result.affected === 0)
             throw new common_1.NotFoundException(`Can't find ${id}`);
         return result;
@@ -92,7 +104,8 @@ let BoardsService = class BoardsService {
 };
 BoardsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [boards_repository_1.BoardsRepository, category_service_1.CategoryService])
+    __metadata("design:paramtypes", [boards_repository_1.BoardsRepository,
+        category_service_1.CategoryService])
 ], BoardsService);
 exports.BoardsService = BoardsService;
 //# sourceMappingURL=boards.service.js.map

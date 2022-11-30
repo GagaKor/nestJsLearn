@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtRefreshGuard = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
-let JwtRefreshGuard = class JwtRefreshGuard extends (0, passport_1.AuthGuard)("jwt-refresh-token") {
+let JwtRefreshGuard = class JwtRefreshGuard extends (0, passport_1.AuthGuard)('jwt-refresh-token') {
 };
 JwtRefreshGuard = __decorate([
     (0, common_1.Injectable)()

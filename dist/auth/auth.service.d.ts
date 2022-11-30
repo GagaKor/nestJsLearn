@@ -1,8 +1,8 @@
-import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
-import { User } from "src/auth/entities/User.entity";
-import { UsersRepository } from "src/auth/users.repository";
-import { JwtService } from "@nestjs/jwt/dist";
-import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
+import { AuthCredentialsDto } from 'src/auth/dto/auth-credential.dto';
+import { User } from 'src/auth/entities/User.entity';
+import { UsersRepository } from 'src/auth/users.repository';
+import { JwtService } from '@nestjs/jwt/dist';
+import { AuthLoginDto } from 'src/auth/dto/auth-login.dto';
 export declare class AuthService {
     private readonly usersReository;
     private jwtService;

@@ -20,7 +20,12 @@ let BoardsModule = class BoardsModule {
 };
 BoardsModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, category_module_1.CategoryModule, typeorm_1.TypeOrmModule.forFeature([Board_entity_1.Board]), typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([boards_repository_1.BoardsRepository])],
+        imports: [
+            auth_module_1.AuthModule,
+            category_module_1.CategoryModule,
+            typeorm_1.TypeOrmModule.forFeature([Board_entity_1.Board]),
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([boards_repository_1.BoardsRepository]),
+        ],
         exports: [boards_service_1.BoardsService],
         controllers: [boards_controller_1.BoardsController],
         providers: [boards_service_1.BoardsService],

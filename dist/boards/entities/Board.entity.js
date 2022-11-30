@@ -18,7 +18,7 @@ const Category_entity_1 = require("../../category/entities/Category.entity");
 let Board = class Board extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], Board.prototype, "id", void 0);
 __decorate([
@@ -34,27 +34,36 @@ __decorate([
     __metadata("design:type", String)
 ], Board.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Category_entity_1.Category, category => category.board, { onDelete: "CASCADE", eager: false }),
+    (0, typeorm_1.ManyToOne)(() => Category_entity_1.Category, (category) => category.board, {
+        onDelete: 'CASCADE',
+        eager: false,
+    }),
     __metadata("design:type", Category_entity_1.Category)
 ], Board.prototype, "category", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => User_entity_1.User, user => user.boards, { onDelete: "CASCADE", eager: false }),
-    (0, typeorm_1.JoinTable)({ name: "boardId" }),
+    (0, typeorm_1.ManyToOne)(() => User_entity_1.User, (user) => user.boards, {
+        onDelete: 'CASCADE',
+        eager: false,
+    }),
+    (0, typeorm_1.JoinTable)({ name: 'boardId' }),
     __metadata("design:type", User_entity_1.User)
 ], Board.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Comment_entity_1.Comment, comment => comment.board, { cascade: true, eager: false }),
+    (0, typeorm_1.OneToMany)(() => Comment_entity_1.Comment, (comment) => comment.board, {
+        cascade: true,
+        eager: false,
+    }),
     __metadata("design:type", Array)
 ], Board.prototype, "comment", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], Board.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], Board.prototype, "updatedAt", void 0);

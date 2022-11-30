@@ -1,7 +1,7 @@
-import { CreateMovieDto } from "src/movies/dto/create-movie.dto";
-import { UpdateMovieDto } from "src/movies/dto/update-movie.dto";
-import { Movie } from "src/movies/entities/Movie.entity";
-import { MoviesService } from "src/movies/movies.service";
+import { CreateMovieDto } from 'src/movies/dto/create-movie.dto';
+import { UpdateMovieDto } from 'src/movies/dto/update-movie.dto';
+import { Movie } from 'src/movies/entities/Movie.entity';
+import { MoviesService } from 'src/movies/movies.service';
 export declare class MoviesController {
     private readonly moviesService;
     constructor(moviesService: MoviesService);

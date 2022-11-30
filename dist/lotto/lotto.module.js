@@ -21,7 +21,11 @@ let LottoModule = class LottoModule {
 };
 LottoModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, typeorm_1.TypeOrmModule.forFeature([LottoUser_entity_1.LottoUser, Lotto_entity_1.Lotto]), typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([lottoUser_repository_1.LottoUserRepository, lotto_repository_1.LottoRepository])],
+        imports: [
+            auth_module_1.AuthModule,
+            typeorm_1.TypeOrmModule.forFeature([LottoUser_entity_1.LottoUser, Lotto_entity_1.Lotto]),
+            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([lottoUser_repository_1.LottoUserRepository, lotto_repository_1.LottoRepository]),
+        ],
         exports: [lotto_service_1.LottoService],
         controllers: [lotto_controller_1.LottoController],
         providers: [lotto_service_1.LottoService],

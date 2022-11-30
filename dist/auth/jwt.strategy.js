@@ -19,13 +19,13 @@ const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
 const users_repository_1 = require("./users.repository");
-let JwtStrategy = JwtStrategy_1 = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, "jwt") {
+let JwtStrategy = JwtStrategy_1 = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt') {
     constructor(usersRepository) {
         super({
             secretOrKey: process.env.JWT_SECRET,
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
                 JwtStrategy_1.extractJWT,
-                passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()
+                passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ]),
             passReqToCallback: true,
         });
@@ -36,7 +36,10 @@ let JwtStrategy = JwtStrategy_1 = class JwtStrategy extends (0, passport_1.Passp
         return (_a = req === null || req === void 0 ? void 0 : req.cookies) === null || _a === void 0 ? void 0 : _a.Authentication;
     }
     async validate(req, { username }) {
-        const user = await this.usersRepository.findOne({ where: { username }, select: ["id", "username", "refreshToken", "role"] });
+        const user = await this.usersRepository.findOne({
+            where: { username },
+            select: ['id', 'username', 'refreshToken', 'role'],
+        });
         if (!user) {
             throw new common_1.UnauthorizedException();
         }

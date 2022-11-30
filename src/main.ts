@@ -1,11 +1,14 @@
-import { ValidationPipe, Logger } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "src/app.module";
-import { winstonLogger } from "src/configs/logger.config";
-import * as cookieParser from "cookie-parser";
+import { ValidationPipe, Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from 'src/app.module';
+import { winstonLogger } from 'src/configs/logger.config';
+import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const logger = new Logger();
-  const app = await NestFactory.create(AppModule, { cors: true, logger: winstonLogger });
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    logger: winstonLogger,
+  });
   app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -16,6 +19,8 @@ async function bootstrap() {
   );
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  logger.log(`------------${process.env.NODE_ENV} App Listening at localhost:${port}------------`);
+  logger.log(
+    `------------${process.env.NODE_ENV} App Listening at localhost:${port}------------`,
+  );
 }
 bootstrap();

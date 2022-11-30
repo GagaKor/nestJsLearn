@@ -1,8 +1,8 @@
-import { CustomRepository } from "src/database/typeorm-ex.decorator";
-import { Lotto } from "src/lotto/entities/Lotto.entity";
-import { Repository } from "typeorm";
-import { Lottos } from "src/lotto/dto/lottos.dto";
-import { v4 as uuid } from "uuid";
+import { CustomRepository } from 'src/database/typeorm-ex.decorator';
+import { Lotto } from 'src/lotto/entities/Lotto.entity';
+import { Repository } from 'typeorm';
+import { Lottos } from 'src/lotto/dto/lottos.dto';
+import { v4 as uuid } from 'uuid';
 
 @CustomRepository(Lotto)
 export class LottoRepository extends Repository<Lotto> {

@@ -26,13 +26,13 @@ __decorate([
     (0, class_validator_1.MinLength)(4),
     (0, class_validator_1.MaxLength)(20),
     (0, class_validator_1.Matches)(/^[a-zA-Z0-9]*$/, {
-        message: "password only accepts english and number",
+        message: 'password only accepts english and number',
     }),
     __metadata("design:type", String)
 ], AuthCredentialsDto.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_transformer_1.Transform)(param => param.value.toLowerCase()),
+    (0, class_transformer_1.Transform)((param) => param.value.toLowerCase()),
     __metadata("design:type", String)
 ], AuthCredentialsDto.prototype, "role", void 0);
 exports.AuthCredentialsDto = AuthCredentialsDto;

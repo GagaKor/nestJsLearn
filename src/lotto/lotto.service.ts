@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, RequestTimeoutException } from '@nestjs/common';
 import { LottoUserRepository } from 'src/lotto/lottoUser.repository';
 import { CreateLottoDto } from 'src/lotto/dto/create-lotto.dto';
 import { SaveMyLottoDto } from 'src/lotto/dto/save-myLotto.dto';
@@ -46,7 +46,12 @@ export class LottoService {
       result.push(include);
       return result;
     }
+    let countLoad = 0;
     for (let i = 0; i < playGame; i++) {
+      countLoad++;
+      if (countLoad > 5_000_000) {
+        throw new RequestTimeoutException(`Can not resolve your order`);
+      }
       let flag = true;
       let game: number[] = [];
       let anyNum = Math.floor(Math.random() * 6);

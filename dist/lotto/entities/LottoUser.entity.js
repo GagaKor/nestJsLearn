@@ -15,7 +15,7 @@ const User_entity_1 = require("../../auth/entities/User.entity");
 let LottoUser = class LottoUser extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], LottoUser.prototype, "id", void 0);
 __decorate([
@@ -23,19 +23,22 @@ __decorate([
     __metadata("design:type", String)
 ], LottoUser.prototype, "myLotto", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => User_entity_1.User, user => user.lottos, { onDelete: "CASCADE", eager: false }),
-    (0, typeorm_1.JoinTable)({ name: "lottoId" }),
+    (0, typeorm_1.ManyToOne)(() => User_entity_1.User, (user) => user.lottos, {
+        onDelete: 'CASCADE',
+        eager: false,
+    }),
+    (0, typeorm_1.JoinTable)({ name: 'lottoId' }),
     __metadata("design:type", User_entity_1.User)
 ], LottoUser.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], LottoUser.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], LottoUser.prototype, "updatedAt", void 0);

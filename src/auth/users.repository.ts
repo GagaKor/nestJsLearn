@@ -1,11 +1,15 @@
-import { ConflictException, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
-import { CustomRepository } from "src/database/typeorm-ex.decorator";
-import { Repository } from "typeorm";
-import { AuthCredentialsDto } from "src/auth/dto/auth-credential.dto";
-import { User } from "src/auth/entities/User.entity";
-import * as bcrypt from "bcryptjs";
-import { AuthLoginDto } from "src/auth/dto/auth-login.dto";
-import { v4 as uuid } from "uuid";
+import {
+  ConflictException,
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { CustomRepository } from 'src/database/typeorm-ex.decorator';
+import { Repository } from 'typeorm';
+import { AuthCredentialsDto } from 'src/auth/dto/auth-credential.dto';
+import { User } from 'src/auth/entities/User.entity';
+import * as bcrypt from 'bcryptjs';
+import { AuthLoginDto } from 'src/auth/dto/auth-login.dto';
+import { v4 as uuid } from 'uuid';
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -14,12 +18,17 @@ export class UsersRepository extends Repository<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = this.create({ id: uuid(), username, password: hashedPassword, role });
+    const user = this.create({
+      id: uuid(),
+      username,
+      password: hashedPassword,
+      role,
+    });
     try {
       await this.save(user);
     } catch (err) {
-      if (err.code === "ER_DUP_ENTRY") {
-        throw new ConflictException("Existing username");
+      if (err.code === 'ER_DUP_ENTRY') {
+        throw new ConflictException('Existing username');
       } else {
         throw new InternalServerErrorException();
       }
@@ -34,7 +43,7 @@ export class UsersRepository extends Repository<User> {
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     } else {
-      throw new UnauthorizedException("login Failed");
+      throw new UnauthorizedException('login Failed');
     }
   }
 }

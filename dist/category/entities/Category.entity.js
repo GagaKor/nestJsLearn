@@ -15,7 +15,7 @@ const Board_entity_1 = require("../../boards/entities/Board.entity");
 let Category = class Category extends typeorm_1.BaseEntity {
 };
 __decorate([
-    (0, typeorm_1.PrimaryColumn)({ type: "uuid" }),
+    (0, typeorm_1.PrimaryColumn)({ type: 'uuid' }),
     __metadata("design:type", String)
 ], Category.prototype, "id", void 0);
 __decorate([
@@ -23,19 +23,22 @@ __decorate([
     __metadata("design:type", String)
 ], Category.prototype, "categoryName", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Board_entity_1.Board, board => board.category, { cascade: true, eager: false }),
-    (0, typeorm_1.JoinTable)({ name: "boardId" }),
+    (0, typeorm_1.OneToMany)(() => Board_entity_1.Board, (board) => board.category, {
+        cascade: true,
+        eager: false,
+    }),
+    (0, typeorm_1.JoinTable)({ name: 'boardId' }),
     __metadata("design:type", Array)
 ], Category.prototype, "board", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], Category.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], Category.prototype, "updatedAt", void 0);

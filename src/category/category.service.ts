@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { CategoryRepository } from "src/category/category.repository";
-import { CreateCategoryDto } from "src/category/dto/create-Category.dto";
-import { UpdateCategoryDto } from "src/category/dto/update-Category.dto";
+import { Injectable } from '@nestjs/common';
+import { CategoryRepository } from 'src/category/category.repository';
+import { CreateCategoryDto } from 'src/category/dto/create-Category.dto';
+import { UpdateCategoryDto } from 'src/category/dto/update-Category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -12,12 +12,24 @@ export class CategoryService {
   }
 
   async getAll() {
-    return await this.categoryRepository.find({ select: ["id", "categoryName"] });
+    return await this.categoryRepository.find({
+      select: ['id', 'categoryName'],
+    });
   }
 
   async getOneCategory(id: string) {
     return await this.categoryRepository.find({
-      select: { id: true, categoryName: true, board: { id: true, title: true, status: true, comment: false, createdAt: true } },
+      select: {
+        id: true,
+        categoryName: true,
+        board: {
+          id: true,
+          title: true,
+          status: true,
+          comment: false,
+          createdAt: true,
+        },
+      },
       relations: { board: true },
       where: { id },
     });

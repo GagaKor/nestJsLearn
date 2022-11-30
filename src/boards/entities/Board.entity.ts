@@ -1,12 +1,23 @@
-import { User } from "src/auth/entities/User.entity";
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { BoardStatus } from "src/boards/board-status-enum";
-import { Comment } from "src/comments/entities/Comment.entity";
-import { Category } from "src/category/entities/Category.entity";
+import { User } from 'src/auth/entities/User.entity';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { BoardStatus } from 'src/boards/board-status-enum';
+import { Comment } from 'src/comments/entities/Comment.entity';
+import { Category } from 'src/category/entities/Category.entity';
 
 @Entity()
 export class Board extends BaseEntity {
- @PrimaryColumn({type:"uuid"})
+  @PrimaryColumn({ type: 'uuid' })
   id: string;
 
   @Column()
@@ -18,23 +29,32 @@ export class Board extends BaseEntity {
   @Column()
   status: BoardStatus;
 
-  @ManyToOne(() => Category, category => category.board, { onDelete: "CASCADE", eager: false })
+  @ManyToOne(() => Category, (category) => category.board, {
+    onDelete: 'CASCADE',
+    eager: false,
+  })
   category: Category;
 
-  @ManyToOne(() => User, user => user.boards, { onDelete: "CASCADE", eager: false })
-  @JoinTable({ name: "boardId" })
+  @ManyToOne(() => User, (user) => user.boards, {
+    onDelete: 'CASCADE',
+    eager: false,
+  })
+  @JoinTable({ name: 'boardId' })
   user: User;
 
-  @OneToMany(() => Comment, comment => comment.board, { cascade: true, eager: false })
+  @OneToMany(() => Comment, (comment) => comment.board, {
+    cascade: true,
+    eager: false,
+  })
   comment: Comment[];
 
   @CreateDateColumn({
-    type: "timestamp",
+    type: 'timestamp',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
-    type: "timestamp",
+    type: 'timestamp',
   })
   updatedAt: Date;
 }

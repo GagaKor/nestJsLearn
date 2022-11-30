@@ -47,15 +47,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MoviesController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)("search"),
-    __param(0, (0, common_1.Query)("year")),
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)('year')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "search", null);
 __decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
@@ -68,22 +68,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "create", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "remove", null);
 __decorate([
-    (0, common_1.Patch)(":id"),
-    __param(0, (0, common_1.Param)("id", common_1.ParseIntPipe)),
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_movie_dto_1.UpdateMovieDto]),
     __metadata("design:returntype", void 0)
 ], MoviesController.prototype, "path", null);
 MoviesController = __decorate([
-    (0, common_1.Controller)("movies"),
+    (0, common_1.Controller)('movies'),
     __metadata("design:paramtypes", [movies_service_1.MoviesService])
 ], MoviesController);
 exports.MoviesController = MoviesController;
