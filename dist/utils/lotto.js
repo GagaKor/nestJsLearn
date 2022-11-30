@@ -17,7 +17,7 @@ const getThisWeekLotto = async (last) => {
     const list = workbook.Sheets[sheet[1]];
     const result = [];
     let lastgame = Number(list['!ref'].slice(list['!ref'].indexOf('T') + 1));
-    if (last === lastgame) {
+    if (last === lastgame - 2) {
         logger.log('There is no data to register.');
         return;
     }

@@ -36,7 +36,7 @@ let TaskService = TaskService_1 = class TaskService {
             const lastLotto = await this.lottoService.getLastLotto();
             let round = 0;
             if (lastLotto.length > 0) {
-                round = lastLotto[0].round + 2;
+                round = lastLotto[0].round;
             }
             const games = await (0, lotto_1.getThisWeekLotto)(round);
             if (games) {
@@ -49,13 +49,13 @@ let TaskService = TaskService_1 = class TaskService {
     }
 };
 __decorate([
-    (0, schedule_1.Cron)('15 21 * * 6', { name: 'Excel Download' }),
+    (0, schedule_1.Cron)('20 21 * * 6', { name: 'Excel Download' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TaskService.prototype, "downloadCron", null);
 __decorate([
-    (0, schedule_1.Cron)('20 21 * * 6', { name: 'Save Lotto' }),
+    (0, schedule_1.Cron)('22 21 * * 6', { name: 'Save Lotto' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
