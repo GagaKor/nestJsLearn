@@ -29,16 +29,16 @@ let LottoService = class LottoService {
         return lotto;
     }
     async createLotto(createLottoDto) {
-        const { playGame, include, exclude, deviation } = createLottoDto;
+        const { playGame, include, exclude, deviation, consecution, max, min } = createLottoDto;
         if (include && include.length > 6)
             throw new Error('Over 6 number');
         let data = await this.getLastLotto();
         const lastLotto = JSON.parse(data[0].lotto_number).map((str) => {
             return Number(str);
         });
-        let beforeLottos = [];
+        const beforeLottos = [];
         data = await this.getLottos();
-        for (let d of data) {
+        for (const d of data) {
             const parseIntArr = JSON.parse(d.lotto_number).map((str) => {
                 return Number(str);
             });
@@ -77,20 +77,35 @@ let LottoService = class LottoService {
                 }
             }
             game.sort((a, b) => b - a);
-            let min = 0;
-            let max = 0;
+            let minValue = 0;
+            let maxValue = 0;
             for (let i = 0; i < game.length - 1; i++) {
-                min += game[i] - game[i + 1];
+                minValue += game[i] - game[i + 1];
             }
-            for (let g of game) {
-                max += g;
+            for (const g of game) {
+                maxValue += g;
             }
-            if (max < 106 || max > 170 || min <= deviation) {
+            if (maxValue < min || maxValue > max || minValue <= deviation) {
                 i--;
                 continue;
             }
             game.sort((a, b) => a - b);
-            for (let b of beforeLottos) {
+            let check = false;
+            for (let i = 0; i < 6; i++) {
+                if (game[i] === game[i + 1] - 1) {
+                    check = true;
+                    break;
+                }
+            }
+            if (consecution === 'on' && !check) {
+                i--;
+                continue;
+            }
+            if (consecution === 'off' && check) {
+                i--;
+                continue;
+            }
+            for (const b of beforeLottos) {
                 if (b.toString() === game.toString()) {
                     flag = false;
                     break;

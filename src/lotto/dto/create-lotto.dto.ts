@@ -1,4 +1,4 @@
-import { IsArray, IsNumber } from "class-validator";
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 export class CreateLottoDto {
   @IsNumber()
@@ -12,4 +12,13 @@ export class CreateLottoDto {
 
   @IsNumber()
   deviation: number;
+
+  @IsString()
+  consecution: string;
+
+  @IsNumber()
+  max: number;
+
+  @IsNumber()
+  min: number;
 }
