@@ -29,5 +29,17 @@ __decorate([
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateLottoDto.prototype, "deviation", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateLottoDto.prototype, "consecution", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateLottoDto.prototype, "max", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateLottoDto.prototype, "min", void 0);
 exports.CreateLottoDto = CreateLottoDto;
 //# sourceMappingURL=create-lotto.dto.js.map

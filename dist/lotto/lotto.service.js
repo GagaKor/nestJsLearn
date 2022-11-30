@@ -83,18 +83,13 @@ let LottoService = class LottoService {
                 minValue += game[i] - game[i + 1];
             }
             for (const g of game) {
-<<<<<<< HEAD
                 maxValue += g;
-=======
-                max += g;
->>>>>>> 0e05b1a9f92db215c43ed4cdde73eb8d6b2b2852
             }
             if (maxValue < min || maxValue > max || minValue <= deviation) {
                 i--;
                 continue;
             }
             game.sort((a, b) => a - b);
-<<<<<<< HEAD
             let check = false;
             for (let i = 0; i < 6; i++) {
                 if (game[i] === game[i + 1] - 1) {
@@ -110,8 +105,6 @@ let LottoService = class LottoService {
                 i--;
                 continue;
             }
-=======
->>>>>>> 0e05b1a9f92db215c43ed4cdde73eb8d6b2b2852
             for (const b of beforeLottos) {
                 if (b.toString() === game.toString()) {
                     flag = false;

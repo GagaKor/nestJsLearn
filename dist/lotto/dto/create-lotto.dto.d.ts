@@ -3,4 +3,7 @@ export declare class CreateLottoDto {
     include?: number[];
     exclude?: number[];
     deviation: number;
+    consecution: string;
+    max: number;
+    min: number;
 }
