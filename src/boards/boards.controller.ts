@@ -31,8 +31,11 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get()
-  async findAll(): Promise<Board[]> {
-    return await this.boardsService.findAll();
+  async findAll(@Param('categoryId') categoryId: string): Promise<{
+    boards: Board[];
+    count: number;
+  }> {
+    return await this.boardsService.findAll(categoryId);
   }
 
   @Get('myBoard')

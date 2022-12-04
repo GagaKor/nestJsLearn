@@ -20,12 +20,30 @@ let BoardsService = class BoardsService {
         this.boardRepository = boardRepository;
         this.categoryService = categoryService;
     }
-    async findAll() {
+    async findAll(categoryId) {
         const status = board_status_enum_1.BoardStatus.PUBLIC;
-        return await this.boardRepository.find({
+        const count = await this.totalBoardCount(categoryId);
+        const boards = await this.boardRepository.find({
             where: { status },
             relations: { user: true, category: true },
-            select: { user: { username: true }, category: { categoryName: true } },
+            select: {
+                id: true,
+                title: true,
+                createdAt: true,
+                updatedAt: true,
+                status: true,
+                user: { username: true },
+                category: { categoryName: true },
+            },
+        });
+        return {
+            boards,
+            count,
+        };
+    }
+    async totalBoardCount(categoryId) {
+        return await this.boardRepository.count({
+            where: { category: { id: categoryId } },
         });
     }
     async findById(id) {

@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsNumber, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { BoardStatus } from 'src/boards/board-status-enum';
 
 export class CreateBaordDto {
@@ -16,6 +16,6 @@ export class CreateBaordDto {
   readonly status: BoardStatus;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   readonly categoryId: string;
 }
