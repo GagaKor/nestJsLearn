@@ -25,17 +25,23 @@ import { BoardStatusValidationPipe } from 'src/boards/Pipes/boardsStatusValidati
 import { GetUser } from 'src/decorator/get-user.decorator';
 import { User } from 'src/auth/entities/User.entity';
 import { AuthGuard } from 'src/auth/security/auth.guard';
+import { GetBoard } from './dto/get-board.dto';
 @Controller('boards')
 export class BoardsController {
   private logger = new Logger('Boards');
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get()
-  async findAll(@Param('categoryId') categoryId: string): Promise<{
+  async findAll(
+    @Query('categoryId') categoryId: string,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ): Promise<{
     boards: Board[];
     count: number;
   }> {
-    return await this.boardsService.findAll(categoryId);
+    const getBoard: GetBoard = { categoryId, page, take };
+    return await this.boardsService.findAll(getBoard);
   }
 
   @Get('myBoard')

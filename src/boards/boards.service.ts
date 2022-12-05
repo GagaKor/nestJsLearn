@@ -7,6 +7,7 @@ import { CreateBaordDto } from 'src/boards/dto/create-board.dto';
 import { UpdateBoardDto } from 'src/boards/dto/update-board.dto';
 import { Board } from 'src/boards/entities/Board.entity';
 import { CategoryService } from 'src/category/category.service';
+import { GetBoard } from './dto/get-board.dto';
 
 @Injectable()
 export class BoardsService {
@@ -15,10 +16,11 @@ export class BoardsService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async findAll(categoryId: string): Promise<{
+  async findAll(getBoard: GetBoard): Promise<{
     boards: Board[];
     count: number;
   }> {
+    const { categoryId, page, take } = getBoard;
     const status = BoardStatus.PUBLIC;
     const count = await this.totalBoardCount(categoryId);
     const boards = await this.boardRepository.find({
@@ -32,6 +34,11 @@ export class BoardsService {
         status: true,
         user: { username: true },
         category: { categoryName: true },
+      },
+      take: take,
+      skip: (page - 1) * take,
+      order: {
+        createdAt: 'DESC',
       },
     });
     return {

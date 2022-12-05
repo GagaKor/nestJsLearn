@@ -20,7 +20,8 @@ let BoardsService = class BoardsService {
         this.boardRepository = boardRepository;
         this.categoryService = categoryService;
     }
-    async findAll(categoryId) {
+    async findAll(getBoard) {
+        const { categoryId, page, take } = getBoard;
         const status = board_status_enum_1.BoardStatus.PUBLIC;
         const count = await this.totalBoardCount(categoryId);
         const boards = await this.boardRepository.find({
@@ -34,6 +35,11 @@ let BoardsService = class BoardsService {
                 status: true,
                 user: { username: true },
                 category: { categoryName: true },
+            },
+            take: take,
+            skip: (page - 1) * take,
+            order: {
+                createdAt: 'DESC',
             },
         });
         return {
