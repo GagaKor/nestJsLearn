@@ -17,7 +17,7 @@ exports.winstonLogger = nest_winston_1.WinstonModule.createLogger({
     transports: [
         new winston.transports.Console({
             level: env ? 'silly' : 'http',
-            format: env === 'production'
+            format: env === 'prod'
                 ?
                     winston.format.combine(winston.format.colorize({ all: false }), winston.format.timestamp(), nest_winston_1.utilities.format.nestLike('Prod', {
                         prettyPrint: true,

@@ -22,7 +22,7 @@ export const winstonLogger = WinstonModule.createLogger({
       level: env ? 'silly' : 'http',
       // production 환경이라면 http, 개발환경이라면 모든 단계를 로그
       format:
-        env === 'production'
+        env === 'prod'
           ? // production 환경은 자원을 아끼기 위해 simple 포맷 사용
             winston.format.combine(
               winston.format.colorize({ all: false }),
