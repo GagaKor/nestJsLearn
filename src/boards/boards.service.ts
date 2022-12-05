@@ -15,14 +15,37 @@ export class BoardsService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async findAll(): Promise<Board[]> {
+  async findAll(categoryId: string): Promise<{
+    boards: Board[];
+    count: number;
+  }> {
     const status = BoardStatus.PUBLIC;
-    return await this.boardRepository.find({
+    const count = await this.totalBoardCount(categoryId);
+    const boards = await this.boardRepository.find({
       where: { status },
       relations: { user: true, category: true },
-      select: { user: { username: true }, category: { categoryName: true } },
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        updatedAt: true,
+        status: true,
+        user: { username: true },
+        category: { categoryName: true },
+      },
+    });
+    return {
+      boards,
+      count,
+    };
+  }
+
+  async totalBoardCount(categoryId: string) {
+    return await this.boardRepository.count({
+      where: { category: { id: categoryId } },
     });
   }
+
   async findById(id: string): Promise<Board> {
     const found = await this.boardRepository.findOne({
       where: { id },
