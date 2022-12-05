@@ -9,7 +9,10 @@ export declare class BoardsController {
     private readonly boardsService;
     private logger;
     constructor(boardsService: BoardsService);
-    findAll(): Promise<Board[]>;
+    findAll(categoryId: string): Promise<{
+        boards: Board[];
+        count: number;
+    }>;
     getAllUserBoard(user: User): Promise<Board[]>;
     findByTitleOrContent(data: string, categoryId: string): Promise<Board[]>;
     findById(id: string): Promise<Board>;

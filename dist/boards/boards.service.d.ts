@@ -10,7 +10,11 @@ export declare class BoardsService {
     private readonly boardRepository;
     private readonly categoryService;
     constructor(boardRepository: BoardsRepository, categoryService: CategoryService);
-    findAll(): Promise<Board[]>;
+    findAll(categoryId: string): Promise<{
+        boards: Board[];
+        count: number;
+    }>;
+    totalBoardCount(categoryId: string): Promise<number>;
     findById(id: string): Promise<Board>;
     getAllUserBoard(user: User): Promise<Board[]>;
     findByTitleOrContent(data: string, categoryId: string): Promise<Board[]>;
