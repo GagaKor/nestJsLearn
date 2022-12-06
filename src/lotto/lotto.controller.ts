@@ -6,13 +6,17 @@ import { SaveMyLottoDto } from 'src/lotto/dto/save-myLotto.dto';
 import { GetUser } from 'src/decorator/get-user.decorator';
 import { User } from 'src/auth/entities/User.entity';
 import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
+import { LottoUserService } from './lottoUser.service';
 
 @Controller('lotto')
 export class LottoController {
-  constructor(private readonly lottoService: LottoService) {}
+  constructor(
+    private readonly lottoService: LottoService,
+    private readonly lottoUserService: LottoUserService,
+  ) {}
   @Get()
   lottoFindByUser(@GetUser() user: User): Promise<LottoUser[]> {
-    return this.lottoService.lottoFindByUser(user);
+    return this.lottoUserService.lottoFindByUser(user);
   }
 
   @Get('thisweek')
@@ -27,6 +31,6 @@ export class LottoController {
   @Post('save')
   @UseGuards(AuthGuard)
   saveMyLotto(@Body() saveMyLotto: SaveMyLottoDto, @GetUser() user: User) {
-    return this.lottoService.saveMyLotto(saveMyLotto, user);
+    return this.lottoUserService.saveMyLotto(saveMyLotto, user);
   }
 }

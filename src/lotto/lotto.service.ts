@@ -1,27 +1,18 @@
 import { Injectable, RequestTimeoutException } from '@nestjs/common';
-import { LottoUserRepository } from 'src/lotto/lottoUser.repository';
 import { CreateLottoDto } from 'src/lotto/dto/create-lotto.dto';
-import { SaveMyLottoDto } from 'src/lotto/dto/save-myLotto.dto';
 import { Lottos } from 'src/lotto/dto/lottos.dto';
-import { User } from 'src/auth/entities/User.entity';
-import { LottoRepository } from 'src/lotto/lotto.repository';
 import { Logger } from '@nestjs/common/services';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Lotto } from './entities/Lotto.entity';
+import { Repository } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class LottoService {
   private readonly logger = new Logger('Lotto Service');
   constructor(
-    private readonly lottoUserRepository: LottoUserRepository,
-    private readonly lottoRepository: LottoRepository,
+    @InjectRepository(Lotto)
+    private readonly lottoRepository: Repository<Lotto>,
   ) {}
-
-  async lottoFindByUser(user: User) {
-    const lotto = this.lottoUserRepository.find({
-      where: { user: { id: user.id } },
-      relations: { user: true },
-      select: { id: true, myLotto: true, user: { username: true } },
-    });
-    return lotto;
-  }
 
   async createLotto(createLottoDto: CreateLottoDto): Promise<number[][]> {
     const { playGame, include, exclude, deviation, consecution, max, min } =
@@ -127,13 +118,16 @@ export class LottoService {
     }
     return result;
   }
-  async saveMyLotto(saveMyLottoDto: SaveMyLottoDto, user: User) {
-    return await this.lottoUserRepository.saveMyLotto(saveMyLottoDto, user);
-  }
 
   async saveLotto(lottoDtos: Lottos[]) {
     for (const lottoDto of lottoDtos) {
-      await this.lottoRepository.saveLotto(lottoDto);
+      const lotto = Lotto.create({
+        id: uuid(),
+        round: lottoDto.round,
+        lotto_number: JSON.stringify(lottoDto.lotto),
+      });
+
+      await this.lottoRepository.save(lotto);
     }
 
     this.logger.log('Success Enter Lotto Data');

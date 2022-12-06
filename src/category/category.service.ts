@@ -1,14 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CategoryRepository } from 'src/category/category.repository';
 import { CreateCategoryDto } from 'src/category/dto/create-Category.dto';
 import { UpdateCategoryDto } from 'src/category/dto/update-Category.dto';
+import { Category } from './entities/Category.entity';
+import { v4 as uuid } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
-  constructor(private readonly categoryRepository: CategoryRepository) {}
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    return await this.categoryRepository.createCategory(createCategoryDto);
+    const { categoryName } = createCategoryDto;
+    const category = Category.create({
+      id: uuid(),
+      categoryName,
+    });
+    return await this.categoryRepository.save(category);
   }
 
   async getAll() {
@@ -40,7 +51,8 @@ export class CategoryService {
   }
 
   async updateCategory(id: string, updatecategoryDto: UpdateCategoryDto) {
-    return await this.categoryRepository.updateCategory(id, updatecategoryDto);
+    const { categoryName } = updatecategoryDto;
+    return await this.categoryRepository.update(id, { categoryName });
   }
   async deleteCategory(id: string) {
     return await this.categoryRepository.delete(id);

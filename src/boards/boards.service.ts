@@ -1,18 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/auth/entities/User.entity';
-import { DeleteResult, Like } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 import { BoardStatus } from 'src/boards/board-status-enum';
-import { BoardsRepository } from 'src/boards/boards.repository';
 import { CreateBaordDto } from 'src/boards/dto/create-board.dto';
 import { UpdateBoardDto } from 'src/boards/dto/update-board.dto';
 import { Board } from 'src/boards/entities/Board.entity';
 import { CategoryService } from 'src/category/category.service';
 import { GetBoard } from './dto/get-board.dto';
+import { v4 as uuid } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class BoardsService {
   constructor(
-    private readonly boardRepository: BoardsRepository,
+    @InjectRepository(Board)
+    private readonly boardRepository: Repository<Board>,
     private readonly categoryService: CategoryService,
   ) {}
 
@@ -100,11 +102,19 @@ export class BoardsService {
   async create(createBaordDto: CreateBaordDto, user: User): Promise<Board> {
     const { categoryId } = createBaordDto;
     const category = await this.categoryService.findById(categoryId);
-    return await this.boardRepository.createBoard(
-      createBaordDto,
+
+    const { title, content, status } = createBaordDto;
+
+    const board = Board.create({
+      id: uuid(),
+      title,
+      content,
+      status,
       user,
       category,
-    );
+    });
+
+    return await this.boardRepository.save(board);
   }
   async update(
     id: string,

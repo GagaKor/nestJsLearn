@@ -3,9 +3,9 @@ import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from 'src/auth/entities/User.entity';
-import { UsersRepository } from 'src/auth/users.repository';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RefreshJwtStrategy extends PassportStrategy(
@@ -13,8 +13,8 @@ export class RefreshJwtStrategy extends PassportStrategy(
   'jwt-refresh-token',
 ) {
   constructor(
-    @InjectRepository(UsersRepository)
-    private usersRepository: UsersRepository,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
     private authService: AuthService,
   ) {
     super({

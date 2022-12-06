@@ -1,16 +1,23 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { AuthCredentialsDto } from 'src/auth/dto/auth-credential.dto';
 import { User } from 'src/auth/entities/User.entity';
-import { UsersRepository } from 'src/auth/users.repository';
 import { JwtService } from '@nestjs/jwt/dist';
-
+import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcryptjs';
 import { AuthLoginDto } from 'src/auth/dto/auth-login.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersReository: UsersRepository,
+    @InjectRepository(User)
+    private readonly usersReository: Repository<User>,
     private jwtService: JwtService,
   ) {}
 
@@ -23,11 +30,36 @@ export class AuthService {
   }
 
   async sighUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    await this.usersReository.createUser(authCredentialsDto);
+    const { username, password, role } = authCredentialsDto;
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = User.create({
+      id: uuid(),
+      username,
+      password: hashedPassword,
+      role,
+    });
+    try {
+      await this.usersReository.save(user);
+    } catch (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        throw new ConflictException('Existing username');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async signIn(authLoginDto: AuthLoginDto) {
-    const user = await this.usersReository.signIn(authLoginDto);
+    const { username, password } = authLoginDto;
+
+    const user = await this.usersReository.findOne({ where: { username } });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('login Failed');
+    }
     const { accessToken, accessOption } = await this.getJwtAcessToken(user);
     const { refreshToken, refreshOption } = await this.getJwtRefreshToken(
       user.username,
