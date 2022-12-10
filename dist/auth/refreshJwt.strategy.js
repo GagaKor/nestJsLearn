@@ -17,8 +17,9 @@ const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
-const users_repository_1 = require("./users.repository");
+const User_entity_1 = require("./entities/User.entity");
 const auth_service_1 = require("./auth.service");
+const typeorm_2 = require("typeorm");
 let RefreshJwtStrategy = class RefreshJwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy, 'jwt-refresh-token') {
     constructor(usersRepository, authService) {
         super({
@@ -50,8 +51,8 @@ let RefreshJwtStrategy = class RefreshJwtStrategy extends (0, passport_1.Passpor
 };
 RefreshJwtStrategy = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(users_repository_1.UsersRepository)),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+    __param(0, (0, typeorm_1.InjectRepository)(User_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
         auth_service_1.AuthService])
 ], RefreshJwtStrategy);
 exports.RefreshJwtStrategy = RefreshJwtStrategy;

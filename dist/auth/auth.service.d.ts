@@ -1,12 +1,12 @@
 import { AuthCredentialsDto } from 'src/auth/dto/auth-credential.dto';
 import { User } from 'src/auth/entities/User.entity';
-import { UsersRepository } from 'src/auth/users.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 import { AuthLoginDto } from 'src/auth/dto/auth-login.dto';
+import { Repository } from 'typeorm';
 export declare class AuthService {
     private readonly usersReository;
     private jwtService;
-    constructor(usersReository: UsersRepository, jwtService: JwtService);
+    constructor(usersReository: Repository<User>, jwtService: JwtService);
     findAll(): Promise<User[]>;
     findByUsername(username: string): Promise<User>;
     sighUp(authCredentialsDto: AuthCredentialsDto): Promise<void>;

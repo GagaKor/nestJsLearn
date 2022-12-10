@@ -8,12 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const users_repository_1 = require("./users.repository");
+const User_entity_1 = require("./entities/User.entity");
 const dist_1 = require("@nestjs/jwt/dist");
+const uuid_1 = require("uuid");
 const bcrypt = require("bcryptjs");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
 let AuthService = class AuthService {
     constructor(usersReository, jwtService) {
         this.usersReository = usersReository;
@@ -26,10 +32,33 @@ let AuthService = class AuthService {
         return this.usersReository.findOne({ where: { username } });
     }
     async sighUp(authCredentialsDto) {
-        await this.usersReository.createUser(authCredentialsDto);
+        const { username, password, role } = authCredentialsDto;
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const user = User_entity_1.User.create({
+            id: (0, uuid_1.v4)(),
+            username,
+            password: hashedPassword,
+            role,
+        });
+        try {
+            await this.usersReository.save(user);
+        }
+        catch (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                throw new common_1.ConflictException('Existing username');
+            }
+            else {
+                throw new common_1.InternalServerErrorException();
+            }
+        }
     }
     async signIn(authLoginDto) {
-        const user = await this.usersReository.signIn(authLoginDto);
+        const { username, password } = authLoginDto;
+        const user = await this.usersReository.findOne({ where: { username } });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            throw new common_1.UnauthorizedException('login Failed');
+        }
         const { accessToken, accessOption } = await this.getJwtAcessToken(user);
         const { refreshToken, refreshOption } = await this.getJwtRefreshToken(user.username);
         await this.updateJwtRefershToken(refreshToken, authLoginDto.username);
@@ -125,7 +154,8 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [users_repository_1.UsersRepository,
+    __param(0, (0, typeorm_1.InjectRepository)(User_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
         dist_1.JwtService])
 ], AuthService);
 exports.AuthService = AuthService;

@@ -27,8 +27,9 @@ let BoardsController = class BoardsController {
         this.boardsService = boardsService;
         this.logger = new common_1.Logger('Boards');
     }
-    async findAll(categoryId) {
-        return await this.boardsService.findAll(categoryId);
+    async findAll(categoryId, page, take) {
+        const getBoard = { categoryId, page, take };
+        return await this.boardsService.findAll(getBoard);
     }
     getAllUserBoard(user) {
         this.logger.verbose(`User ${user.username} trying to get all boards`);
@@ -67,9 +68,11 @@ let BoardsController = class BoardsController {
 };
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Param)('categoryId')),
+    __param(0, (0, common_1.Query)('categoryId')),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('take')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Number, Number]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "findAll", null);
 __decorate([

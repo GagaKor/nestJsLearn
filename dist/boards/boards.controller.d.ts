@@ -9,7 +9,7 @@ export declare class BoardsController {
     private readonly boardsService;
     private logger;
     constructor(boardsService: BoardsService);
-    findAll(categoryId: string): Promise<{
+    findAll(categoryId: string, page: number, take: number): Promise<{
         boards: Board[];
         count: number;
     }>;

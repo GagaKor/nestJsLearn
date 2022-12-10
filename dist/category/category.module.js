@@ -13,17 +13,11 @@ const category_service_1 = require("./category.service");
 const auth_module_1 = require("../auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const Category_entity_1 = require("./entities/Category.entity");
-const typeorm_ex_module_1 = require("../database/typeorm-ex.module");
-const category_repository_1 = require("./category.repository");
 let CategoryModule = class CategoryModule {
 };
 CategoryModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule,
-            typeorm_1.TypeOrmModule.forFeature([Category_entity_1.Category]),
-            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([category_repository_1.CategoryRepository]),
-        ],
+        imports: [auth_module_1.AuthModule, typeorm_1.TypeOrmModule.forFeature([Category_entity_1.Category])],
         exports: [category_service_1.CategoryService],
         controllers: [category_controller_1.CategoryController],
         providers: [category_service_1.CategoryService],

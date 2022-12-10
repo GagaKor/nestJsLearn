@@ -8,25 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LottoService = void 0;
 const common_1 = require("@nestjs/common");
-const lottoUser_repository_1 = require("./lottoUser.repository");
-const lotto_repository_1 = require("./lotto.repository");
 const services_1 = require("@nestjs/common/services");
+const typeorm_1 = require("@nestjs/typeorm");
+const Lotto_entity_1 = require("./entities/Lotto.entity");
+const typeorm_2 = require("typeorm");
+const uuid_1 = require("uuid");
 let LottoService = class LottoService {
-    constructor(lottoUserRepository, lottoRepository) {
-        this.lottoUserRepository = lottoUserRepository;
+    constructor(lottoRepository) {
         this.lottoRepository = lottoRepository;
         this.logger = new services_1.Logger('Lotto Service');
-    }
-    async lottoFindByUser(user) {
-        const lotto = this.lottoUserRepository.find({
-            where: { user: { id: user.id } },
-            relations: { user: true },
-            select: { id: true, myLotto: true, user: { username: true } },
-        });
-        return lotto;
     }
     async createLotto(createLottoDto) {
         const { playGame, include, exclude, deviation, consecution, max, min } = createLottoDto;
@@ -122,12 +118,14 @@ let LottoService = class LottoService {
         }
         return result;
     }
-    async saveMyLotto(saveMyLottoDto, user) {
-        return await this.lottoUserRepository.saveMyLotto(saveMyLottoDto, user);
-    }
     async saveLotto(lottoDtos) {
         for (const lottoDto of lottoDtos) {
-            await this.lottoRepository.saveLotto(lottoDto);
+            const lotto = Lotto_entity_1.Lotto.create({
+                id: (0, uuid_1.v4)(),
+                round: lottoDto.round,
+                lotto_number: JSON.stringify(lottoDto.lotto),
+            });
+            await this.lottoRepository.save(lotto);
         }
         this.logger.log('Success Enter Lotto Data');
         return true;
@@ -148,8 +146,8 @@ let LottoService = class LottoService {
 };
 LottoService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [lottoUser_repository_1.LottoUserRepository,
-        lotto_repository_1.LottoRepository])
+    __param(0, (0, typeorm_1.InjectRepository)(Lotto_entity_1.Lotto)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], LottoService);
 exports.LottoService = LottoService;
 //# sourceMappingURL=lotto.service.js.map

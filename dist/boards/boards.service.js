@@ -8,13 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardsService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const board_status_enum_1 = require("./board-status-enum");
-const boards_repository_1 = require("./boards.repository");
+const Board_entity_1 = require("./entities/Board.entity");
 const category_service_1 = require("../category/category.service");
+const uuid_1 = require("uuid");
+const typeorm_2 = require("@nestjs/typeorm");
 let BoardsService = class BoardsService {
     constructor(boardRepository, categoryService) {
         this.boardRepository = boardRepository;
@@ -95,7 +100,16 @@ let BoardsService = class BoardsService {
     async create(createBaordDto, user) {
         const { categoryId } = createBaordDto;
         const category = await this.categoryService.findById(categoryId);
-        return await this.boardRepository.createBoard(createBaordDto, user, category);
+        const { title, content, status } = createBaordDto;
+        const board = Board_entity_1.Board.create({
+            id: (0, uuid_1.v4)(),
+            title,
+            content,
+            status,
+            user,
+            category,
+        });
+        return await this.boardRepository.save(board);
     }
     async update(id, updateBoardDto, user) {
         const result = await this.boardRepository
@@ -128,7 +142,8 @@ let BoardsService = class BoardsService {
 };
 BoardsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [boards_repository_1.BoardsRepository,
+    __param(0, (0, typeorm_2.InjectRepository)(Board_entity_1.Board)),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
         category_service_1.CategoryService])
 ], BoardsService);
 exports.BoardsService = BoardsService;

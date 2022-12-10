@@ -20,12 +20,14 @@ const auth_guard_1 = require("../auth/security/auth.guard");
 const save_myLotto_dto_1 = require("./dto/save-myLotto.dto");
 const get_user_decorator_1 = require("../decorator/get-user.decorator");
 const User_entity_1 = require("../auth/entities/User.entity");
+const lottoUser_service_1 = require("./lottoUser.service");
 let LottoController = class LottoController {
-    constructor(lottoService) {
+    constructor(lottoService, lottoUserService) {
         this.lottoService = lottoService;
+        this.lottoUserService = lottoUserService;
     }
     lottoFindByUser(user) {
-        return this.lottoService.lottoFindByUser(user);
+        return this.lottoUserService.lottoFindByUser(user);
     }
     getThisWeekLotto() {
         return this.lottoService.getLastLotto();
@@ -34,7 +36,7 @@ let LottoController = class LottoController {
         return this.lottoService.createLotto(createLottoDto);
     }
     saveMyLotto(saveMyLotto, user) {
-        return this.lottoService.saveMyLotto(saveMyLotto, user);
+        return this.lottoUserService.saveMyLotto(saveMyLotto, user);
     }
 };
 __decorate([
@@ -68,7 +70,8 @@ __decorate([
 ], LottoController.prototype, "saveMyLotto", null);
 LottoController = __decorate([
     (0, common_1.Controller)('lotto'),
-    __metadata("design:paramtypes", [lotto_service_1.LottoService])
+    __metadata("design:paramtypes", [lotto_service_1.LottoService,
+        lottoUser_service_1.LottoUserService])
 ], LottoController);
 exports.LottoController = LottoController;
 //# sourceMappingURL=lotto.controller.js.map

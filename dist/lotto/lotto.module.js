@@ -13,22 +13,16 @@ const lotto_service_1 = require("./lotto.service");
 const auth_module_1 = require("../auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const LottoUser_entity_1 = require("./entities/LottoUser.entity");
-const typeorm_ex_module_1 = require("../database/typeorm-ex.module");
-const lottoUser_repository_1 = require("./lottoUser.repository");
-const lotto_repository_1 = require("./lotto.repository");
 const Lotto_entity_1 = require("./entities/Lotto.entity");
+const lottoUser_service_1 = require("./lottoUser.service");
 let LottoModule = class LottoModule {
 };
 LottoModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule,
-            typeorm_1.TypeOrmModule.forFeature([LottoUser_entity_1.LottoUser, Lotto_entity_1.Lotto]),
-            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([lottoUser_repository_1.LottoUserRepository, lotto_repository_1.LottoRepository]),
-        ],
-        exports: [lotto_service_1.LottoService],
+        imports: [auth_module_1.AuthModule, typeorm_1.TypeOrmModule.forFeature([LottoUser_entity_1.LottoUser, Lotto_entity_1.Lotto])],
+        exports: [lotto_service_1.LottoService, lottoUser_service_1.LottoUserService],
         controllers: [lotto_controller_1.LottoController],
-        providers: [lotto_service_1.LottoService],
+        providers: [lotto_service_1.LottoService, lottoUser_service_1.LottoUserService],
     })
 ], LottoModule);
 exports.LottoModule = LottoModule;

@@ -10,9 +10,7 @@ exports.BoardsModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_module_1 = require("../auth/auth.module");
-const typeorm_ex_module_1 = require("../database/typeorm-ex.module");
 const boards_controller_1 = require("./boards.controller");
-const boards_repository_1 = require("./boards.repository");
 const boards_service_1 = require("./boards.service");
 const Board_entity_1 = require("./entities/Board.entity");
 const category_module_1 = require("../category/category.module");
@@ -20,12 +18,7 @@ let BoardsModule = class BoardsModule {
 };
 BoardsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule,
-            category_module_1.CategoryModule,
-            typeorm_1.TypeOrmModule.forFeature([Board_entity_1.Board]),
-            typeorm_ex_module_1.TypeOrmExModule.forCustomRepository([boards_repository_1.BoardsRepository]),
-        ],
+        imports: [auth_module_1.AuthModule, category_module_1.CategoryModule, typeorm_1.TypeOrmModule.forFeature([Board_entity_1.Board])],
         exports: [boards_service_1.BoardsService],
         controllers: [boards_controller_1.BoardsController],
         providers: [boards_service_1.BoardsService],

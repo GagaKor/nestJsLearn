@@ -8,16 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryService = void 0;
 const common_1 = require("@nestjs/common");
-const category_repository_1 = require("./category.repository");
+const Category_entity_1 = require("./entities/Category.entity");
+const uuid_1 = require("uuid");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
 let CategoryService = class CategoryService {
     constructor(categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
     async create(createCategoryDto) {
-        return await this.categoryRepository.createCategory(createCategoryDto);
+        const { categoryName } = createCategoryDto;
+        const category = Category_entity_1.Category.create({
+            id: (0, uuid_1.v4)(),
+            categoryName,
+        });
+        return await this.categoryRepository.save(category);
     }
     async getAll() {
         return await this.categoryRepository.find({
@@ -45,7 +56,8 @@ let CategoryService = class CategoryService {
         return await this.categoryRepository.findOneBy({ id });
     }
     async updateCategory(id, updatecategoryDto) {
-        return await this.categoryRepository.updateCategory(id, updatecategoryDto);
+        const { categoryName } = updatecategoryDto;
+        return await this.categoryRepository.update(id, { categoryName });
     }
     async deleteCategory(id) {
         return await this.categoryRepository.delete(id);
@@ -53,7 +65,8 @@ let CategoryService = class CategoryService {
 };
 CategoryService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [category_repository_1.CategoryRepository])
+    __param(0, (0, typeorm_1.InjectRepository)(Category_entity_1.Category)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], CategoryService);
 exports.CategoryService = CategoryService;
 //# sourceMappingURL=category.service.js.map
