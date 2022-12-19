@@ -10,7 +10,7 @@ export class TaskService {
   private readonly logger = new Logger(TaskService.name);
   constructor(private readonly lottoService: LottoService) {}
 
-  @Cron('30 15 * * 1', { name: 'Excel Download' })
+  @Cron('30 21 * * 6', { name: 'Excel Download' })
   async downloadCron() {
     this.logger.log('TASK CALLED DownloadCron');
 
@@ -20,7 +20,7 @@ export class TaskService {
     this.logger.log('Finish Cron Job');
   }
 
-  @Cron('32 15 * * 1', { name: 'Save Lotto' })
+  @Cron('32 21 * * 6', { name: 'Save Lotto' })
   async saveLottoCron() {
     this.logger.log('TASK CALLED SaveLottoCron');
 
