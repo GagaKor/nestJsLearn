@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as puppeteer from 'puppeteer-core';
+import * as puppeteer from 'puppeteer';
 import * as path from 'path';
 
 const downloadRoot =
