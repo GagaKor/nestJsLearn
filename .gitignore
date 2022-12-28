@@ -1,6 +1,5 @@
 # compiled output
 /node_modules
-/dist
 
 # Logs
 logs
@@ -38,5 +37,6 @@ lerna-debug.log*
 .env
 .dev.env
 .prod.env
+.dist
 
 config/
