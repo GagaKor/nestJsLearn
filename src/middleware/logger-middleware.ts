@@ -13,7 +13,8 @@ export class LoggerMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     // 요청 객체로부터 ip, http method, url, user agent를 받아온 후
-    const { ip, method, originalUrl } = req;
+    const { method, originalUrl } = req;
+    const ip = req.get('x-real-ip');
     const userAgent = req.get('user-agent');
     const body = JSON.stringify(req.body);
     // 응답이 끝나는 이벤트가 발생하면 로그를 찍는다.
