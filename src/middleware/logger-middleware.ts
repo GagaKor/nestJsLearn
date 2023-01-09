@@ -20,7 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
     res.on('finish', () => {
       const { statusCode } = res;
       this.logger.log(
-        `URL : ${method} ${originalUrl} | REQUEST : ${body} | STATUS : ${statusCode}`,
+        `IP : ${ip} URL : ${method} ${originalUrl} | REQUEST : ${body} | STATUS : ${statusCode}`,
       );
     });
 
