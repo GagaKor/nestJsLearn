@@ -15,7 +15,11 @@ export const downloadExcel = async () => {
           headless: true,
           devtools: true,
           ignoreDefaultArgs: ['--disable-extensions'],
-          args: ['--no-sandbox', `--ignore-certificate-errors`],
+          args: [
+            '--no-sandbox',
+            `--ignore-certificate-errors`,
+            '--disable-setuid-sandbox',
+          ],
           executablePath: '/usr/bin/google-chrome-stable',
         }
       : {
