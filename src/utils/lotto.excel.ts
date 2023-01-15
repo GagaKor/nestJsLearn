@@ -11,8 +11,11 @@ export const downloadExcel = async () => {
   const config =
     process.env.NODE_ENV === 'prod'
       ? {
-          ignoreDefaultArgs: ['--enable-automation'],
-          args: ['--no-sandbox'],
+          ignoreHTTPSErrors: true,
+          headless: false,
+          devtools: true,
+          ignoreDefaultArgs: ['--disable-extensions'],
+          args: ['--no-sandbox', `--ignore-certificate-errors`],
           executablePath: '/usr/bin/google-chrome-stable',
         }
       : {
@@ -22,32 +25,32 @@ export const downloadExcel = async () => {
           executablePath:
             'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         };
-  const browser = await puppeteer.launch(config);
+  try {
+    const browser = await puppeteer.launch(config);
+    const page = await browser.newPage();
+    await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
+      waitUntil: 'networkidle2',
+    });
+    const optionSelect = '#drwNoStart';
+    await page.click(optionSelect, { delay: 500 });
+    await page.keyboard.press('End', { delay: 500 });
+    await page.keyboard.press('Enter', { delay: 500 });
+    const client = await page.target().createCDPSession();
+    await client.send('Page.setDownloadBehavior', {
+      behavior: 'allow',
+      downloadPath: path.join(downloadRoot),
+    });
 
-  const page = await browser.newPage();
+    const downBtn = '#exelBtn';
+    await page.click(downBtn, { delay: 1000 });
 
-  await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
-    waitUntil: 'networkidle2',
-  });
-  const optionSelect = '#drwNoStart';
-  await page.click(optionSelect, { delay: 500 });
-  await page.keyboard.press('End', { delay: 500 });
-  await page.keyboard.press('Enter', { delay: 500 });
-  const client = await page.target().createCDPSession();
-  await client.send('Page.setDownloadBehavior', {
-    behavior: 'allow',
-    downloadPath: path.join(downloadRoot),
-  });
-
-  const downBtn = '#exelBtn';
-  await page.click(downBtn, { delay: 1000 });
-
-  const checker = setInterval(async () => {
-    if (fileCheck()) {
-      clearInterval(checker);
-      await page.close();
-    }
-  }, 1000);
+    const checker = setInterval(async () => {
+      if (fileCheck()) {
+        clearInterval(checker);
+        await page.close();
+      }
+    }, 1000);
+  } catch (err) {}
 };
 export const fileCheck = () => {
   const files = fs.readdirSync(path.join(downloadRoot));
