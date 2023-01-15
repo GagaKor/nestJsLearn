@@ -12,7 +12,7 @@ export const downloadExcel = async () => {
     process.env.NODE_ENV === 'prod'
       ? {
           ignoreHTTPSErrors: true,
-          headless: false,
+          headless: true,
           devtools: true,
           ignoreDefaultArgs: ['--disable-extensions'],
           args: ['--no-sandbox', `--ignore-certificate-errors`],
