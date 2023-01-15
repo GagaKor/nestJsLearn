@@ -20,7 +20,7 @@ export const downloadExcel = async () => {
             `--ignore-certificate-errors`,
             '--disable-setuid-sandbox',
           ],
-          executablePath: '/usr/bin/google-chrome-stable',
+          executablePath: '/usr/bin/chromium-browser',
         }
       : {
           headless: true,
