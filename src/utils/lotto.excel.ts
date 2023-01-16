@@ -29,6 +29,9 @@ export const downloadExcel = async () => {
           executablePath:
             'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
         };
+  if (!fs.existsSync('/static')) {
+    fs.mkdirSync('/static');
+  }
   try {
     const browser = await puppeteer.launch(config);
     const page = await browser.newPage();
