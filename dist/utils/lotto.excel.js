@@ -54,7 +54,9 @@ const downloadExcel = async () => {
             }
         }, 1000);
     }
-    catch (err) { }
+    catch (err) {
+        console.log(err);
+    }
 };
 exports.downloadExcel = downloadExcel;
 const fileCheck = () => {

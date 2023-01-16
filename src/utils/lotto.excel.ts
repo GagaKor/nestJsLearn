@@ -57,7 +57,9 @@ export const downloadExcel = async () => {
         await page.close();
       }
     }, 1000);
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 export const fileCheck = () => {
   const files = fs.readdirSync(path.join(downloadRoot));
