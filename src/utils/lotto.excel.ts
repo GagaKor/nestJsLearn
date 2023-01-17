@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as puppeteer from 'puppeteer';
 import * as path from 'path';
+import * as cheerio from 'cheerio';
+import { Lottos } from 'src/lotto/dto/lottos.dto';
 
 const downloadRoot =
   process.env.NODE_ENV === 'prod'
@@ -8,6 +10,8 @@ const downloadRoot =
     : path.join(__dirname, '..', '..', 'static');
 
 export const downloadExcel = async () => {
+  const thisWeekLotto: Lottos[] = [];
+
   const config =
     process.env.NODE_ENV === 'prod'
       ? {
@@ -32,12 +36,13 @@ export const downloadExcel = async () => {
   if (!fs.existsSync(downloadRoot)) {
     fs.mkdirSync(downloadRoot);
   }
+  const browser = await puppeteer.launch(config);
+  const page = await browser.newPage();
+  await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
+    waitUntil: 'networkidle2',
+  });
+
   try {
-    const browser = await puppeteer.launch(config);
-    const page = await browser.newPage();
-    await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
-      waitUntil: 'networkidle2',
-    });
     const optionSelect = '#drwNoStart';
     await page.click(optionSelect, { delay: 500 });
     await page.keyboard.press('End', { delay: 500 });
@@ -58,8 +63,34 @@ export const downloadExcel = async () => {
       }
     }, 1000);
   } catch (err) {
-    console.log(err);
+    const content = await page.content();
+
+    const $ = cheerio.load(content);
+
+    const lists = $(
+      '#article > div:nth-child(2) > div > div.win_result > div > div.num.win > p > span.ball_645.lrg',
+    );
+    const lottoNumber: number[] = [];
+    lists.each((index, list) => {
+      const num = $(list).text();
+      lottoNumber.push(Number(num));
+    });
+
+    const roundHtml = $(
+      '#article > div:nth-child(2) > div > div.win_result > h4',
+    );
+    const regex = /[^0-9]/g;
+    const round = Number(roundHtml.text().replace(regex, ''));
+
+    const lotto: Lottos = {
+      round,
+      lotto: lottoNumber,
+    };
+
+    thisWeekLotto.push(lotto);
   }
+
+  return thisWeekLotto;
 };
 export const fileCheck = () => {
   const files = fs.readdirSync(path.join(downloadRoot));
