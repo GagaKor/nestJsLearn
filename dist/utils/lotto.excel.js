@@ -4,10 +4,12 @@ exports.remove = exports.fileCheck = exports.downloadExcel = void 0;
 const fs = require("fs");
 const puppeteer = require("puppeteer");
 const path = require("path");
+const cheerio = require("cheerio");
 const downloadRoot = process.env.NODE_ENV === 'prod'
     ? path.join(__dirname, '..', 'static')
     : path.join(__dirname, '..', '..', 'static');
 const downloadExcel = async () => {
+    const thisWeekLotto = [];
     const config = process.env.NODE_ENV === 'prod'
         ? {
             ignoreHTTPSErrors: true,
@@ -29,12 +31,12 @@ const downloadExcel = async () => {
     if (!fs.existsSync(downloadRoot)) {
         fs.mkdirSync(downloadRoot);
     }
+    const browser = await puppeteer.launch(config);
+    const page = await browser.newPage();
+    await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
+        waitUntil: 'networkidle2',
+    });
     try {
-        const browser = await puppeteer.launch(config);
-        const page = await browser.newPage();
-        await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
-            waitUntil: 'networkidle2',
-        });
         const optionSelect = '#drwNoStart';
         await page.click(optionSelect, { delay: 500 });
         await page.keyboard.press('End', { delay: 500 });
@@ -54,8 +56,24 @@ const downloadExcel = async () => {
         }, 1000);
     }
     catch (err) {
-        console.log(err);
+        const content = await page.content();
+        const $ = cheerio.load(content);
+        const lists = $('#article > div:nth-child(2) > div > div.win_result > div > div.num.win > p > span.ball_645.lrg');
+        const lottoNumber = [];
+        lists.each((index, list) => {
+            const num = $(list).text();
+            lottoNumber.push(Number(num));
+        });
+        const roundHtml = $('#article > div:nth-child(2) > div > div.win_result > h4');
+        const regex = /[^0-9]/g;
+        const round = Number(roundHtml.text().replace(regex, ''));
+        const lotto = {
+            round,
+            lotto: lottoNumber,
+        };
+        thisWeekLotto.push(lotto);
     }
+    return thisWeekLotto;
 };
 exports.downloadExcel = downloadExcel;
 const fileCheck = () => {

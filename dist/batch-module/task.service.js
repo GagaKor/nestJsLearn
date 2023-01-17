@@ -25,37 +25,47 @@ let TaskService = TaskService_1 = class TaskService {
     }
     async downloadCron() {
         this.logger.log('TASK CALLED DownloadCron');
-        await (0, lotto_excel_2.downloadExcel)();
-        this.logger.log('Success Download File');
+        TaskService_1.thisWeekLotto = await (0, lotto_excel_2.downloadExcel)();
+        if (TaskService_1.thisWeekLotto.length === 0) {
+            this.logger.log('Success Download File');
+        }
+        else {
+            this.logger.log(`Searched Numbers : ${JSON.stringify(TaskService_1.thisWeekLotto)}`);
+        }
         this.logger.log('Finish Cron Job');
     }
     async saveLottoCron() {
         this.logger.log('TASK CALLED SaveLottoCron');
+        const lastLotto = await this.lottoService.getLastLotto();
+        let round = 0;
+        if (lastLotto.length > 0) {
+            round = lastLotto[0].round;
+        }
+        let games;
         if ((0, lotto_excel_1.fileCheck)()) {
             this.logger.log('FILE CHECKED');
-            const lastLotto = await this.lottoService.getLastLotto();
-            let round = 0;
-            if (lastLotto.length > 0) {
-                round = lastLotto[0].round;
-            }
-            const games = await (0, lotto_1.getThisWeekLotto)(round);
-            if (games) {
-                await this.lottoService.saveLotto(games);
-            }
+            games = await (0, lotto_1.getThisWeekLotto)(round);
             (0, lotto_excel_1.remove)();
-            this.logger.log('Saved Lotto');
+            this.logger.log('Saved Lotto for Excel');
+        }
+        else {
+            games = TaskService_1.thisWeekLotto;
+            this.logger.log('Saved Lotto for Data');
+        }
+        if (games) {
+            await this.lottoService.saveLotto(games);
         }
         this.logger.log('Finish Cron Job');
     }
 };
 __decorate([
-    (0, schedule_1.Cron)('*/3 * * * *', { name: 'Excel Download' }),
+    (0, schedule_1.Cron)('50 23 * * *', { name: 'Excel Download' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], TaskService.prototype, "downloadCron", null);
 __decorate([
-    (0, schedule_1.Cron)('*/5 * * * *', { name: 'Save Lotto' }),
+    (0, schedule_1.Cron)('55 23 * * *', { name: 'Save Lotto' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
