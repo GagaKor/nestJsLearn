@@ -13,7 +13,7 @@ export class TaskService {
 
   static thisWeekLotto: Lottos[];
 
-  @Cron('50 23 * * *', { name: 'Excel Download' })
+  @Cron('*/3 * * * *', { name: 'Excel Download' })
   async downloadCron() {
     this.logger.log('TASK CALLED DownloadCron');
 
@@ -29,7 +29,7 @@ export class TaskService {
     this.logger.log('Finish Cron Job');
   }
 
-  @Cron('55 23 * * *', { name: 'Save Lotto' })
+  @Cron('*/5 * * * *', { name: 'Save Lotto' })
   async saveLottoCron() {
     this.logger.log('TASK CALLED SaveLottoCron');
 
