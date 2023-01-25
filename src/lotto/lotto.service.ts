@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Lotto } from './entities/Lotto.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { LottoLog } from './entities/LottoLog.entity';
 @Injectable()
 export class LottoService {
   private readonly logger = new Logger('Lotto Service');
@@ -148,5 +149,9 @@ export class LottoService {
     });
 
     return lotto;
+  }
+
+  async findByRound(round: number) {
+    return await this.lottoRepository.findOne({ where: { round } });
   }
 }

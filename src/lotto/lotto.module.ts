@@ -6,11 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
 import { Lotto } from 'src/lotto/entities/Lotto.entity';
 import { LottoUserService } from './lottoUser.service';
+import { LottoLog } from './entities/LottoLog.entity';
+import { LottoLogService } from './lottoLog.service';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([LottoUser, Lotto])],
+  imports: [AuthModule, TypeOrmModule.forFeature([LottoUser, Lotto, LottoLog])],
   exports: [LottoService, LottoUserService],
   controllers: [LottoController],
-  providers: [LottoService, LottoUserService],
+  providers: [LottoService, LottoUserService, LottoLogService],
 })
 export class LottoModule {}
