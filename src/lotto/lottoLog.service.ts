@@ -26,14 +26,16 @@ export class LottoLogService {
     const logs = await this.lottoLogRepository.find({ where: { round } });
     const logsLottoNumbers = logs.map((log) => JSON.parse(log.lotto_number));
 
-    const winGames = [];
+    const winGames = { round, win: [] };
 
     logsLottoNumbers.forEach((logNums) => {
       const check = winNumbers.filter((v) => logNums.includes(v));
       if (check.length > 2) {
-        winGames.push({ lotto_number: logNums, cnt: check.length });
+        winGames.win.push({ lotto_number: logNums, cnt: check.length });
       }
     });
+
+    winGames.win.sort((a, b) => b.cnt - a.cnt);
 
     return winGames;
   }

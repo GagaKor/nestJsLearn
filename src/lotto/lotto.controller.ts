@@ -45,11 +45,15 @@ export class LottoController {
 
   @Get('winner')
   async findByRound(@Query('round') round: number) {
-    console.log(round);
     const winNumber = await this.lottoService.findByRound(round);
     return this.lottoLogService.findWinNumber(
       round,
       JSON.parse(winNumber.lotto_number),
     );
+  }
+
+  @Get('lastround')
+  async getLastRound() {
+    return await this.lottoService.getLastRound();
   }
 }
