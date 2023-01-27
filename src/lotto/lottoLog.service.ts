@@ -25,7 +25,7 @@ export class LottoLogService {
     const logs = await this.lottoLogRepository.find({ where: { round } });
     const logsLottoNumbers = logs.map((log) => JSON.parse(log.lotto_number));
 
-    const winGames = { round, win: [] };
+    const winGames = { round, win: [], weekWinNumber: winNumbers };
 
     logsLottoNumbers.forEach((logNums) => {
       const check = winNumbers.filter((v) => logNums.includes(v));
