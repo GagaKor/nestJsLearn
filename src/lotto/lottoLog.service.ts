@@ -17,7 +17,6 @@ export class LottoLogService {
         lotto_number: JSON.stringify(lottoNumber),
         round: round + 1,
       });
-      console.log(lottoLog);
       await this.lottoLogRepository.save(lottoLog);
     }
   }
