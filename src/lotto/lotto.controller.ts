@@ -32,7 +32,6 @@ export class LottoController {
   ): Promise<number[][]> {
     const lastLotto = await this.getThisWeekLotto();
     const lottoNumbers = await this.lottoService.createLotto(createLottoDto);
-    console.log(lottoNumbers, lastLotto);
     await this.lottoLogService.saveLottoLog(lastLotto[0].round, lottoNumbers);
 
     return lottoNumbers;
