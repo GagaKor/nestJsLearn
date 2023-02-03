@@ -22,10 +22,18 @@ export class LottoLogService {
   }
 
   async findWinNumber(round: number, winNumbers: number[]) {
-    const logs = await this.lottoLogRepository.find({ where: { round } });
-    const logsLottoNumbers = logs.map((log) => JSON.parse(log.lotto_number));
+    const logs = await this.lottoLogRepository.findAndCount({
+      where: { round },
+    });
 
-    const winGames = { round, win: [], weekWinNumber: winNumbers };
+    const logsLottoNumbers = logs[0].map((log) => JSON.parse(log.lotto_number));
+
+    const winGames = {
+      round,
+      win: [],
+      weekWinNumber: winNumbers,
+      total: logs[1],
+    };
 
     logsLottoNumbers.forEach((logNums) => {
       const check = winNumbers.filter((v) => logNums.includes(v));
