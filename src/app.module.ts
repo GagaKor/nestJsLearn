@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BatchModuleModule } from 'src/batch-module/batch-module.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { TwelModule } from './twel/twel.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { join } from 'path';
     CategoryModule,
     LottoModule,
     BatchModuleModule,
+    TwelModule,
   ],
   controllers: [AppController],
   providers: [

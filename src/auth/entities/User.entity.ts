@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { Role } from 'src/auth/role.enum';
 import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
+import { Twel } from './../../twel/entities/Twel.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -43,6 +44,12 @@ export class User extends BaseEntity {
     eager: false,
   })
   comment: Comment[];
+
+  @OneToMany(() => Twel, (twel) => twel.user, {
+    cascade: true,
+    eager: false,
+  })
+  twels: Twel[];
 
   @OneToMany(() => LottoUser, (lottoUser) => lottoUser.user, {
     cascade: true,
