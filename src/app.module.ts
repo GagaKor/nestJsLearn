@@ -16,6 +16,7 @@ import { BatchModuleModule } from 'src/batch-module/batch-module.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TwelModule } from './twel/twel.module';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { TwelModule } from './twel/twel.module';
   ],
 })
 export class AppModule implements NestModule {
+  constructor(private dataSource: DataSource) {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

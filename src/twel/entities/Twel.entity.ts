@@ -17,6 +17,9 @@ export class Twel extends BaseEntity {
   id: string;
 
   @Column()
+  category: string;
+
+  @Column()
   title: string;
 
   @Column()
