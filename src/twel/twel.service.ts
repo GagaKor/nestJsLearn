@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTwelDto } from './dto/create-twel.dto';
 import { User } from 'src/auth/entities/User.entity';
 import { v4 as uuid } from 'uuid';
+import { UpdateTwelDto } from './dto/update-twel.dto';
 @Injectable()
 export class TwelService {
   constructor(
@@ -31,6 +32,10 @@ export class TwelService {
       user,
     });
 
+    return this.twelRepository.save(twel);
+  }
+
+  async update(twel: Twel) {
     return this.twelRepository.save(twel);
   }
 }
