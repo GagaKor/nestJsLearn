@@ -10,6 +10,7 @@ import {
   Patch,
   NotFoundException,
   UnauthorizedException,
+  Delete,
 } from '@nestjs/common';
 import { TwelService } from './twel.service';
 import { CreateTwelDto } from './dto/create-twel.dto';
@@ -64,5 +65,19 @@ export class TwelController {
     twel.content = content;
 
     return this.twelService.update(twel);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':id')
+  async delete(@Param('id') id: string, @GetUser() user: User) {
+    const twel = await this.twelService.findById(id);
+    if (!twel) {
+      throw NotFoundException;
+    }
+    if (twel.user.id !== user.id) {
+      throw UnauthorizedException;
+    }
+
+    return this.twelService.delete(id);
   }
 }

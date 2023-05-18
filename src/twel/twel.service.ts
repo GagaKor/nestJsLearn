@@ -38,4 +38,8 @@ export class TwelService {
   async update(twel: Twel) {
     return this.twelRepository.save(twel);
   }
+
+  async delete(id: string) {
+    return this.twelRepository.delete(id);
+  }
 }
