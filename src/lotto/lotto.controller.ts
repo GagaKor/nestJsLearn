@@ -55,4 +55,22 @@ export class LottoController {
   async getLastRound() {
     return await this.lottoService.getLastRound();
   }
+
+  @Get('select-list')
+  async getSelectList(@Query('round') round: number) {
+    const logs = await this.lottoLogService.lottoLogFindByRound(round);
+    const lotto_number = logs[0].map((log) => JSON.parse(log.lotto_number));
+    const result = {
+      round,
+      lotto_number,
+      total: logs[1],
+    };
+
+    return result;
+  }
+
+  @Get('select-last-round')
+  async getSelectLastRound() {
+    return await this.lottoLogService.lottoLogFindLastRound();
+  }
 }

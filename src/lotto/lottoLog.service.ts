@@ -22,9 +22,7 @@ export class LottoLogService {
   }
 
   async findWinNumber(round: number, winNumbers: number[]) {
-    const logs = await this.lottoLogRepository.findAndCount({
-      where: { round },
-    });
+    const logs = await this.lottoLogFindByRound(round);
 
     const logsLottoNumbers = logs[0].map((log) => JSON.parse(log.lotto_number));
 
@@ -42,8 +40,22 @@ export class LottoLogService {
       }
     });
 
-    winGames.win.sort((a, b) => b.cnt - a.cnt);
+    winGames.win.sort((a, b) => b - a);
 
     return winGames;
+  }
+
+  async lottoLogFindByRound(round: number) {
+    return await this.lottoLogRepository.findAndCount({ where: { round } });
+  }
+
+  async lottoLogFindLastRound() {
+    const result = await this.lottoLogRepository.find({
+      select: { round: true },
+      order: { round: 'DESC' },
+      take: 1,
+    });
+
+    return result[0];
   }
 }

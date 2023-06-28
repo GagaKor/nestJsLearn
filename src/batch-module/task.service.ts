@@ -26,7 +26,7 @@ export class TaskService {
       );
     }
 
-    this.logger.log('Finish Cron Job');
+    this.logger.log('Finish Download Cron Job');
   }
 
   @Cron('35 21 * * 6', { name: 'Save Lotto' })
@@ -58,6 +58,6 @@ export class TaskService {
       await this.lottoService.saveLotto(games);
     }
 
-    this.logger.log('Finish Cron Job');
+    this.logger.log('Finish Lotto Update Cron Job');
   }
 }
