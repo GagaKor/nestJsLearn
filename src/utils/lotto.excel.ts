@@ -9,33 +9,39 @@ const downloadRoot =
     ? path.join(__dirname, '..', 'static')
     : path.join(__dirname, '..', '..', 'static');
 
+const config =
+  process.env.NODE_ENV === 'prod'
+    ? {
+        ignoreHTTPSErrors: true,
+        headless: false,
+        devtools: true,
+        ignoreDefaultArgs: ['--disable-extensions'],
+        args: [
+          '--no-sandbox',
+          `--ignore-certificate-errors`,
+          '--disable-setuid-sandbox',
+        ],
+        // executablePath: '/usr/bin/chromium-browser',
+      }
+    : {
+        headless: false,
+        ignoreDefaultArgs: ['--enable-automation'],
+        args: ['--no-sandbox'],
+        executablePath:
+          'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      };
+
+if (!fs.existsSync(downloadRoot)) {
+  fs.mkdirSync(downloadRoot);
+}
+
+const wait = (ms) => {
+  return new Promise((res) => setTimeout(res, ms));
+};
+
 export const downloadExcel = async () => {
   const thisWeekLotto: Lottos[] = [];
 
-  const config =
-    process.env.NODE_ENV === 'prod'
-      ? {
-          ignoreHTTPSErrors: true,
-          headless: true,
-          devtools: true,
-          ignoreDefaultArgs: ['--disable-extensions'],
-          args: [
-            '--no-sandbox',
-            `--ignore-certificate-errors`,
-            '--disable-setuid-sandbox',
-          ],
-          // executablePath: '/usr/bin/chromium-browser',
-        }
-      : {
-          headless: true,
-          ignoreDefaultArgs: ['--enable-automation'],
-          args: ['--no-sandbox'],
-          executablePath:
-            'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-        };
-  if (!fs.existsSync(downloadRoot)) {
-    fs.mkdirSync(downloadRoot);
-  }
   const browser = await puppeteer.launch(config);
   const page = await browser.newPage();
   await page.goto('https://dhlottery.co.kr/gameResult.do?method=byWin', {
@@ -105,4 +111,53 @@ export const remove = () => {
   } catch (err) {
     return false;
   }
+};
+
+export const purchaseLottoSite = async (data) => {
+  const lottos = [
+    [11, 13, 16, 24, 30, 36],
+    [1, 17, 18, 22, 26, 31],
+    [3, 11, 15, 18, 35, 44],
+    [4, 9, 22, 32, 41, 42],
+    [8, 9, 14, 26, 31, 38],
+  ];
+  const browser = await puppeteer.launch(config);
+  const page = await browser.newPage();
+  await page.goto('https://dhlottery.co.kr/user.do?method=login&returnUrl=', {
+    waitUntil: 'networkidle2',
+  });
+
+  await page.type('input[name=userId]', data.id);
+  // page.waitForNavigation();
+  await page.type('input[name=password]', data.password);
+
+  await page.keyboard.press('Enter', { delay: 1000 });
+
+  const page2 = await browser.newPage();
+  await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
+  for (const lotto of lottos) {
+    for (const num of lotto) {
+      const checkBox = await page2.$(`input[id=check645num${num}]`);
+
+      await checkBox.evaluate((b) => b.click());
+    }
+    const confrim = await page2.$('input[id="btnSelectNum"]');
+    await confrim.evaluate((b) => b.click());
+  }
+
+  await wait(1000);
+
+  const buy = await page2.$('input[id="btnBuy"]');
+  await buy.evaluate((b) => b.click());
+
+  const buyConfrim = await page2.$(
+    '#popupLayerConfirm > div > div.btns > input:nth-child(1)',
+  );
+  await buyConfrim.evaluate((b) => b.click());
+
+  await wait(1000);
+
+  await page2.close();
+  await page.close();
+  await browser.close();
 };

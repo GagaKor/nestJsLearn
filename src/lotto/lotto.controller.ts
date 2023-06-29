@@ -16,6 +16,7 @@ import { User } from 'src/auth/entities/User.entity';
 import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
 import { LottoUserService } from './lottoUser.service';
 import { LottoLogService } from './lottoLog.service';
+import { purchaseLottoSite } from 'src/utils/lotto.excel';
 
 @Controller('lotto')
 export class LottoController {
@@ -194,5 +195,11 @@ export class LottoController {
   @Get('select-last-round')
   async getSelectLastRound() {
     return await this.lottoLogService.lottoLogFindLastRound();
+  }
+
+  @Post('purchase-lotto')
+  async purchaseLotto(@Body() purchaseLottoDto: any) {
+    await purchaseLottoSite(purchaseLottoDto);
+    return true;
   }
 }
