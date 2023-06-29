@@ -114,13 +114,6 @@ export const remove = () => {
 };
 
 export const purchaseLottoSite = async (data) => {
-  const lottos = [
-    [11, 13, 16, 24, 30, 36],
-    [1, 17, 18, 22, 26, 31],
-    [3, 11, 15, 18, 35, 44],
-    [4, 9, 22, 32, 41, 42],
-    [8, 9, 14, 26, 31, 38],
-  ];
   const browser = await puppeteer.launch(config);
   const page = await browser.newPage();
   await page.goto('https://dhlottery.co.kr/user.do?method=login&returnUrl=', {
@@ -135,7 +128,7 @@ export const purchaseLottoSite = async (data) => {
 
   const page2 = await browser.newPage();
   await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
-  for (const lotto of lottos) {
+  for (const lotto of data.lotttos) {
     for (const num of lotto) {
       const checkBox = await page2.$(`input[id=check645num${num}]`);
 
