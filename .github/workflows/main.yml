@@ -1,0 +1,30 @@
+name: App install and start
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+jobs:
+  React-Build-Action:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{secrets.REMOTE_SSH_HOST}}
+          username: ${{secrets.REMOTE_SSH_USERNAME}}
+          port: ${{secrets.REMOTE_SSH_PORT}}
+          key: ${{secrets.REMOTE_SSH_KEY}}
+          script: |
+            cd nestJsLearn/
+            git reset --hard
+            git pull origin master
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            yarn install
+            yarn build
