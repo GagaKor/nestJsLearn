@@ -3,6 +3,7 @@ import * as puppeteer from 'puppeteer';
 import * as path from 'path';
 import * as cheerio from 'cheerio';
 import { Lottos } from 'src/lotto/dto/lottos.dto';
+import { PurchaseLottoDto } from 'src/lotto/dto/purchaseLotto.dts';
 
 const downloadRoot =
   process.env.NODE_ENV === 'prod'
@@ -113,22 +114,22 @@ export const remove = () => {
   }
 };
 
-export const purchaseLottoSite = async (data) => {
+export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
   const browser = await puppeteer.launch(config);
   const page = await browser.newPage();
   await page.goto('https://dhlottery.co.kr/user.do?method=login&returnUrl=', {
     waitUntil: 'networkidle2',
   });
 
-  await page.type('input[name=userId]', data.id);
+  await page.type('input[name=userId]', purchaseLottoDto.lottoId);
   // page.waitForNavigation();
-  await page.type('input[name=password]', data.password);
+  await page.type('input[name=password]', purchaseLottoDto.lottoPw);
 
   await page.keyboard.press('Enter', { delay: 1000 });
 
   const page2 = await browser.newPage();
   await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
-  for (const lotto of data.lotttos) {
+  for (const lotto of purchaseLottoDto.lottos) {
     for (const num of lotto) {
       const checkBox = await page2.$(`input[id=check645num${num}]`);
 
@@ -150,7 +151,5 @@ export const purchaseLottoSite = async (data) => {
 
   await wait(1000);
 
-  await page2.close();
-  await page.close();
   await browser.close();
 };

@@ -17,6 +17,7 @@ import { LottoUser } from 'src/lotto/entities/LottoUser.entity';
 import { LottoUserService } from './lottoUser.service';
 import { LottoLogService } from './lottoLog.service';
 import { purchaseLottoSite } from 'src/utils/lotto.excel';
+import { PurchaseLottoDto } from './dto/purchaseLotto.dts';
 
 @Controller('lotto')
 export class LottoController {
@@ -198,7 +199,7 @@ export class LottoController {
   }
 
   @Post('purchase-lotto')
-  async purchaseLotto(@Body() purchaseLottoDto: any) {
+  async purchaseLotto(@Body() purchaseLottoDto: PurchaseLottoDto) {
     await purchaseLottoSite(purchaseLottoDto);
     return true;
   }
