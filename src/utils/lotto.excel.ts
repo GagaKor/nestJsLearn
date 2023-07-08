@@ -121,35 +121,35 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
     waitUntil: 'networkidle2',
   });
 
-  // await page.type('input[name=userId]', purchaseLottoDto.lottoId);
-  // // page.waitForNavigation();
-  // await page.type('input[name=password]', purchaseLottoDto.lottoPw);
+  await page.type('input[name=userId]', purchaseLottoDto.lottoId);
+  // page.waitForNavigation();
+  await page.type('input[name=password]', purchaseLottoDto.lottoPw);
 
-  // await page.keyboard.press('Enter', { delay: 1000 });
+  await page.keyboard.press('Enter', { delay: 1000 });
 
-  // const page2 = await browser.newPage();
-  // await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
-  // for (const lotto of purchaseLottoDto.lottos) {
-  //   for (const num of lotto) {
-  //     const checkBox = await page2.$(`input[id=check645num${num}]`);
+  const page2 = await browser.newPage();
+  await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
+  for (const lotto of purchaseLottoDto.lottos) {
+    for (const num of lotto) {
+      const checkBox = await page2.$(`input[id=check645num${num}]`);
 
-  //     await checkBox.evaluate((b) => b.click());
-  //   }
-  //   const confrim = await page2.$('input[id="btnSelectNum"]');
-  //   await confrim.evaluate((b) => b.click());
-  // }
+      await checkBox.evaluate((b) => b.click());
+    }
+    const confrim = await page2.$('input[id="btnSelectNum"]');
+    await confrim.evaluate((b) => b.click());
+  }
 
-  // await wait(1000);
+  await wait(1000);
 
-  // const buy = await page2.$('input[id="btnBuy"]');
-  // await buy.evaluate((b) => b.click());
+  const buy = await page2.$('input[id="btnBuy"]');
+  await buy.evaluate((b) => b.click());
 
-  // const buyConfrim = await page2.$(
-  //   '#popupLayerConfirm > div > div.btns > input:nth-child(1)',
-  // );
-  // await buyConfrim.evaluate((b) => b.click());
+  const buyConfrim = await page2.$(
+    '#popupLayerConfirm > div > div.btns > input:nth-child(1)',
+  );
+  await buyConfrim.evaluate((b) => b.click());
 
-  // await wait(1000);
+  await wait(1000);
 
   await browser.close();
 };
