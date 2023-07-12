@@ -24,6 +24,6 @@ export class AuthCredentialsDto {
   password: string;
 
   @IsNotEmpty()
-  @Transform((param) => param.value.toLowerCase())
+  @Transform((req) => req.value.toLowerCase())
   role: Role;
 }

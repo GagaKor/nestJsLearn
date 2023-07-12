@@ -87,7 +87,7 @@ export class AuthService {
       refreshOption: {
         domain: 'localhost',
         path: '/',
-        httpOnly: true,
+        httpOnly: process.env.NODE_ENV === 'prod',
         maxAge: 1000 * 60 * 60 * 24 * 7,
       },
     };
@@ -104,7 +104,7 @@ export class AuthService {
       accessOption: {
         domain: 'localhost',
         path: '/',
-        httpOnly: true,
+        httpOnly: process.env.NODE_ENV === 'prod',
         maxAge: 1000 * 60 * 60 * 24,
       },
     };

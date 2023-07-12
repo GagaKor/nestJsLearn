@@ -8,7 +8,6 @@ import {
   Entity,
   OneToMany,
   PrimaryColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Role } from 'src/auth/role.enum';

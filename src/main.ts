@@ -6,8 +6,12 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule, {
-    cors: true,
     logger: winstonLogger,
+  });
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    credentials: true,
   });
   app.use(cookieParser());
   app.useGlobalPipes(
