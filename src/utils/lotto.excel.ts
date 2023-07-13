@@ -151,5 +151,17 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
 
   await wait(1000);
 
-  await browser.close();
+  const textField = await page2.$(
+    '#popReceipt > div.selected > div > strong:nth-child(1)',
+  );
+  const text = await textField.evaluate((el) => el.textContent);
+  await wait(1000);
+
+  // await browser.close();
+  console.log(text);
+  if (text.includes('금액')) {
+    return true;
+  }
+
+  return false;
 };

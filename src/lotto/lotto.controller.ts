@@ -200,7 +200,7 @@ export class LottoController {
 
   @Post('purchase-lotto')
   async purchaseLotto(@Body() purchaseLottoDto: PurchaseLottoDto) {
-    await purchaseLottoSite(purchaseLottoDto);
-    return true;
+    const result = await purchaseLottoSite(purchaseLottoDto);
+    return result;
   }
 }
