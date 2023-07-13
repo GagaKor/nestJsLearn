@@ -157,8 +157,8 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
   const text = await textField.evaluate((el) => el.textContent);
   await wait(1000);
 
-  // await browser.close();
-  console.log(text);
+  await browser.close();
+
   if (text.includes('금액')) {
     return true;
   }
