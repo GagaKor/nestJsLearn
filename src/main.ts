@@ -9,7 +9,7 @@ async function bootstrap() {
     logger: winstonLogger,
   });
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://gagakor.xyz'],
+    origin: ['http://localhost:3000', 'https://gagakor.xyz/'],
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true,
   });
