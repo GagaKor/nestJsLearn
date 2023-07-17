@@ -85,7 +85,9 @@ export class AuthService {
     return {
       refreshToken,
       refreshOption: {
-        domain: 'localhost',
+        domain:
+          process.env.NODE_ENV === 'prod' ? 'https://gagakor.xyz' : 'localhost',
+        secure: true,
         path: '/',
         httpOnly: process.env.NODE_ENV === 'prod',
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -102,7 +104,9 @@ export class AuthService {
     return {
       accessToken,
       accessOption: {
-        domain: 'localhost',
+        domain:
+          process.env.NODE_ENV === 'prod' ? 'https://gagakor.xyz' : 'localhost',
+        secure: true,
         path: '/',
         httpOnly: process.env.NODE_ENV === 'prod',
         maxAge: 1000 * 60 * 60 * 24,
