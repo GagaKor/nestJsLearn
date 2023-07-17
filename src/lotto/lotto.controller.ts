@@ -205,7 +205,7 @@ export class LottoController {
     @GetUser() user: User,
   ) {
     const result = await purchaseLottoSite(purchaseLottoDto);
-    console.log(result);
+    console.log('result:', result);
     if (result) {
       return { resultMsg: 'success' };
     } else {

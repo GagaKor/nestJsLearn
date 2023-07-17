@@ -158,7 +158,7 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
   await wait(1000);
 
   await browser.close();
-
+  console.log(text, text.includes('금액'));
   if (text.includes('금액')) {
     return true;
   }
