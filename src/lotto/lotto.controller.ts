@@ -198,9 +198,18 @@ export class LottoController {
     return await this.lottoLogService.lottoLogFindLastRound();
   }
 
+  @UseGuards(AuthGuard)
   @Post('purchase-lotto')
-  async purchaseLotto(@Body() purchaseLottoDto: PurchaseLottoDto) {
+  async purchaseLotto(
+    @Body() purchaseLottoDto: PurchaseLottoDto,
+    @GetUser() user: User,
+  ) {
     const result = await purchaseLottoSite(purchaseLottoDto);
-    return result;
+    console.log(result);
+    if (result) {
+      return { resultMsg: 'success' };
+    } else {
+      return { resultMsg: 'failed' };
+    }
   }
 }
