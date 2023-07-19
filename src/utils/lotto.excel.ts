@@ -125,7 +125,7 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
   // page.waitForNavigation();
   await page.type('input[name=password]', purchaseLottoDto.lottoPw);
 
-  await page.keyboard.press('Enter', { delay: 1000 });
+  await page.keyboard.press('Enter', { delay: 500 });
 
   const page2 = await browser.newPage();
   await page2.goto('https://ol.dhlottery.co.kr/olotto/game/game645.do');
@@ -139,7 +139,7 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
     await confrim.evaluate((b) => b.click());
   }
 
-  await wait(1000);
+  await wait(500);
 
   const buy = await page2.$('input[id="btnBuy"]');
   await buy.evaluate((b) => b.click());
@@ -149,13 +149,13 @@ export const purchaseLottoSite = async (purchaseLottoDto: PurchaseLottoDto) => {
   );
   await buyConfrim.evaluate((b) => b.click());
 
-  await wait(1000);
+  await wait(500);
 
   const textField = await page2.$(
     '#popReceipt > div.selected > div > strong:nth-child(1)',
   );
   const text = await textField.evaluate((el) => el.textContent);
-  await wait(1000);
+  await wait(500);
 
   await browser.close();
   console.log(text, text.includes('금액'));
